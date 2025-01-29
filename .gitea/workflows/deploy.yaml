@@ -1,0 +1,15 @@
+name: Deploy Website
+run-name: ${{ gitea.actor }} is deploying the website...
+on:
+    release:
+        types: [published]
+
+jobs:
+    Deploy-Website:
+        steps:
+            - name: Download release archive
+              run: wget "https://git.colormatic.org/ColormaticStudios/Colormatic-Website/releases/download/latest/release.tar.gz"
+            - name: Clear existing deployment
+              run: rm -r ${{ secrets.WEBPATH }}/* # Scary
+            - name: Extract release archive
+              run: tar -xf release.tar.gz -C ${{ secrets.WEBPATH }}/
