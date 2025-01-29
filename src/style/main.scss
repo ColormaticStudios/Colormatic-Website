@@ -1,0 +1,400 @@
+@use "global.scss";
+
+:root {
+  --text-color: #383c3f;
+}
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: white;
+  }
+  body {
+    background-color: black;
+  }
+}
+
+canvas.bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+nav {
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+  align-items: center;
+  padding: 12px;
+  border-bottom: solid 1px global.$text-color;
+  z-index: 1;
+
+  margin: 0 auto;
+  width: 95%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+nav .nav-left {
+  justify-self: left;
+  grid-column: 1;
+}
+
+nav .nav-center {
+  justify-self: center;
+  grid-column: 2;
+}
+
+nav .nav-right {
+  justify-self: right;
+  grid-column: 3;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+nav ul li {
+  display: grid;
+  justify-items: center;
+}
+
+nav a,
+nav button {
+  padding: 8px;
+  color: global.$text-color;
+  text-decoration: none;
+
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+
+nav a.title {
+  font-size: 140%;
+  font-weight: bold;
+}
+
+nav img.colormatic-logo {
+  width: auto;
+  height: 40px;
+}
+
+nav button.menu-button {
+  background: none;
+  border: none;
+}
+
+nav .menu-button i {
+  font-size: 230%;
+  transform: translateY(-1px);
+  /*/
+   * Ugly hack to account for the fact that the menu icon is off-center
+   * (Bootstrap please fix)
+  /*/
+}
+
+nav .git-icon i {
+  font-size: 140%;
+}
+
+nav div.inline {
+  display: flex;
+}
+
+nav .responsive {
+  display: none;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  nav {
+    padding: 6px 0;
+  }
+  nav .git-icon i {
+    font-size: 150%;
+  }
+  nav .responsive {
+    display: flex;
+  }
+  nav ul.responsive-hidden {
+    display: none;
+  }
+  nav a.responsive {
+    display: initial;
+  }
+}
+
+span.modalbg.hidden {
+  display: none;
+}
+
+span.modalbg {
+  position: fixed;
+  z-index: 1;
+  padding: 0;
+  margin: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+span.modalbg div {
+  width: 60%;
+  margin: 100px auto;
+  padding: 16px;
+
+  color: global.$text-color;
+  border-radius: 8px;
+  box-shadow: 1px 1px 8px #00000033;
+  background-color: #ffffffbb;
+  backdrop-filter: blur(5px);
+
+  animation-name: modal-animate-in;
+  animation-duration: 0.4s;
+}
+
+@keyframes modal-animate-in {
+  from {
+    transform: translate(0px, -300px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
+}
+
+span.modalbg div button.close {
+  float: right;
+  width: min-content;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  font-size: 200%;
+  color: global.$text-color;
+}
+
+span.modalbg div ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+span.modalbg div ul li {
+  margin: 12px;
+}
+
+span.modalbg div ul li a {
+  color: global.$text-color;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 120%;
+}
+
+@media (prefers-color-scheme: dark) {
+  span.modalbg div {
+    background-color: #000000bb;
+  }
+}
+
+spacer {
+  display: block;
+  margin-top: 8%;
+}
+
+div.panel {
+  color: global.$text-color;
+  border: solid 1px #00000033;
+  border-radius: 8px;
+  box-shadow: 1px 1px 8px #00000033;
+  background-color: #ffffff22;
+  backdrop-filter: blur(5px);
+}
+
+main div.heading {
+  color: global.$text-color;
+  font-size: 300%;
+  text-align: center;
+}
+
+main span.name-title {
+  display: block;
+  color: global.$text-color;
+  font-size: 550%;
+  text-align: center;
+}
+
+main div.hero {
+  width: 60%;
+  margin: 16px auto 16px auto;
+  padding: 16px;
+  text-align: center;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  main div.heading {
+    font-size: 250%;
+  }
+  main div.hero {
+    width: 80%;
+  }
+}
+
+main div.hero h1 a {
+  color: global.$text-color;
+  text-decoration: none;
+}
+
+p.justify {
+  text-align: justify;
+  text-justify: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main div.hero p.justify {
+  width: 60%;
+}
+
+main div.hero ul {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main img.banner {
+  display: block;
+  width: 70%;
+  margin: 32px auto 32px auto;
+  border: solid 1px #00000033;
+  border-radius: 16px;
+  box-shadow: 1px 1px 8px #00000033;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  main img.banner {
+    width: 95%;
+    border-radius: 12px;
+    margin: 24px auto 24px auto;
+  }
+  main div.hero p.justify {
+    width: 100%;
+  }
+}
+
+ul.linktree {
+  list-style-type: none;
+  margin: 0;
+  padding: 8px;
+  padding-left: 8px;
+  width: 30%;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  ul.linktree {
+    width: 60%;
+  }
+}
+
+ul.linktree li {
+  margin: 12px;
+  text-align: center;
+}
+
+ul.linktree li a {
+  /* Pill button shape */
+  text-decoration: none;
+  color: white;
+
+  background-color: #4c5053;
+  padding: 8px;
+  border-radius: 50px;
+  box-shadow: 2px 2px 4px #00000066;
+  transition-duration: 0.5s;
+
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ul.linktree li a:hover {
+  cursor: pointer;
+  background-color: #383c3f;
+}
+
+div.double-linktree {
+  display: flex;
+  justify-content: center;
+}
+
+div.double-linktree ul.linktree {
+  margin: 0;
+}
+
+ul.videolist {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-left: 0;
+}
+
+ul.videolist li {
+  padding: 8px;
+}
+
+ul.videolist li a {
+  text-decoration: none;
+}
+
+ul.videolist li a img {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+}
+
+ul.videolist li a span {
+  display: block;
+  color: global.$text-color;
+  font-size: 120%;
+}
+
+img.pixelart {
+  image-rendering: pixelated;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: solid 1px global.$text-color;
+  width: 95%;
+  padding: 4px;
+  margin: 0 auto;
+}
+
+footer p {
+  color: global.$text-color;
+  padding: 4px 10%;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  footer {
+    flex-direction: column;
+  }
+  footer p {
+    text-align: center;
+    padding: 4px;
+    margin: 4px;
+  }
+}
