@@ -13,3 +13,5 @@ jobs:
               run: rm -r ${{ secrets.WEBPATH }}/* # Scary
             - name: Extract release archive
               run: tar -xf release.tar.gz -C ${{ secrets.WEBPATH }}/
+            - name: Remove release archive
+              run: rm release.tar.gz
