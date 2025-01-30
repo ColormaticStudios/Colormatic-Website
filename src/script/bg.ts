@@ -4,8 +4,8 @@
  * when the page finishes loading. (svelte onMount function)
 /*/
 export function createBackground() {
-	var canvas = document.createElement("canvas") as HTMLCanvasElement;
-	var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+	let canvas = document.createElement("canvas") as HTMLCanvasElement;
+	let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	canvas.classList.add("bg-canvas");
 	document.body.appendChild(canvas);
 
@@ -14,7 +14,7 @@ export function createBackground() {
 		canvas.height = window.innerHeight;
 	}
 
-	var dark_theme = false;
+	let dark_theme = false;
 
 	if (
 		window.matchMedia &&
