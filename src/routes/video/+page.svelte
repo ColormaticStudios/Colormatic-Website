@@ -22,6 +22,8 @@
 
 <main>
   <div class="video container">
+    <!-- Video elements are set by a script -->
+    <!-- svelte-ignore a11y_media_has_caption -->
     <video id="videoplayer" controls></video>
     <div class="videoobjects">
       <div class="videodetails">
