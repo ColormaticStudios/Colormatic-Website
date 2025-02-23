@@ -1,10 +1,40 @@
+<script lang="ts">
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    var arrow = document.getElementById("scroll-arrow");
+    if (arrow) {
+      // Arrow is not null
+      window.addEventListener("scroll", (e: Event) => {
+        if (window.scrollY != 0) {
+          if (!(arrow as HTMLElement).classList.contains("scroll-arrow-hide")) {
+            (arrow as HTMLElement).classList.add("scroll-arrow-hide");
+          }
+        } else {
+          if ((arrow as HTMLElement).classList.contains("scroll-arrow-hide")) {
+            (arrow as HTMLElement).classList.remove("scroll-arrow-hide");
+          }
+        }
+      });
+    }
+  });
+</script>
+
 <svelte:head>
   <title>Colormatic</title>
 </svelte:head>
 
-<spacer></spacer>
-
 <main>
+  <div class="brand-heading">
+    <h1>Colormatic: A non-profit project for creation.</h1>
+  </div>
+
+  <div id="scroll-arrow">
+    <i class="bi bi-arrow-down-circle-fill"></i>
+  </div>
+
+  <div style="margin-top:25vh"></div>
+
   <div class="heading">Featured Colormatic Studios Projects:</div>
   <div class="hero panel">
     <h1>
@@ -15,19 +45,17 @@
       >
     </h1>
     <p>An actually good first person controller for the Godot Engine.</p>
-  </div>
-  <div class="hero panel">
-    <h1>ColorQuest</h1>
-    <p>A simple MMORPG in your browser.</p>
-    <p>
-      Currently in
+
+    <div class="divider"></div>
+
+    <h1>
       <a
-        href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Pre-alpha"
+        href="https://git.colormatic.org/ColormaticStudios/godot-bson"
         target="_blank"
-        rel="noopener noreferrer">pre-alpha.</a
+        rel="noopener noreferrer">BSON for Godot</a
       >
-    </p>
-    <p>Not yet public.</p>
+    </h1>
+    <p>A BSON serializer/deserializer for the Godot Engine</p>
   </div>
 </main>
 

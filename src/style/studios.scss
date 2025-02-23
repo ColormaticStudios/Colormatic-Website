@@ -1,9 +1,5 @@
 @use "global.scss";
 
-div.no-margin nav {
-  margin: 0 auto; /* Remove navbar bottom margin */
-}
-
 div.cs-title {
   background-image: url("/img/colormatic_banner.svg");
   background-size: cover;
@@ -55,7 +51,6 @@ div.project-grid-container div.project-grid-box {
   border-radius: 8px;
   box-shadow: 1px 1px 8px #00000033;
   padding: 16px;
-  text-align: center;
   color: global.$text-color;
   min-width: 40%;
   max-width: 50%;
@@ -63,20 +58,22 @@ div.project-grid-container div.project-grid-box {
   backdrop-filter: blur(3px);
 }
 
+div.project-grid-container div.project-grid-box h1 {
+  text-align: center;
+}
+
 div.project-grid-container div.project-grid-box h1 a {
   color: global.$text-color;
-  text-decoration: none;
 }
 
 div.project-grid-container div.project-grid-box div.project-grid-box-contents {
   /* Yes, this absurdly long element selector is a joke */
   display: flex;
-  justify-content: center;
 }
 
 div.project-grid-container div.project-grid-box img {
-  max-width: 150px;
-  max-height: 100px;
+  max-width: 120px;
+  max-height: 150px;
   margin: 12px;
   border-radius: 8px;
 }

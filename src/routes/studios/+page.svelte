@@ -27,10 +27,30 @@
       </div>
     </div>
     <div class="project-grid-box panel">
+      <h1>
+        <a
+          href="https://git.colormatic.org/ColormaticStudios/godot-bson"
+          target="_blank"
+          rel="noopener noreferrer">BSON for Godot</a
+        >
+      </h1>
+      <div class="project-grid-box-contents">
+        <img
+          src="https://git.colormatic.org/ColormaticStudios/godot-bson/raw/branch/main/icon.svg"
+          alt="Godot BSON Logo"
+        />
+        <p>A BSON serializer/deserializer for the Godot Engine.</p>
+      </div>
+    </div>
+    <div class="project-grid-box panel">
       <h1>A Silly Game</h1>
       <div class="project-grid-box-contents">
         <img src="/img/studios/hatcat.webp" alt="HatCat" />
-        <p>This is a silly little game project to get us started.</p>
+        <p>
+          This is a silly little game project to get us started.
+          <br />
+          Currently in closed pre-alpha.
+        </p>
       </div>
     </div>
     <div class="project-grid-box panel">
@@ -41,7 +61,11 @@
           class="pixelart"
           alt="ColorQuest"
         />
-        <p>A simple MMORPG in your browser.</p>
+        <p>
+          A simple browser MMORPG focused on social features.
+          <br />
+          Currently in closed pre-alpha.
+        </p>
       </div>
     </div>
   </div>
@@ -75,6 +99,13 @@
       <ul class="linktree">
         <li>
           <a
+            href="https://git.colormatic.org/ColormaticStudios"
+            target="_blank"
+            rel="noopener noreferrer">Colormatic Git</a
+          >
+        </li>
+        <li>
+          <a
             href="https://github.com/ColormaticStudios"
             target="_blank"
             rel="noopener noreferrer">GitHub</a
@@ -85,13 +116,6 @@
             href="https://bsky.app/profile/colormaticstudios.bsky.social"
             target="_blank"
             rel="noopener noreferrer">Bluesky</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://x.com/ColormaticStudy"
-            target="_blank"
-            rel="noopener noreferrer">X/Twitter</a
           >
         </li>
       </ul>

@@ -4,11 +4,6 @@
   --text-color: #383c3f;
 }
 
-body {
-  font-family: "Noto Sans", sans-serif;
-  margin: 0;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --text-color: white;
@@ -18,6 +13,12 @@ body {
   }
 }
 
+body {
+  font-family: "Noto Sans", sans-serif;
+  margin: 0;
+  color: global.$text-color;
+}
+
 canvas.bg-canvas {
   position: fixed;
   top: 0;
@@ -25,193 +26,35 @@ canvas.bg-canvas {
   z-index: -1;
 }
 
-nav {
-  display: grid;
-  grid-template-columns: 1fr min-content 1fr;
-  align-items: center;
-  padding: 12px;
-  border-bottom: solid 1px global.$text-color;
-  z-index: 1;
-
-  margin: 0 auto;
-  width: 95%;
-  box-sizing: border-box;
-  overflow-wrap: anywhere;
-}
-
-nav .nav-left {
-  justify-self: left;
-  grid-column: 1;
-}
-
-nav .nav-center {
-  justify-self: center;
-  grid-column: 2;
-}
-
-nav .nav-right {
-  justify-self: right;
-  grid-column: 3;
-}
-
-nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-}
-
-nav ul li {
-  display: grid;
-  justify-items: center;
-}
-
-nav a,
-nav button {
-  padding: 8px;
-  color: global.$text-color;
-  text-decoration: none;
-
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-}
-
-nav a.title {
-  font-size: 140%;
-  font-weight: bold;
-}
-
-nav img.colormatic-logo {
-  width: auto;
-  height: 40px;
-}
-
-nav button.menu-button {
-  background: none;
-  border: none;
-}
-
-nav .menu-button i {
-  font-size: 230%;
-  transform: translateY(-1px);
-  /*/
-   * Ugly hack to account for the fact that the menu icon is off-center
-   * (Bootstrap please fix)
-  /*/
-}
-
-nav .git-icon i {
-  font-size: 140%;
-}
-
-nav div.inline {
-  display: flex;
-}
-
-nav .responsive {
-  display: none;
-}
-
-@media screen and (max-width: global.$mobile-width) {
-  nav {
-    padding: 6px 0;
-  }
-  nav .git-icon i {
-    font-size: 150%;
-  }
-  nav .responsive {
-    display: flex;
-  }
-  nav ul.responsive-hidden {
-    display: none;
-  }
-  nav a.responsive {
-    display: initial;
-  }
-}
-
-span.modalbg.hidden {
-  display: none;
-}
-
-span.modalbg {
-  position: fixed;
-  z-index: 1;
-  padding: 0;
-  margin: auto;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-span.modalbg div {
-  width: 60%;
-  margin: 100px auto;
-  padding: 16px;
-
-  color: global.$text-color;
-  border-radius: 8px;
-  box-shadow: 1px 1px 8px #00000033;
-  background-color: #ffffffbb;
-  backdrop-filter: blur(5px);
-
-  animation-name: modal-animate-in;
-  animation-duration: 0.4s;
-}
-
-@keyframes modal-animate-in {
-  from {
-    transform: translate(0px, -300px);
-    opacity: 0;
-  }
-  to {
-    transform: translate(0px, 0px);
-    opacity: 1;
-  }
-}
-
-span.modalbg div button.close {
-  float: right;
-  width: min-content;
-  background: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
-  font-size: 200%;
-  color: global.$text-color;
-}
-
-span.modalbg div ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-span.modalbg div ul li {
-  margin: 12px;
-}
-
-span.modalbg div ul li a {
-  color: global.$text-color;
-  padding: 8px;
-  text-decoration: none;
-  font-size: 120%;
-}
-
-@media (prefers-color-scheme: dark) {
-  span.modalbg div {
-    background-color: #000000bb;
-  }
-}
-
 spacer {
   display: block;
   margin-top: 8%;
+}
+
+a.btn,
+button.btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 100px;
+  text-decoration: none;
+  margin: 8px;
+}
+
+a.btn.lg,
+button.btn.lg {
+  font-size: 120%;
+}
+
+a.btn.blue,
+button.btn.blue {
+  background-color: #2194ff;
+  border: 1px solid #21afff;
+  color: white;
+}
+
+div.divider {
+  margin: 38px;
+  border-top: 1px solid global.$text-color;
 }
 
 div.panel {
@@ -223,29 +66,64 @@ div.panel {
   backdrop-filter: blur(5px);
 }
 
-main div.heading {
-  color: global.$text-color;
+main div.brand-heading {
+  padding: 12%;
+  width: 60%;
+}
+
+main div.brand-heading h1 {
   font-size: 300%;
+}
+
+main div.heading {
+  font-size: 250%;
   text-align: center;
+  padding: 12px;
 }
 
 main span.name-title {
   display: block;
-  color: global.$text-color;
   font-size: 550%;
   text-align: center;
 }
 
 main div.hero {
   width: 60%;
-  margin: 16px auto 16px auto;
+  margin: 16px auto;
   padding: 16px;
   text-align: center;
 }
 
+main div#scroll-arrow {
+  text-align: center;
+  font-size: 200%;
+  width: 100%;
+  position: fixed;
+  bottom: 64px;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease-in;
+}
+
+main div#scroll-arrow.scroll-arrow-hide {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    visibility 0s 0.25s,
+    opacity 0.25s ease-out;
+}
+
 @media screen and (max-width: global.$mobile-width) {
+  spacer {
+    margin-top: 24%;
+  }
+  main div.brand-heading {
+    padding: 38% 12px;
+    text-align: center;
+    width: initial;
+  }
   main div.heading {
-    font-size: 250%;
+    font-size: 200%;
   }
   main div.hero {
     width: 80%;
@@ -254,7 +132,6 @@ main div.hero {
 
 main div.hero h1 a {
   color: global.$text-color;
-  text-decoration: none;
 }
 
 p.justify {
@@ -301,15 +178,18 @@ ul.linktree {
   width: 30%;
 }
 
+ul.linktree li {
+  margin: 12px;
+  text-align: center;
+}
+
 @media screen and (max-width: global.$mobile-width) {
   ul.linktree {
     width: 60%;
   }
-}
-
-ul.linktree li {
-  margin: 12px;
-  text-align: center;
+  ul.linktree li {
+    margin: 12px 0;
+  }
 }
 
 ul.linktree li a {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../style/main.scss";
+  import "../style/nav.scss";
   import "bootstrap-icons/font/bootstrap-icons.css";
   import Navbar from "../component/navbar.svelte";
   import Footer from "../component/footer.svelte";
@@ -12,7 +13,6 @@
 
 <svelte:head>
   <link rel="icon" href="/img/colormatic_logo.svg" />
-  <!--<link rel="stylesheet" href="../style/main.scss" />-->
 </svelte:head>
 
 <Navbar />
