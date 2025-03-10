@@ -266,4 +266,13 @@
   }
 </script>
 
-<canvas class="bg-canvas" id="bg-canvas"></canvas>
+<canvas id="bg-canvas"></canvas>
+
+<style>
+  canvas#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+</style>

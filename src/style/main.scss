@@ -19,13 +19,6 @@ body {
   color: global.$text-color;
 }
 
-canvas.bg-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
 spacer {
   display: block;
   margin-top: 8%;
