@@ -57,6 +57,22 @@
     </h1>
     <p>A BSON serializer/deserializer for the Godot Engine</p>
   </div>
+
+  <spacer></spacer>
+
+  <div class="hero panel">
+    <h1>
+      <i class="bi bi-tools" style="padding-right: 12px;"></i>This website is
+      under construction.
+    </h1>
+    <p>
+      Check up on progress and changes at <a
+        href="https://git.colormatic.org/ColormaticStudios/Colormatic-Website"
+        target="_blank"
+        rel="noopener noreferrer">ColormaticStudios/Colormatic-Website</a
+      >.
+    </p>
+  </div>
 </main>
 
 <spacer></spacer>
