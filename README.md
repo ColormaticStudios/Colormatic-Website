@@ -8,6 +8,7 @@ The Colormatic website is developed with accordance to modern web standards, how
 To download the project, run:
 ```
 git clone git@git.colormatic.org:ColormaticStudios/Colormatic-Website.git
+cd Colormatic-Website
 npm install
 ```
 You can run the project locally with:
