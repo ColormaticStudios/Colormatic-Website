@@ -5,13 +5,38 @@
   let ctx: CanvasRenderingContext2D;
 
   let dark_theme = false;
+  let time_scale = 1;
 
   let particlesArray: Array<Particle> = [];
   let gradientsArray: Array<Gradient> = [];
 
+  let particleImages = {
+    // This is horrible code
+    circle: {} as HTMLImageElement,
+    square: {} as HTMLImageElement,
+    triangle: {} as HTMLImageElement,
+    star: {} as HTMLImageElement,
+    wavyCircle: {} as HTMLImageElement,
+  };
+
   onMount(() => {
     canvas = document.getElementById("bg-canvas") as HTMLCanvasElement;
     ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+    particleImages.circle = new Image() as HTMLImageElement;
+    particleImages.circle.src = "/img/bg-shapes/circle.svg";
+
+    particleImages.square = new Image() as HTMLImageElement;
+    particleImages.square.src = "/img/bg-shapes/square.svg";
+
+    particleImages.triangle = new Image() as HTMLImageElement;
+    particleImages.triangle.src = "/img/bg-shapes/triangle.svg";
+
+    particleImages.star = new Image() as HTMLImageElement;
+    particleImages.star.src = "/img/bg-shapes/star.svg";
+
+    particleImages.wavyCircle = new Image() as HTMLImageElement;
+    particleImages.wavyCircle.src = "/img/bg-shapes/wavy-circle.svg";
 
     if (
       window.matchMedia &&
@@ -47,24 +72,20 @@
   class Entity {
     x: number;
     y: number;
-    size: number;
-    originalSize: number;
     speedX: number;
     speedY: number;
     growthSpeed: number;
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.size = (Math.random() * 5 + 1) * 1.5;
-      this.originalSize = this.size;
-      this.speedX = (Math.random() - 0.5) * 0.2;
+      this.speedX = (Math.random() - 0.5) * 0.2; // -0.1 to 0.1
       this.speedY = (Math.random() - 0.5) * 0.2;
-      this.growthSpeed = Math.random() * 0.02 + 0.01;
+      this.growthSpeed = Math.random() * 0.02 + 0.01; // 0.01 to 0.03
     }
 
     update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
+      this.x += this.speedX * time_scale;
+      this.y += this.speedY * time_scale;
 
       // Reverse direction if particle hits edge
       if (this.x <= 0 || this.x >= canvas.width) {
@@ -75,55 +96,11 @@
         this.speedY = -this.speedY;
       }
       this.y = clamp(0, this.y, canvas.height);
-
-      // Breathing effect: oscillate size
-      this.size += this.growthSpeed;
-      if (
-        this.size >= this.originalSize * 1.5 ||
-        this.size <= this.originalSize * 0.5
-      ) {
-        this.growthSpeed = -this.growthSpeed; // Reverse growth direction
-      }
     }
   }
 
-  function roundRect(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    radius: number,
-  ) {
-    ctx.moveTo(x + radius, y);
-    ctx.lineTo(x + width - radius, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-    ctx.lineTo(x + width, y + height - radius);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-    ctx.lineTo(x + radius, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-    ctx.lineTo(x, y + radius);
-    ctx.quadraticCurveTo(x, y, x + radius, y);
-  }
-
-  function roundTriangle(size: number, radius: number) {
-    const x1 = 0,
-      y1 = 0;
-    const x2 = size,
-      y2 = 0;
-    const x3 = size / 2,
-      y3 = size / 1.375;
-    const midX1 = (x1 + x2) / 2;
-    const midY1 = (y1 + y2) / 2;
-    const midX2 = (x2 + x3) / 2;
-    const midY2 = (y2 + y3) / 2;
-    const midX3 = (x3 + x1) / 2;
-    const midY3 = (y3 + y1) / 2;
-    ctx.arcTo(x2, y2, midX2, midY2, radius);
-    ctx.arcTo(x3, y3, midX3, midY3, radius);
-    ctx.arcTo(x1, y1, midX1, midY1, radius);
-  }
-
   class Shape {
+    // Reference implementation for Shape
     draw(angle: number, size: number) {
       return;
     }
@@ -131,27 +108,35 @@
 
   class Circle extends Shape {
     draw(angle: number, size: number) {
-      ctx.beginPath();
-      ctx.arc(0, 0, size / 2, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.drawImage(particleImages.circle, 0, 0);
     }
   }
 
   class Square extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.beginPath();
-      roundRect(-size / 2, -size / 2, size, size, size / 5);
-      ctx.closePath();
+      ctx.drawImage(particleImages.square, -size / 2, -size / 2);
     }
   }
 
   class Triangle extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.beginPath();
-      roundTriangle(size * 2, size / 5);
-      ctx.closePath();
+      ctx.drawImage(particleImages.triangle, -size / 2, -size / 2);
+    }
+  }
+
+  class Star extends Shape {
+    draw(angle: number, size: number) {
+      ctx.rotate((angle * Math.PI) / 180);
+      ctx.drawImage(particleImages.star, -size / 2, -size / 2);
+    }
+  }
+
+  class WaveyCircle extends Shape {
+    draw(angle: number, size: number) {
+      ctx.rotate((angle * Math.PI) / 180);
+      ctx.drawImage(particleImages.wavyCircle, -size / 2, -size / 2);
     }
   }
 
@@ -159,55 +144,85 @@
     shape: Shape;
     angle: number;
     rotationSpeed: number;
+    size: number;
+    originalSize: number;
     constructor() {
       super();
-      this.shape = new [Circle, Square, Triangle][
-        Math.floor(Math.random() * 3)
+      this.shape = new [Circle, Square, Triangle, Star, WaveyCircle][
+        Math.floor(Math.random() * 5)
       ](); // A very strange but effective way to pick a random shape
       this.angle = Math.random() * 360;
-      this.rotationSpeed = Math.random() * 2 - 1;
+      this.rotationSpeed = Math.random() * 2 - 1; // -1 to 1
+      this.originalSize = Math.random() * 8 + 8; // 8 to 16
+      this.size = this.originalSize;
     }
 
     update() {
       super.update();
-      this.angle += this.rotationSpeed;
+      this.angle += this.rotationSpeed * time_scale;
+
+      // Breathing effect: oscillate size
+      this.size += this.growthSpeed * time_scale;
+      if (
+        this.size >= this.originalSize * 1.25 ||
+        this.size <= this.originalSize * 0.75
+      ) {
+        this.growthSpeed = -this.growthSpeed; // Reverse growth direction
+      }
     }
 
     draw() {
-      ctx.fillStyle = dark_theme ? "#333" : "#bbb";
       ctx.save();
+      // The source images are black, so we are inverting them
+      // different amounts to get different shades of gray
+      ctx.filter = dark_theme ? "invert(0.25)" : "invert(0.75)";
       ctx.translate(this.x, this.y);
+      ctx.scale(this.size / 10, this.size / 10);
       this.shape.draw(this.angle, this.size);
-      ctx.fill();
       ctx.restore();
     }
   }
 
   function getRandomColor() {
     if (dark_theme) {
-      const r = Math.floor(Math.random() * 255 - 100);
-      const b = Math.floor(Math.random() * 255 - 100);
-      const g = Math.floor(Math.random() * 255 - 100);
+      let r = Math.floor(Math.random() * 255 - 100);
+      let b = Math.floor(Math.random() * 255 - 100);
+      let g = Math.floor(Math.random() * 255 - 100);
       return `rgb(${r}, ${g}, ${b})`;
     } else {
-      const r = Math.floor(Math.random() * 100 + 155);
-      const g = Math.floor(Math.random() * 100 + 155);
-      const b = Math.floor(Math.random() * 100 + 155);
+      let r = Math.floor(Math.random() * 100 + 155);
+      let g = Math.floor(Math.random() * 100 + 155);
+      let b = Math.floor(Math.random() * 100 + 155);
       return `rgb(${r}, ${g}, ${b})`;
     }
   }
 
   class Gradient extends Entity {
+    originalRadius: number;
     radius: number;
     color: string;
     alpha: number;
     dAlpha: number;
     constructor() {
       super();
-      this.radius = Math.random() * 500 + 300;
+      this.originalRadius = Math.random() * 500 + 300;
+      this.radius = this.originalRadius;
       this.color = getRandomColor();
       this.alpha = Math.random() * 0.5 + 0.5; // Initial alpha between 0.5 and 1
       this.dAlpha = (Math.random() - 0.5) * 0.01;
+    }
+
+    update() {
+      super.update();
+
+      // Breathing effect: oscillate size
+      this.radius += this.growthSpeed * time_scale;
+      if (
+        this.radius >= this.originalRadius * 1.1 ||
+        this.radius <= this.originalRadius * 0.9
+      ) {
+        this.growthSpeed = -this.growthSpeed; // Reverse growth direction
+      }
     }
 
     draw() {
@@ -225,20 +240,20 @@
       } else {
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
       }
-
+      ctx.save();
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = gradient;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
-      ctx.globalAlpha = 1.0;
+      ctx.restore();
     }
   }
 
   function init() {
     particlesArray = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20; i++) {
       particlesArray.push(new Particle());
     }
     gradientsArray = [];
