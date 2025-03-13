@@ -2,17 +2,17 @@
   import { onMount } from "svelte";
 
   onMount(() => {
-    var arrow = document.getElementById("scroll-arrow");
+    let arrow = document.getElementById("scroll-arrow") as HTMLDivElement;
     if (arrow) {
       // Arrow is not null
       window.addEventListener("scroll", (e: Event) => {
         if (window.scrollY != 0) {
-          if (!(arrow as HTMLElement).classList.contains("scroll-arrow-hide")) {
-            (arrow as HTMLElement).classList.add("scroll-arrow-hide");
+          if (!arrow.classList.contains("scroll-arrow-hide")) {
+            arrow.classList.add("scroll-arrow-hide");
           }
         } else {
-          if ((arrow as HTMLElement).classList.contains("scroll-arrow-hide")) {
-            (arrow as HTMLElement).classList.remove("scroll-arrow-hide");
+          if (arrow.classList.contains("scroll-arrow-hide")) {
+            arrow.classList.remove("scroll-arrow-hide");
           }
         }
       });
@@ -62,8 +62,8 @@
 
   <div class="hero panel">
     <h1>
-      <i class="bi bi-tools" style="padding-right: 12px;"></i>This website is
-      under construction.
+      <i class="bi bi-tools" style="padding-right: 12px;"></i>
+      This website is under construction.
     </h1>
     <p>
       Check up on progress and changes at <a
