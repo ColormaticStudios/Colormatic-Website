@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { canvasDpiScaler } from "../script/canvas_dpi_scaler.ts";
   import { onMount } from "svelte";
 
   let canvas: HTMLCanvasElement;
@@ -64,6 +65,8 @@
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    canvasDpiScaler(canvas, ctx);
   }
 
   const clamp = (val: number, min: number, max: number) =>
@@ -76,8 +79,8 @@
     speedY: number;
     growthSpeed: number;
     constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
+      this.x = Math.random() * window.innerWidth;
+      this.y = Math.random() * window.innerHeight;
       this.speedX = (Math.random() - 0.5) * 0.2; // -0.1 to 0.1
       this.speedY = (Math.random() - 0.5) * 0.2;
       this.growthSpeed = Math.random() * 0.02 + 0.01; // 0.01 to 0.03
@@ -88,14 +91,14 @@
       this.y += this.speedY * time_scale;
 
       // Reverse direction if particle hits edge
-      if (this.x <= 0 || this.x >= canvas.width) {
+      if (this.x <= 0 || this.x >= window.innerWidth) {
         this.speedX = -this.speedX;
       }
-      this.x = clamp(0, this.x, canvas.width);
-      if (this.y <= 0 || this.y >= canvas.height) {
+      this.x = clamp(0, this.x, window.innerWidth);
+      if (this.y <= 0 || this.y >= window.innerHeight) {
         this.speedY = -this.speedY;
       }
-      this.y = clamp(0, this.y, canvas.height);
+      this.y = clamp(0, this.y, window.innerHeight);
     }
   }
 
@@ -263,7 +266,7 @@
   }
 
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     for (let i_gradient = 0; i_gradient < gradientsArray.length; i_gradient++) {
       let gradient = gradientsArray[i_gradient];
