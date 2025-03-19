@@ -111,35 +111,44 @@
 
   class Circle extends Shape {
     draw(angle: number, size: number) {
-      ctx.drawImage(particleImages.circle, 0, 0);
+      let image = particleImages.circle;
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
   class Square extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.drawImage(particleImages.square, -size / 2, -size / 2);
+
+      let image = particleImages.square;
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
   class Triangle extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.drawImage(particleImages.triangle, -size / 2, -size / 2);
+
+      let image = particleImages.triangle;
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
   class Star extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.drawImage(particleImages.star, -size / 2, -size / 2);
+
+      let image = particleImages.star;
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
   class WaveyCircle extends Shape {
     draw(angle: number, size: number) {
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.drawImage(particleImages.wavyCircle, -size / 2, -size / 2);
+
+      let image = particleImages.wavyCircle;
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
@@ -179,6 +188,12 @@
       // The source images are black, so we are inverting them
       // different amounts to get different shades of gray
       ctx.filter = dark_theme ? "invert(0.25)" : "invert(0.75)";
+
+      // Draw center of rotation
+      // ctx.beginPath();
+      // ctx.arc(this.x, this.y, 2, 0, 2 * Math.PI);
+      // ctx.fill();
+
       ctx.translate(this.x, this.y);
       ctx.scale(this.size / 10, this.size / 10);
       this.shape.draw(this.angle, this.size);
