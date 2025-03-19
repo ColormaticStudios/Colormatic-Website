@@ -76,3 +76,34 @@
 </main>
 
 <spacer></spacer>
+
+<style lang="scss">
+  @use "../style/global.scss";
+
+  main div.brand-heading {
+    padding: 12%;
+    width: 60%;
+  }
+
+  main div.brand-heading h1 {
+    font-size: 300%;
+  }
+
+  main div.heading {
+    font-size: 250%;
+    text-align: center;
+    padding: 12px;
+  }
+
+  @media screen and (max-width: global.$mobile-width) {
+    main div.brand-heading {
+      padding: 38% 12px;
+      text-align: center;
+      width: initial;
+    }
+
+    main div.heading {
+      font-size: 200%;
+    }
+  }
+</style>

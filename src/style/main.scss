@@ -59,32 +59,20 @@ div.panel {
   backdrop-filter: blur(5px);
 }
 
-main div.brand-heading {
-  padding: 12%;
-  width: 60%;
-}
-
-main div.brand-heading h1 {
-  font-size: 300%;
-}
-
-main div.heading {
-  font-size: 250%;
-  text-align: center;
-  padding: 12px;
-}
-
-main span.name-title {
-  display: block;
-  font-size: 550%;
-  text-align: center;
-}
-
 main div.hero {
   width: 60%;
   margin: 16px auto;
   padding: 16px;
   text-align: center;
+}
+
+@media screen and (max-width: global.$mobile-width) {
+  spacer {
+    margin-top: 24%;
+  }
+  main div.hero {
+    width: 80%;
+  }
 }
 
 main div#scroll-arrow {
@@ -106,23 +94,6 @@ main div#scroll-arrow.scroll-arrow-hide {
     opacity 0.25s ease-out;
 }
 
-@media screen and (max-width: global.$mobile-width) {
-  spacer {
-    margin-top: 24%;
-  }
-  main div.brand-heading {
-    padding: 38% 12px;
-    text-align: center;
-    width: initial;
-  }
-  main div.heading {
-    font-size: 200%;
-  }
-  main div.hero {
-    width: 80%;
-  }
-}
-
 main div.hero h1 a {
   color: global.$text-color;
 }
@@ -130,12 +101,12 @@ main div.hero h1 a {
 p.justify {
   text-align: justify;
   text-justify: auto;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 main div.hero p.justify {
   width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 main div.hero ul {
@@ -143,21 +114,7 @@ main div.hero ul {
   margin-right: auto;
 }
 
-main img.banner {
-  display: block;
-  width: 70%;
-  margin: 32px auto 32px auto;
-  border: solid 1px #00000033;
-  border-radius: 16px;
-  box-shadow: 1px 1px 8px #00000033;
-}
-
 @media screen and (max-width: global.$mobile-width) {
-  main img.banner {
-    width: 95%;
-    border-radius: 12px;
-    margin: 24px auto 24px auto;
-  }
   main div.hero p.justify {
     width: 100%;
   }
@@ -245,29 +202,4 @@ ul.videolist li a span {
 
 img.pixelart {
   image-rendering: pixelated;
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  border-top: solid 1px global.$text-color;
-  width: 95%;
-  padding: 4px;
-  margin: 0 auto;
-}
-
-footer p {
-  color: global.$text-color;
-  padding: 4px 10%;
-}
-
-@media screen and (max-width: global.$mobile-width) {
-  footer {
-    flex-direction: column;
-  }
-  footer p {
-    text-align: center;
-    padding: 4px;
-    margin: 4px;
-  }
 }
