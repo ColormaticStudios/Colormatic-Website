@@ -216,31 +216,14 @@
   }
 
   class Gradient extends Entity {
-    originalRadius: number;
     radius: number;
     color: string;
     alpha: number;
-    dAlpha: number;
     constructor() {
       super();
-      this.originalRadius = Math.random() * 500 + 300;
-      this.radius = this.originalRadius;
+      this.radius = Math.random() * 500 + 300;
       this.color = getRandomColor();
       this.alpha = Math.random() * 0.5 + 0.5; // Initial alpha between 0.5 and 1
-      this.dAlpha = (Math.random() - 0.5) * 0.01;
-    }
-
-    update() {
-      super.update();
-
-      // Breathing effect: oscillate size
-      this.radius += this.growthSpeed * time_scale;
-      if (
-        this.radius >= this.originalRadius * 1.1 ||
-        this.radius <= this.originalRadius * 0.9
-      ) {
-        this.growthSpeed = -this.growthSpeed; // Reverse growth direction
-      }
     }
 
     draw() {
@@ -258,14 +241,13 @@
       } else {
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
       }
-      ctx.save();
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = gradient;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
-      ctx.restore();
+      ctx.globalAlpha = 1.0;
     }
   }
 
