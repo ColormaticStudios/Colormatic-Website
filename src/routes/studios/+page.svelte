@@ -169,17 +169,10 @@
 
   div.project-grid-container div.project-grid-box {
     flex: 1;
-    color: #383c3f;
     margin: 16px;
-    border: solid 1px #00000033;
-    border-radius: 8px;
-    box-shadow: 1px 1px 8px #00000033;
     padding: 16px;
-    color: global.$text-color;
     min-width: 40%;
     max-width: 50%;
-    background-color: #ffffff22;
-    backdrop-filter: blur(3px);
   }
 
   div.project-grid-container div.project-grid-box h1 {
