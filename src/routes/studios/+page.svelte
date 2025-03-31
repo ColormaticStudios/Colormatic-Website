@@ -1,5 +1,32 @@
 <svelte:head>
   <title>Colormatic Studios</title>
+  <meta
+    name="description"
+    content="Colormatic Studios is a creative studio dedicated to giving life to
+    Colormatic's projects. We are currently just a small group of passionate
+    volunteers working to build inspiring, intuitive and innovative creative
+    works."
+  />
+  <meta
+    name="keywords"
+    content="Open Source, Not for Profit, Game Development, World Building"
+  />
+  <link rel="canonical" href="https://colormatic.org/studios/" />
+
+  <meta property="og:title" content="Colormatic Studios" />
+  <meta
+    property="og:description"
+    content="Colormatic Studios is a creative studio dedicated to giving life to
+    Colormatic's projects. We are currently just a small group of passionate
+    volunteers working to build inspiring, intuitive and innovative creative
+    works."
+  />
+  <meta
+    property="og:image"
+    content="https://colormatic.org/img/colormatic_logo.svg"
+  />
+  <meta property="og:url" content="https://colormatic.org/studios/" />
+  <meta property="og:type" content="website" />
 </svelte:head>
 
 <main>
@@ -11,8 +38,10 @@
         <a
           href="https://git.colormatic.org/ColormaticStudios/quality-godot-first-person"
           target="_blank"
-          rel="noopener noreferrer">Quality First Person Controller</a
+          rel="noopener noreferrer"
         >
+          Quality First Person Controller
+        </a>
       </h1>
       <div class="project-grid-box-contents">
         <img
@@ -27,8 +56,10 @@
         <a
           href="https://git.colormatic.org/ColormaticStudios/godot-bson"
           target="_blank"
-          rel="noopener noreferrer">BSON for Godot</a
+          rel="noopener noreferrer"
         >
+          BSON for Godot
+        </a>
       </h1>
       <div class="project-grid-box-contents">
         <img
@@ -74,22 +105,28 @@
           <a
             href="https://mastodon.social/@colormaticstudios"
             target="_blank"
-            rel="noopener noreferrer">Mastodon</a
+            rel="noopener noreferrer"
           >
+            Mastodon
+          </a>
         </li>
         <li>
           <a
             href="https://www.instagram.com/colormaticstudios/"
             target="_blank"
-            rel="noopener noreferrer">Instagram</a
+            rel="noopener noreferrer"
           >
+            Instagram
+          </a>
         </li>
         <li>
           <a
             href="https://www.youtube.com/@colormaticstudios"
             target="_blank"
-            rel="noopener noreferrer">Youtube</a
+            rel="noopener noreferrer"
           >
+            Youtube
+          </a>
         </li>
       </ul>
       <ul class="linktree">
@@ -97,22 +134,28 @@
           <a
             href="https://git.colormatic.org/ColormaticStudios"
             target="_blank"
-            rel="noopener noreferrer">Colormatic Git</a
+            rel="noopener noreferrer"
           >
+            Colormatic Git
+          </a>
         </li>
         <li>
           <a
             href="https://github.com/ColormaticStudios"
             target="_blank"
-            rel="noopener noreferrer">GitHub</a
+            rel="noopener noreferrer"
           >
+            GitHub
+          </a>
         </li>
         <li>
           <a
             href="https://bsky.app/profile/colormaticstudios.bsky.social"
             target="_blank"
-            rel="noopener noreferrer">Bluesky</a
+            rel="noopener noreferrer"
           >
+            Bluesky
+          </a>
         </li>
       </ul>
     </div>

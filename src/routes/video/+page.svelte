@@ -100,6 +100,7 @@
 
 <svelte:head>
   <title>Video Player</title>
+  <meta property="og:type" content="video" />
 </svelte:head>
 
 <spacer></spacer>

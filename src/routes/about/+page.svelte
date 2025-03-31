@@ -1,5 +1,23 @@
 <svelte:head>
   <title>Colormatic - About</title>
+  <meta
+    name="description"
+    content="Colormatic is a non-profit project by Zakarya dedicated to creation."
+  />
+  <meta name="keywords" content="Open Source, Non Profit" />
+  <link rel="canonical" href="https://colormatic.org/about/" />
+
+  <meta property="og:title" content="Colormatic - About" />
+  <meta
+    property="og:description"
+    content="Colormatic is a non-profit project by Zakarya dedicated to creation."
+  />
+  <meta
+    property="og:image"
+    content="https://colormatic.org/img/colormatic_logo.svg"
+  />
+  <meta property="og:url" content="https://colormatic.org/about/" />
+  <meta property="og:type" content="website" />
 </svelte:head>
 
 <spacer></spacer>

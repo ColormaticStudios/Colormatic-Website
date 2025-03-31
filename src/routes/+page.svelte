@@ -22,6 +22,24 @@
 
 <svelte:head>
   <title>Colormatic</title>
+  <meta
+    name="description"
+    content="Colormatic is a non-profit project by Zakarya dedicated to creation."
+  />
+  <meta name="keywords" content="Open Source, Non Profit" />
+  <link rel="canonical" href="https://colormatic.org" />
+
+  <meta property="og:title" content="Colormatic" />
+  <meta
+    property="og:description"
+    content="Colormatic is a non-profit project by Zakarya dedicated to creation."
+  />
+  <meta
+    property="og:image"
+    content="https://colormatic.org/img/colormatic_logo.svg"
+  />
+  <meta property="og:url" content="https://colormatic.org" />
+  <meta property="og:type" content="website" />
 </svelte:head>
 
 <main>
@@ -41,8 +59,10 @@
       <a
         href="https://git.colormatic.org/ColormaticStudios/quality-godot-first-person"
         target="_blank"
-        rel="noopener noreferrer">Quality First Person Controller</a
+        rel="noopener noreferrer"
       >
+        Quality First Person Controller
+      </a>
     </h1>
     <p>An actually good first person controller for the Godot Engine.</p>
 
@@ -52,8 +72,10 @@
       <a
         href="https://git.colormatic.org/ColormaticStudios/godot-bson"
         target="_blank"
-        rel="noopener noreferrer">BSON for Godot</a
+        rel="noopener noreferrer"
       >
+        BSON for Godot
+      </a>
     </h1>
     <p>A BSON serializer/deserializer for the Godot Engine</p>
   </div>
@@ -69,8 +91,11 @@
       Check up on progress and changes at <a
         href="https://git.colormatic.org/ColormaticStudios/Colormatic-Website"
         target="_blank"
-        rel="noopener noreferrer">ColormaticStudios/Colormatic-Website</a
-      >.
+        rel="noopener noreferrer"
+      >
+        ColormaticStudios/Colormatic-Website
+      </a>
+      .
     </p>
   </div>
 </main>

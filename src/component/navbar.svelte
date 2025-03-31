@@ -29,11 +29,13 @@
       class="git-icon"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Colormatic Git"><i class="bi bi-git"></i></a
+      aria-label="Colormatic Git"
     >
-    <button on:click={toggleModalMenu} class="menu-button" aria-label="menu"
-      ><i class="bi bi-list"></i></button
-    >
+      <i class="bi bi-git"></i>
+    </a>
+    <button on:click={toggleModalMenu} class="menu-button" aria-label="menu">
+      <i class="bi bi-list"></i>
+    </button>
   </div>
 </nav>
 
@@ -46,9 +48,9 @@ Svelte modal example, https://svelte.dev/playground/modal
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 <span on:click={modalMenuProcessClick} id="pages" class="modalbg hidden">
   <div>
-    <button on:click={toggleModalMenu} class="close" aria-label="Close"
-      ><i class="bi bi-x"></i></button
-    >
+    <button on:click={toggleModalMenu} class="close" aria-label="Close">
+      <i class="bi bi-x"></i>
+    </button>
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/zakarya">Zakarya</a></li>
@@ -57,15 +59,19 @@ Svelte modal example, https://svelte.dev/playground/modal
         <a
           href="https://git.colormatic.org"
           target="_blank"
-          rel="noopener noreferrer">Colormatic Git</a
+          rel="noopener noreferrer"
         >
+          Colormatic Git
+        </a>
       </li>
       <li>
         <a
           href="https://auth.colormatic.org"
           target="_blank"
-          rel="noopener noreferrer">Colormatic ID</a
+          rel="noopener noreferrer"
         >
+          Colormatic ID
+        </a>
       </li>
       <li><a href="/about">About</a></li>
     </ul>

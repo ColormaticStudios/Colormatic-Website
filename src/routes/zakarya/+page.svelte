@@ -1,5 +1,26 @@
 <svelte:head>
   <title>Colormatic - Zakarya</title>
+  <meta
+    name="description"
+    content="I am a software and game developer, I run Colormatic and Colormatic
+  Studios, and I primarily study computer science, psychology, and
+  linguistics."
+  />
+  <link rel="canonical" href="https://colormatic.org/zakarya/" />
+
+  <meta property="og:title" content="Colormatic - Zakarya" />
+  <meta
+    property="og:description"
+    content="I am a software and game developer, I run Colormatic and Colormatic
+  Studios, and I primarily study computer science, psychology, and
+  linguistics."
+  />
+  <meta
+    property="og:image"
+    content="https://colormatic.org/img/zakarya-icon.svg"
+  />
+  <meta property="og:url" content="https://colormatic.org/zakarya/" />
+  <meta property="og:type" content="website" />
 </svelte:head>
 
 <main>
@@ -30,29 +51,37 @@
           <a
             href="https://mstdn.party/@zakarya"
             target="_blank"
-            rel="noopener noreferrer">Mastodon</a
+            rel="noopener noreferrer"
           >
+            Mastodon
+          </a>
         </li>
         <li>
           <a
             href="https://ko-fi.com/zakarya"
             target="_blank"
-            rel="noopener noreferrer">Ko-fi</a
+            rel="noopener noreferrer"
           >
+            Ko-fi
+          </a>
         </li>
         <li>
           <a
             href="https://www.youtube.com/@czakarya"
             target="_blank"
-            rel="noopener noreferrer">Youtube</a
+            rel="noopener noreferrer"
           >
+            Youtube
+          </a>
         </li>
         <li>
           <a
             href="https://github.com/CZakarya"
             target="_blank"
-            rel="noopener noreferrer">GitHub</a
+            rel="noopener noreferrer"
           >
+            GitHub
+          </a>
         </li>
         <!--<li><a href="https://www.reddit.com/user/CZakarya/" target="_blank" rel="noopener noreferrer">Reddit</a></li>-->
       </ul>
