@@ -50,9 +50,11 @@
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
         dark_theme = event.matches;
-        gradientsArray.forEach((gradient: Gradient) => {
+        for (let i = 0; i < gradientsArray.length; i++) {
+          let gradient = gradientsArray[i];
           gradient.color = getRandomColor();
-        });
+          gradient.prepareBuffer();
+        }
       });
 
     resize();
@@ -219,20 +221,44 @@
     radius: number;
     color: string;
     alpha: number;
+    renderingBuffer: HTMLCanvasElement;
     constructor() {
       super();
       this.radius = Math.random() * 500 + 300;
       this.color = getRandomColor();
       this.alpha = Math.random() * 0.5 + 0.5; // Initial alpha between 0.5 and 1
+      this.renderingBuffer = document.createElement(
+        "canvas",
+      ) as HTMLCanvasElement;
+
+      // One-shot buffer adjustment
+      this.renderingBuffer.width = this.radius * 2;
+      this.renderingBuffer.height = this.radius * 2;
+      canvasDpiScaler(
+        this.renderingBuffer,
+        this.renderingBuffer.getContext("2d") as CanvasRenderingContext2D,
+      );
+      this.prepareBuffer();
     }
 
-    draw() {
-      const gradient = ctx.createRadialGradient(
-        this.x,
-        this.y,
+    prepareBuffer() {
+      let bctx = this.renderingBuffer.getContext(
+        "2d",
+      ) as CanvasRenderingContext2D;
+
+      bctx.clearRect(
         0,
-        this.x,
-        this.y,
+        0,
+        this.renderingBuffer.width,
+        this.renderingBuffer.height,
+      );
+
+      const gradient = ctx.createRadialGradient(
+        this.radius,
+        this.radius,
+        0,
+        this.radius,
+        this.radius,
         this.radius,
       );
       gradient.addColorStop(0, this.color);
@@ -241,13 +267,20 @@
       } else {
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
       }
-      ctx.globalAlpha = this.alpha;
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fill();
-      ctx.globalAlpha = 1.0;
+      bctx.globalAlpha = this.alpha;
+      bctx.fillStyle = gradient;
+      bctx.beginPath();
+      bctx.arc(this.radius, this.radius, this.radius, 0, Math.PI * 2);
+      bctx.closePath();
+      bctx.fill();
+    }
+
+    draw() {
+      ctx.drawImage(
+        this.renderingBuffer,
+        this.x - this.radius,
+        this.y - this.radius,
+      );
     }
   }
 
