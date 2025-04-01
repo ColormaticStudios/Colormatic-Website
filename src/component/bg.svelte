@@ -189,7 +189,7 @@
       ctx.save();
       // The source images are black, so we are inverting them
       // different amounts to get different shades of gray
-      ctx.filter = dark_theme ? "invert(0.25)" : "invert(0.75)";
+      ctx.filter = dark_theme ? "invert(0.15)" : "invert(0.8)";
 
       // Draw center of rotation
       // ctx.beginPath();
@@ -286,7 +286,7 @@
 
   function init() {
     particlesArray = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 50; i++) {
       particlesArray.push(new Particle());
     }
     gradientsArray = [];
