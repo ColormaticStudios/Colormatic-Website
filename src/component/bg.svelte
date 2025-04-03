@@ -231,15 +231,16 @@
     radius: number;
     color: string;
     alpha: number;
-    renderingBuffer: HTMLCanvasElement;
+    renderingBuffer: OffscreenCanvas;
     constructor() {
       super();
       this.radius = Math.random() * 500 + 300;
       this.color = getRandomColor();
       this.alpha = Math.random() * 0.5 + 0.5; // Initial alpha between 0.5 and 1
-      this.renderingBuffer = document.createElement(
-        "canvas",
-      ) as HTMLCanvasElement;
+      this.renderingBuffer = new OffscreenCanvas(
+        this.radius * 2,
+        this.radius * 2,
+      );
 
       // One-shot buffer adjustment
       this.renderingBuffer.width = this.radius * 2;
@@ -254,7 +255,7 @@
     prepareBuffer() {
       let bctx = this.renderingBuffer.getContext(
         "2d",
-      ) as CanvasRenderingContext2D;
+      ) as OffscreenCanvasRenderingContext2D;
 
       bctx.clearRect(
         0,
