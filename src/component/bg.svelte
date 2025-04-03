@@ -234,10 +234,10 @@
       // One-shot buffer adjustment
       this.renderingBuffer.width = this.radius * 2;
       this.renderingBuffer.height = this.radius * 2;
-      canvasDpiScaler(
-        this.renderingBuffer,
-        this.renderingBuffer.getContext("2d") as CanvasRenderingContext2D,
-      );
+      // canvasDpiScaler(
+      //   this.renderingBuffer,
+      //   this.renderingBuffer.getContext("2d") as CanvasRenderingContext2D,
+      // );
       this.prepareBuffer();
     }
 
@@ -276,17 +276,25 @@
     }
 
     draw() {
-      ctx.drawImage(
-        this.renderingBuffer,
-        this.x - this.radius,
-        this.y - this.radius,
-      );
+      ctx.save();
+      ctx.translate(this.x - this.radius, this.y - this.radius);
+      ctx.drawImage(this.renderingBuffer, 0, 0);
+      ctx.restore();
     }
   }
 
   function init() {
+    /*/
+     * Calculate the proper amount of particles
+     * 25920 is our constant, equal to x in (1080*1920)/x = 80
+     * Because the subjectively correct amount of particles for a 1080p
+     * display is 80, so to calculate the proper amount for any window size,
+     * just do (width * height) / 25920
+    /*/
+    let particleCount = (window.innerWidth * window.innerHeight) / 25920;
+
     particlesArray = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < particleCount; i++) {
       particlesArray.push(new Particle());
     }
     gradientsArray = [];
