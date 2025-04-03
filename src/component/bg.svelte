@@ -8,36 +8,46 @@
   let dark_theme = false;
   let time_scale = 1;
 
-  let particlesArray: Array<Particle> = [];
-  let gradientsArray: Array<Gradient> = [];
+  let particleImages: { [key: string]: HTMLImageElement } = {};
 
-  let particleImages = {
-    // This is horrible code
-    circle: {} as HTMLImageElement,
-    square: {} as HTMLImageElement,
-    triangle: {} as HTMLImageElement,
-    star: {} as HTMLImageElement,
-    wavyCircle: {} as HTMLImageElement,
-  };
+  async function loadImg(src: string): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      let img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
 
-  onMount(() => {
+  let particles: Particle[] = [];
+  let gradients: Gradient[] = [];
+
+  onMount(async () => {
     canvas = document.getElementById("bg-canvas") as HTMLCanvasElement;
     ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-    particleImages.circle = new Image() as HTMLImageElement;
-    particleImages.circle.src = "/img/bg-shapes/circle.svg";
+    let imagePromises = {
+      circle: loadImg("/img/bg-shapes/circle.svg"),
+      square: loadImg("/img/bg-shapes/square.svg"),
+      triangle: loadImg("/img/bg-shapes/triangle.svg"),
+      star: loadImg("/img/bg-shapes/star.svg"),
+      wavyCircle: loadImg("/img/bg-shapes/wavy-circle.svg"),
+    };
 
-    particleImages.square = new Image() as HTMLImageElement;
-    particleImages.square.src = "/img/bg-shapes/square.svg";
-
-    particleImages.triangle = new Image() as HTMLImageElement;
-    particleImages.triangle.src = "/img/bg-shapes/triangle.svg";
-
-    particleImages.star = new Image() as HTMLImageElement;
-    particleImages.star.src = "/img/bg-shapes/star.svg";
-
-    particleImages.wavyCircle = new Image() as HTMLImageElement;
-    particleImages.wavyCircle.src = "/img/bg-shapes/wavy-circle.svg";
+    particleImages = await Promise.all(Object.values(imagePromises))
+      .then((imgs) => {
+        return {
+          circle: imgs[0],
+          square: imgs[1],
+          triangle: imgs[2],
+          star: imgs[3],
+          wavyCircle: imgs[4],
+        };
+      })
+      .catch((error) => {
+        console.error("Error loading images:", error);
+        return {};
+      });
 
     if (
       window.matchMedia &&
@@ -50,8 +60,8 @@
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
         dark_theme = event.matches;
-        for (let i = 0; i < gradientsArray.length; i++) {
-          let gradient = gradientsArray[i];
+        for (let i = 0; i < gradients.length; i++) {
+          let gradient = gradients[i];
           gradient.color = getRandomColor();
           gradient.prepareBuffer();
         }
@@ -293,27 +303,27 @@
     /*/
     let particleCount = (window.innerWidth * window.innerHeight) / 25920;
 
-    particlesArray = [];
+    particles = [];
     for (let i = 0; i < particleCount; i++) {
-      particlesArray.push(new Particle());
+      particles.push(new Particle());
     }
-    gradientsArray = [];
+    gradients = [];
     for (let i = 0; i < 10; i++) {
-      gradientsArray.push(new Gradient());
+      gradients.push(new Gradient());
     }
   }
 
   function animate() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    for (let i_gradient = 0; i_gradient < gradientsArray.length; i_gradient++) {
-      let gradient = gradientsArray[i_gradient];
+    for (let i_gradient = 0; i_gradient < gradients.length; i_gradient++) {
+      let gradient = gradients[i_gradient];
       gradient.update();
       gradient.draw();
     }
 
-    for (let i_particle = 0; i_particle < particlesArray.length; i_particle++) {
-      let particle = particlesArray[i_particle];
+    for (let i_particle = 0; i_particle < particles.length; i_particle++) {
+      let particle = particles[i_particle];
       particle.update();
       particle.draw();
     }
