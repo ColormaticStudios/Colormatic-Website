@@ -1,22 +1,26 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  onMount(() => {
-    let arrow = document.getElementById("scroll-arrow") as HTMLDivElement;
-    if (arrow) {
-      // Arrow is not null
-      window.addEventListener("scroll", (e: Event) => {
-        if (window.scrollY != 0) {
-          if (!arrow.classList.contains("scroll-arrow-hide")) {
-            arrow.classList.add("scroll-arrow-hide");
-          }
-        } else {
-          if (arrow.classList.contains("scroll-arrow-hide")) {
-            arrow.classList.remove("scroll-arrow-hide");
-          }
-        }
-      });
+  let arrow = $state() as HTMLDivElement;
+
+  function checkArrow(e: Event) {
+    if (window.scrollY != 0) {
+      if (!arrow.classList.contains("scroll-arrow-hide")) {
+        arrow.classList.add("scroll-arrow-hide");
+      }
+    } else {
+      if (arrow.classList.contains("scroll-arrow-hide")) {
+        arrow.classList.remove("scroll-arrow-hide");
+      }
     }
+  }
+
+  onMount(() => {
+    window.addEventListener("scroll", checkArrow);
+
+    return () => {
+      window.removeEventListener("scroll", checkArrow);
+    };
   });
 </script>
 
@@ -47,7 +51,7 @@
     <h1>Colormatic: A non-profit project for creation.</h1>
   </div>
 
-  <div id="scroll-arrow">
+  <div bind:this={arrow} class="scroll-arrow">
     <i class="bi bi-arrow-down-circle-fill"></i>
   </div>
 
