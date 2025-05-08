@@ -6,7 +6,7 @@
   let ctx: CanvasRenderingContext2D;
 
   let { darkTheme = $bindable() } = $props();
-  let timeScale = 1; // TODO: Make entities a bit faster like they used to
+  let timeScale = 1;
 
   $effect(() => {
     darkTheme;
@@ -84,8 +84,8 @@
     constructor() {
       this.x = Math.random() * window.innerWidth;
       this.y = Math.random() * window.innerHeight;
-      this.speedX = (Math.random() - 0.5) * 0.2; // -0.1 to 0.1
-      this.speedY = (Math.random() - 0.5) * 0.2;
+      this.speedX = Math.random() - 0.5; // -0.5 to 0.5
+      this.speedY = Math.random() - 0.5;
       this.growthSpeed = Math.random() * 0.02 + 0.01; // 0.01 to 0.03
     }
 
@@ -167,7 +167,7 @@
         Math.floor(Math.random() * 5)
       ](); // A very strange but effective way to pick a random shape
       this.angle = Math.random() * 360;
-      this.rotationSpeed = Math.random() * 2 - 1; // -1 to 1
+      this.rotationSpeed = (Math.random() - 0.5) * 4; // -2 to 2
       this.originalSize = Math.random() * 8 + 8; // 8 to 16
       this.size = this.originalSize;
     }
