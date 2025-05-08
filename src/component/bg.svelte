@@ -2,7 +2,7 @@
   import { canvasDpiScaler } from "../script/canvas_dpi_scaler.ts";
   import { onMount } from "svelte";
 
-  let canvas: HTMLCanvasElement;
+  let canvas = $state() as HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
 
   let { darkTheme = $bindable() } = $props();
@@ -33,7 +33,6 @@
   let gradients: Gradient[] = [];
 
   onMount(async () => {
-    canvas = document.getElementById("bg-canvas") as HTMLCanvasElement;
     ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
     let imagePromises = {
@@ -325,10 +324,10 @@
   }
 </script>
 
-<canvas id="bg-canvas"></canvas>
+<canvas bind:this={canvas} class="bg-canvas"></canvas>
 
 <style>
-  canvas#bg-canvas {
+  canvas.bg-canvas {
     position: fixed;
     top: 0;
     left: 0;

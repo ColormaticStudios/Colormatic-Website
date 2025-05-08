@@ -1,12 +1,12 @@
 <script lang="ts">
   import { getContext } from "svelte";
 
+  let pages = $state() as HTMLElement;
+
   function toggleModalMenu() {
-    var pages = document.getElementById("pages") as HTMLElement;
     pages.classList.toggle("hidden");
   }
   function modalMenuProcessClick(e: MouseEvent) {
-    var pages = document.getElementById("pages") as HTMLElement;
     if (e.target == pages) {
       pages.classList.toggle("hidden");
     }
@@ -50,7 +50,7 @@ Svelte modal example, https://svelte.dev/playground/modal
 -->
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-<span onclick={modalMenuProcessClick} id="pages" class="modalbg hidden">
+<span onclick={modalMenuProcessClick} bind:this={pages} class="modalbg hidden">
   <div class={darkTheme ? "dark-theme" : ""}>
     <button onclick={toggleModalMenu} class="close" aria-label="Close">
       <i class="bi bi-x"></i>

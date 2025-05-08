@@ -5,7 +5,7 @@
   import Footer from "../component/footer.svelte";
   import Bg from "../component/bg.svelte";
   import Settings from "../component/settings.svelte";
-  import { themes } from "../script/theme";
+  import { themes } from "../script/theme.ts";
   import { onMount, setContext } from "svelte";
 
   interface Props {
