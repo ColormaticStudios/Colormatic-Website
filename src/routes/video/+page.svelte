@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
 
   onMount(() => {
     let channel = getParam("c");
@@ -9,6 +9,8 @@
       getVideo(channel, video);
     }
   });
+
+  let darkTheme: CallableFunction = getContext("darkTheme");
 
   const BASEURL = "https://files.colormatic.org/";
 
@@ -105,8 +107,8 @@
 
 <spacer></spacer>
 
-<main>
-  <div class="video container">
+<main class={darkTheme() ? "dark-theme" : ""}>
+  <div class="video panel">
     <!-- Video elements are set by a script -->
     <!-- svelte-ignore a11y_media_has_caption -->
     <video id="videoplayer" controls></video>
@@ -135,32 +137,27 @@
 <style lang="scss">
   @use "../../style/global.scss";
 
-  div.video.container {
+  div.video {
     display: flex;
     color: global.$text-color;
     width: 90%;
     margin: 16px auto 16px auto;
-    border: solid 1px #00000033;
-    border-radius: 8px;
-    box-shadow: 1px 1px 8px #00000033;
     padding: 16px;
-    background-color: #ffffff22;
-    backdrop-filter: blur(3px);
   }
 
-  div.video.container video#videoplayer {
+  div.video video#videoplayer {
     flex-grow: 1;
     border-radius: 12px;
     height: auto;
     max-width: 55%;
   }
 
-  div.video.container div.videoobjects {
+  div.video div.videoobjects {
     display: grid;
     padding: 24px;
   }
 
-  div.video.container div.videodetails h1#videotitle {
+  div.video div.videodetails h1#videotitle {
     padding: 0 12px;
   }
 
@@ -169,7 +166,7 @@
     flex-direction: column-reverse;
   }
 
-  div.video.container div.download-dropdown {
+  div.video div.download-dropdown {
     position: relative;
     display: inline-block;
     padding: 12px;
@@ -183,11 +180,11 @@
     text-align: center;
   }
 
-  div.video.container div.download-dropdown:hover {
+  div.video div.download-dropdown:hover {
     box-shadow: 1px 1px 8px #00000088;
   }
 
-  div.video.container div.download-dropdown div.dropdown-content {
+  div.video div.download-dropdown div.dropdown-content {
     display: none;
     position: absolute;
     font-size: 80%;
@@ -198,38 +195,38 @@
     text-align: center;
   }
 
-  div.video.container div.download-dropdown:hover div.dropdown-content {
+  div.video div.download-dropdown:hover div.dropdown-content {
     display: block;
   }
 
-  div.video.container div.download-dropdown div.dropdown-content ul {
+  div.video div.download-dropdown div.dropdown-content ul {
     list-style-type: none;
     padding-left: 0;
   }
 
-  div.video.container div.download-dropdown div.dropdown-content ul li {
+  div.video div.download-dropdown div.dropdown-content ul li {
     padding: 4px;
     cursor: pointer;
   }
 
-  div.video.container div.download-dropdown div.dropdown-content ul li:hover {
+  div.video div.download-dropdown div.dropdown-content ul li:hover {
     background-color: #dcdfdf;
   }
 
-  div.video.container div.download-dropdown div.dropdown-content ul li a {
+  div.video div.download-dropdown div.dropdown-content ul li a {
     text-decoration: none;
     color: global.$text-color;
   }
 
   @media screen and (max-width: global.$mobile-width) {
-    div.video.container {
+    div.video {
       display: block;
     }
-    div.video.container video#videoplayer {
+    div.video video#videoplayer {
       width: 100%;
       max-width: none;
     }
-    div.video.container div.download-dropdown {
+    div.video div.download-dropdown {
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -237,8 +234,8 @@
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    div.video.container div.download-dropdown div.dropdown-content {
+  main.dark-theme {
+    div.video div.download-dropdown div.dropdown-content {
       background-color: #444444;
     }
   }

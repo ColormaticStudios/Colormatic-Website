@@ -1,3 +1,9 @@
+<script lang="ts">
+  import { getContext } from "svelte";
+
+  let darkTheme: CallableFunction = getContext("darkTheme");
+</script>
+
 <svelte:head>
   <title>Colormatic - About</title>
   <meta
@@ -22,7 +28,7 @@
 
 <spacer></spacer>
 
-<main>
+<main class={darkTheme() ? "dark-theme" : ""}>
   <div class="hero panel">
     <h1>Colormatic: A non-profit project for creation.</h1>
     <p class="justify">

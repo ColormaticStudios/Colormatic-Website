@@ -5,8 +5,18 @@
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
 
-  let dark_theme = false;
-  let time_scale = 1;
+  let { darkTheme = $bindable() } = $props();
+  let timeScale = 1; // TODO: Make entities a bit faster like they used to
+
+  $effect(() => {
+    darkTheme;
+
+    for (let i = 0; i < gradients.length; i++) {
+      let gradient = gradients[i];
+      gradient.color = getRandomColor();
+      gradient.prepareBuffer();
+    }
+  });
 
   let particleImages: { [key: string]: HTMLImageElement } = {};
 
@@ -49,24 +59,6 @@
         return {};
       });
 
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      dark_theme = true;
-    }
-
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (event) => {
-        dark_theme = event.matches;
-        for (let i = 0; i < gradients.length; i++) {
-          let gradient = gradients[i];
-          gradient.color = getRandomColor();
-          gradient.prepareBuffer();
-        }
-      });
-
     resize();
     init();
     animate();
@@ -99,8 +91,8 @@
     }
 
     update() {
-      this.x += this.speedX * time_scale;
-      this.y += this.speedY * time_scale;
+      this.x += this.speedX * timeScale;
+      this.y += this.speedY * timeScale;
 
       // Reverse direction if particle hits edge
       if (this.x <= 0 || this.x >= window.innerWidth) {
@@ -183,10 +175,10 @@
 
     update() {
       super.update();
-      this.angle += this.rotationSpeed * time_scale;
+      this.angle += this.rotationSpeed * timeScale;
 
       // Breathing effect: oscillate size
-      this.size += this.growthSpeed * time_scale;
+      this.size += this.growthSpeed * timeScale;
       if (
         this.size >= this.originalSize * 1.25 ||
         this.size <= this.originalSize * 0.75
@@ -199,7 +191,7 @@
       ctx.save();
       // The source images are black, so we are inverting them
       // different amounts to get different shades of gray
-      ctx.filter = dark_theme ? "invert(0.15)" : "invert(0.8)";
+      ctx.filter = darkTheme ? "invert(0.15)" : "invert(0.8)";
 
       // Draw center of rotation
       // ctx.beginPath();
@@ -214,7 +206,7 @@
   }
 
   function getRandomColor() {
-    if (dark_theme) {
+    if (darkTheme) {
       let r = Math.floor(Math.random() * 255 - 100);
       let b = Math.floor(Math.random() * 255 - 100);
       let g = Math.floor(Math.random() * 255 - 100);
@@ -273,7 +265,7 @@
         this.radius,
       );
       gradient.addColorStop(0, this.color);
-      if (dark_theme) {
+      if (darkTheme) {
         gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
       } else {
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);

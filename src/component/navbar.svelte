@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+
   function toggleModalMenu() {
     var pages = document.getElementById("pages") as HTMLElement;
     pages.classList.toggle("hidden");
@@ -9,6 +11,8 @@
       pages.classList.toggle("hidden");
     }
   }
+
+  let darkTheme: CallableFunction = getContext("darkTheme");
 </script>
 
 <nav>
@@ -33,7 +37,7 @@
     >
       <i class="bi bi-git"></i>
     </a>
-    <button on:click={toggleModalMenu} class="menu-button" aria-label="menu">
+    <button onclick={toggleModalMenu} class="menu-button" aria-label="menu">
       <i class="bi bi-list"></i>
     </button>
   </div>
@@ -45,10 +49,10 @@ the only way to achieve a proper modal. They even do this in the
 Svelte modal example, https://svelte.dev/playground/modal
 -->
 
-<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-<span on:click={modalMenuProcessClick} id="pages" class="modalbg hidden">
-  <div>
-    <button on:click={toggleModalMenu} class="close" aria-label="Close">
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+<span onclick={modalMenuProcessClick} id="pages" class="modalbg hidden">
+  <div class={darkTheme ? "dark-theme" : ""}>
+    <button onclick={toggleModalMenu} class="close" aria-label="Close">
       <i class="bi bi-x"></i>
     </button>
     <ul>
@@ -261,9 +265,7 @@ Svelte modal example, https://svelte.dev/playground/modal
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    span.modalbg div {
-      background-color: #000000bb;
-    }
+  span.modalbg div.dark-theme {
+    background-color: #000000bb;
   }
 </style>

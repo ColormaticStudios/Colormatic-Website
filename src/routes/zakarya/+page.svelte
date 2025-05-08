@@ -1,3 +1,9 @@
+<script lang="ts">
+  import { getContext } from "svelte";
+
+  let darkTheme: CallableFunction = getContext("darkTheme");
+</script>
+
 <svelte:head>
   <title>Colormatic - Zakarya</title>
   <meta
@@ -23,7 +29,7 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<main>
+<main class={darkTheme() ? "dark-theme" : ""}>
   <img class="banner" src="/img/zakarya-banner.png" alt="Zakarya Banner" />
   <div class="hero panel profile">
     <div class="nameplate">
@@ -206,9 +212,7 @@
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    main div.profile p {
-      border-color: #ffffff55;
-    }
+  main.dark-theme div.profile p {
+    border-color: #ffffff55;
   }
 </style>

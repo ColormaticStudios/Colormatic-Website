@@ -4,19 +4,19 @@
   --text-color: #383c3f;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: white;
-  }
-  body {
-    background-color: black;
-  }
-}
-
 body {
   font-family: "Noto Sans", sans-serif;
   margin: 0;
   color: global.$text-color;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: black; // Don't flashbang dark theme users
+  }
+  :root {
+    --text-color: white;
+  }
 }
 
 spacer {
@@ -60,10 +60,12 @@ div.panel {
   backdrop-filter: blur(5px);
 }
 
-@media (prefers-color-scheme: dark) {
-  div.panel {
-    border-color: #ffffff33;
-  }
+main.dark-theme div.panel {
+  border-color: #ffffff33;
+}
+
+div.panel.dark-theme {
+  border-color: #ffffff33;
 }
 
 main div.hero {
@@ -82,7 +84,7 @@ main div.hero {
   }
 }
 
-main div#scroll-arrow {
+main div.scroll-arrow {
   text-align: center;
   font-size: 200%;
   width: 100%;
@@ -93,7 +95,7 @@ main div#scroll-arrow {
   transition: opacity 0.25s ease-in;
 }
 
-main div#scroll-arrow.scroll-arrow-hide {
+main div.scroll-arrow.scroll-arrow-hide {
   opacity: 0;
   visibility: hidden;
   transition:

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
 
   let arrow = $state() as HTMLDivElement;
 
@@ -22,6 +22,8 @@
       window.removeEventListener("scroll", checkArrow);
     };
   });
+
+  let darkTheme: CallableFunction = getContext("darkTheme");
 </script>
 
 <svelte:head>
@@ -46,7 +48,7 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<main>
+<main class={darkTheme() ? "dark-theme" : ""}>
   <div class="brand-heading">
     <h1>Colormatic: A non-profit project for creation.</h1>
   </div>
@@ -55,7 +57,7 @@
     <i class="bi bi-arrow-down-circle-fill"></i>
   </div>
 
-  <div style="margin-top:25vh"></div>
+  <div style="margin-top:calc(100vh - 500px);"></div>
 
   <div class="heading">Featured Colormatic Studios Projects:</div>
   <div class="hero panel">
