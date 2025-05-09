@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { themes } from "../script/theme.ts";
+  import { setCookie, getCookie } from "../script/cookie.ts";
 
   let lightButtonIcon = $state() as HTMLElement;
   let darkButtonIcon = $state() as HTMLElement;
@@ -13,6 +14,7 @@
   let { themeOption = $bindable() } = $props();
 
   function setThemeOption(newThemeOption: string) {
+    setCookie("theme", newThemeOption);
     switch (newThemeOption) {
       case themes.LIGHT:
         themeOption = themes.LIGHT;
@@ -39,6 +41,13 @@
         console.error("setThemeOption was passed a value that is not a theme");
     }
   }
+
+  onMount(() => {
+    let themeCookie = getCookie("theme");
+    if (Object.values(themes).includes(themeCookie)) {
+      setThemeOption(themeCookie);
+    }
+  });
 
   let darkTheme: CallableFunction = getContext("darkTheme");
 </script>
