@@ -51,7 +51,7 @@ Svelte modal example, https://svelte.dev/playground/modal
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <span onclick={modalMenuProcessClick} bind:this={pages} class="modalbg hidden">
-  <div class={darkTheme ? "dark-theme" : ""}>
+  <div class={darkTheme() ? "dark-theme" : ""}>
     <button onclick={toggleModalMenu} class="close" aria-label="Close">
       <i class="bi bi-x"></i>
     </button>
