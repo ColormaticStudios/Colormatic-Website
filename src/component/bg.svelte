@@ -7,14 +7,21 @@
 
   let { darkTheme = $bindable() } = $props();
   let timeScale = 1;
+  let animated = false;
 
   $effect(() => {
     darkTheme;
 
     for (let i = 0; i < gradients.length; i++) {
+      // This re-renders each gradient so their new color will be correct
       let gradient = gradients[i];
       gradient.color = getRandomColor();
       gradient.prepareBuffer();
+    }
+
+    if (!animated && ctx) {
+      // Don't try to render if ctx hasn't initialized yet
+      render();
     }
   });
 
@@ -58,8 +65,13 @@
         return {};
       });
 
+    Promise.all(Object.values(imagePromises)).then(() => {
+      render();
+    });
+
     resize();
     init();
+    render();
     animate();
 
     window.addEventListener("resize", resize);
@@ -70,6 +82,10 @@
     canvas.height = window.innerHeight;
 
     canvasDpiScaler(canvas, ctx);
+
+    if (!animated) {
+      render();
+    }
   }
 
   const clamp = (val: number, min: number, max: number) =>
@@ -190,7 +206,7 @@
       ctx.save();
       // The source images are black, so we are inverting them
       // different amounts to get different shades of gray
-      ctx.filter = darkTheme ? "invert(0.15)" : "invert(0.8)";
+      ctx.filter = darkTheme ? "invert(0.1)" : "invert(0.9)";
 
       // Draw center of rotation
       // ctx.beginPath();
@@ -286,14 +302,14 @@
   }
 
   function init() {
-    /*/
-     * Calculate the proper amount of particles
-     * 25920 is our constant, equal to x in (1080*1920)/x = 80
-     * Because the subjectively correct amount of particles for a 1080p
-     * display is 80, so to calculate the proper amount for any window size,
-     * just do (width * height) / 25920
-    /*/
-    let particleCount = (window.innerWidth * window.innerHeight) / 25920;
+    let isMobile = /Mobile|Android|iPhone/i.test(navigator.userAgent);
+    let particleCount: number;
+    if (isMobile) {
+      particleCount = 25;
+    }
+    else {
+      particleCount = 40;
+    }
 
     particles = [];
     for (let i = 0; i < particleCount; i++) {
@@ -305,7 +321,7 @@
     }
   }
 
-  function animate() {
+  function render() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     for (let i_gradient = 0; i_gradient < gradients.length; i_gradient++) {
@@ -318,6 +334,12 @@
       let particle = particles[i_particle];
       particle.update();
       particle.draw();
+    }
+  }
+
+  function animate() {
+    if (animated) {
+      render();
     }
 
     requestAnimationFrame(animate);

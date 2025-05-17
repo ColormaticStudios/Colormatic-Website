@@ -1,7 +1,12 @@
 // The magic cookie system is so stupid
 
-export function setCookie(cname: string, cvalue: string) {
-	document.cookie = cname + "=" + cvalue + ";";
+export function setCookie(
+	cname: string,
+	cvalue: string,
+	sameSite: string = "Lax",
+) {
+	document.cookie =
+		cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
 }
 
 // Credit: https://www.w3schools.com/js/js_cookies.asp

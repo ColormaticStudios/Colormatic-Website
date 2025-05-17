@@ -17,7 +17,7 @@
   let darkTheme = $state(false);
 
   /*/
-   * This is necesarry for pages to read the theme,
+   * This is necessary for pages to read the theme,
    * sucks that we have to use an anonymous function
    * just to grab a variable
   /*/
