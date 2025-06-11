@@ -21,7 +21,7 @@
 
     if (!animated && ctx) {
       // Don't try to render if ctx hasn't initialized yet
-      render();
+      render(false);
     }
   });
 
@@ -66,12 +66,12 @@
       });
 
     Promise.all(Object.values(imagePromises)).then(() => {
-      render();
+      render(false);
     });
 
     resize();
     init();
-    render();
+    render(false);
     animate();
 
     window.addEventListener("resize", resize);
@@ -84,7 +84,7 @@
     canvasDpiScaler(canvas, ctx);
 
     if (!animated) {
-      render();
+      render(false);
     }
   }
 
@@ -321,25 +321,25 @@
     }
   }
 
-  function render() {
+  function render(update: boolean) {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     for (let i_gradient = 0; i_gradient < gradients.length; i_gradient++) {
       let gradient = gradients[i_gradient];
-      gradient.update();
+      if (update) gradient.update();
       gradient.draw();
     }
 
     for (let i_particle = 0; i_particle < particles.length; i_particle++) {
       let particle = particles[i_particle];
-      particle.update();
+      if (update) particle.update();
       particle.draw();
     }
   }
 
   function animate() {
     if (animated) {
-      render();
+      render(true);
     }
 
     requestAnimationFrame(animate);
