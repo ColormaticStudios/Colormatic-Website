@@ -47,15 +47,18 @@
       <span class="name-title">Zakarya</span>
     </div>
 
-    <p>
-      I am a software and game developer, I run Colormatic and Colormatic
-      Studios, and I primarily study computer science, psychology, and
-      linguistics.
-      <br />
-      I have an intrinsic urge to create, and that's what Colormatic is all about.
-      My works include world building, music, videos, 3D modeling, video games, websites,
-      programs, and more.
-    </p>
+    <div class="bio">
+      <p>
+        I am a software and game developer, I run Colormatic and Colormatic
+        Studios, and I primarily study computer science, psychology, and
+        linguistics.
+      </p>
+      <p>
+        I have an intrinsic urge to create, and that's what Colormatic is all
+        about. My works include world building, music, videos, 3D modeling,
+        video games, websites, programs, and more.
+      </p>
+    </div>
 
     <div class="linktree-container">
       <ul class="linktree">
@@ -162,7 +165,7 @@
     font-size: 200%;
   }
 
-  main div.profile p {
+  main div.profile div.bio {
     font-size: 120%;
     max-width: 50%;
     padding: 16px;
@@ -191,7 +194,7 @@
       margin: 24px auto;
     }
 
-    main div.profile p {
+    main div.profile div.bio {
       max-width: unset;
     }
 
@@ -218,7 +221,7 @@
     }
   }
 
-  main.dark-theme div.profile p {
+  main.dark-theme div.profile div.bio {
     border-color: #ffffff55;
   }
 </style>
