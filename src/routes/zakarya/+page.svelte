@@ -64,6 +64,15 @@
       <ul class="linktree">
         <li>
           <a
+            href="https://git.colormatic.org/zakarya"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Colormatic Git
+          </a>
+        </li>
+        <li>
+          <a
             href="https://mstdn.party/@zakarya"
             target="_blank"
             rel="noopener noreferrer"
