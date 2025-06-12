@@ -30,13 +30,19 @@
 </svelte:head>
 
 <main class={darkTheme() ? "dark-theme" : ""}>
-  <img class="banner" src="/img/zakarya-banner.png" alt="Zakarya Banner" />
+  <img
+    class="banner"
+    src="/img/zakarya-banner.webp"
+    alt="Zakarya Banner"
+    srcset="/img/zakarya-banner.webp 960w, /img/zakarya-banner@2x.webp 1920w"
+  />
   <div class="hero panel profile">
     <div class="nameplate">
       <img
-        src="/img/zakarya-icon.png"
+        src="/img/zakarya-icon.webp"
         class="zakarya-icon"
         alt="Zakarya Icon"
+        srcset="/img/zakarya-icon.webp 540w, /img/zakarya-icon@2x.webp 1080w"
       />
       <span class="name-title">Zakarya</span>
     </div>
