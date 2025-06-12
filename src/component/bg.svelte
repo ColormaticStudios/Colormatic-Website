@@ -306,8 +306,7 @@
     let particleCount: number;
     if (isMobile) {
       particleCount = 25;
-    }
-    else {
+    } else {
       particleCount = 40;
     }
 
