@@ -101,7 +101,6 @@
       >
         ColormaticStudios/Colormatic-Website
       </a>
-      .
     </p>
   </div>
 </main>
