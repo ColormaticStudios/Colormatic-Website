@@ -76,7 +76,7 @@
     <i class={`bi ${currentIcon}`}></i>
   </button>
 
-  <!-- Unfortunately, we have to hard-code 72px because CSS won't animate `auto` or `min-content` -->
+  <!-- Unfortunately, we have to hard-code the pixel count because CSS won't animate `auto` or `min-content` -->
   <div class="button-group" style:height={expanded ? "68px" : "0px"}>
     <!-- Don't show the button if it is currently selected (it will be shown as the dropdown icon) -->
     {#if themeOption !== themes.DARK}
