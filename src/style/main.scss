@@ -24,6 +24,26 @@ spacer {
   margin-top: 8%;
 }
 
+a {
+  transition-duration: 0.2s;
+}
+
+a:link {
+  color: #2194ff;
+}
+
+a:visited {
+  color: #2178ff;
+}
+
+a:link:hover {
+  color: #21afff;
+}
+
+a:visited:hover {
+  color: #21afff;
+}
+
 a.btn,
 button.btn {
   padding: 8px 18px;
