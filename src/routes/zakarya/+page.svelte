@@ -116,7 +116,11 @@
     <h1>Featured Videos:</h1>
     <ul class="videolist">
       <li>
-        <a href="/video?c=zakarya&v=the-way-forward">
+        <a
+          href="https://www.youtube.com/watch?v=FWGCPIEM_-o"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img
             src="https://files.colormatic.org/zakarya/videos/thumbnail/wayforward.png"
             alt="Video Thumbnail"
@@ -125,7 +129,11 @@
         </a>
       </li>
       <li>
-        <a href="/video?c=zakarya&v=hello-world">
+        <a
+          href="https://www.youtube.com/watch?v=OPD8NqNu0nE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img
             src="https://files.colormatic.org/zakarya/videos/thumbnail/helloworld.png"
             alt="Video Thumbnail"
