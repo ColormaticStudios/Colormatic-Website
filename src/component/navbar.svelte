@@ -246,6 +246,12 @@ Svelte modal example, https://svelte.dev/playground/modal
 
     font-size: 200%;
     color: global.$text-color;
+
+    transition-duration: 0.2s;
+  }
+
+  span.modalbg div button.close:hover {
+    color: #21afff;
   }
 
   span.modalbg div ul {
