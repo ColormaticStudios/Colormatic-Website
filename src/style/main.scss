@@ -104,25 +104,6 @@ main div.hero {
   }
 }
 
-main div.scroll-arrow {
-  text-align: center;
-  font-size: 200%;
-  width: 100%;
-  position: fixed;
-  bottom: 64px;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.25s ease-in;
-}
-
-main div.scroll-arrow.scroll-arrow-hide {
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    visibility 0s 0.25s,
-    opacity 0.25s ease-out;
-}
-
 main div.hero h1 a {
   color: global.$text-color;
 }
@@ -199,34 +180,6 @@ div.double-linktree {
 
 div.double-linktree ul.linktree {
   margin: 0;
-}
-
-ul.videolist {
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-left: 0;
-}
-
-ul.videolist li {
-  padding: 8px;
-}
-
-ul.videolist li a {
-  text-decoration: none;
-}
-
-ul.videolist li a img {
-  width: 250px;
-  height: auto;
-  border-radius: 8px;
-}
-
-ul.videolist li a span {
-  display: block;
-  color: global.$text-color;
-  font-size: 120%;
 }
 
 img.pixelart {

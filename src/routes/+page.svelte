@@ -136,4 +136,23 @@
       font-size: 200%;
     }
   }
+
+  main div.scroll-arrow {
+    text-align: center;
+    font-size: 200%;
+    width: 100%;
+    position: fixed;
+    bottom: 64px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease-in;
+  }
+
+  main div.scroll-arrow.scroll-arrow-hide {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      visibility 0s 0.25s,
+      opacity 0.25s ease-out;
+  }
 </style>

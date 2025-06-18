@@ -241,4 +241,32 @@
   main.dark-theme div.profile div.bio {
     border-color: #ffffff55;
   }
+
+  ul.videolist {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  ul.videolist li {
+    padding: 8px;
+  }
+
+  ul.videolist li a {
+    text-decoration: none;
+  }
+
+  ul.videolist li a img {
+    width: 250px;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  ul.videolist li a span {
+    display: block;
+    color: global.$text-color;
+    font-size: 120%;
+  }
 </style>
