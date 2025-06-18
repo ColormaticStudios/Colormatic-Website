@@ -271,6 +271,10 @@ Svelte modal example, https://svelte.dev/playground/modal
     font-size: 120%;
   }
 
+  span.modalbg div ul li a:hover {
+    color: #21afff;
+  }
+
   @media screen and (max-width: global.$mobile-width) {
     span.modalbg div {
       width: 30ch;
