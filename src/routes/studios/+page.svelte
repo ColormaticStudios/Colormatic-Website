@@ -232,6 +232,11 @@
     color: global.$text-color;
   }
 
+  // Bad code
+  div.project-grid-container div.project-grid-box h1 a:hover {
+    color: #21afff;
+  }
+
   div.project-grid-container
     div.project-grid-box
     div.project-grid-box-contents {

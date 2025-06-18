@@ -154,4 +154,19 @@
       margin: 4px 0;
     }
   }
+
+  // Click target color animation
+
+  button {
+    transition-duration: 0.2s;
+  }
+
+  button:hover {
+    color: #21afff !important;
+    /*/
+     * Cascading styles was a mistake
+     * I hate this code
+     * But it works
+    /*/
+  }
 </style>

@@ -152,6 +152,12 @@ Svelte modal example, https://svelte.dev/playground/modal
   nav button.menu-button {
     background: none;
     border: none;
+
+    transition-duration: 0.2s;
+  }
+
+  nav button.menu-button:hover {
+    color: #21afff;
   }
 
   nav .menu-button i {
