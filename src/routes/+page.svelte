@@ -107,6 +107,7 @@
 
 <spacer></spacer>
 
+<!-- svelte-ignore css_unused_selector -->
 <style lang="scss">
   @use "../style/global.scss";
 
