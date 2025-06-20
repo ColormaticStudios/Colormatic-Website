@@ -23,7 +23,7 @@
   />
   <meta
     property="og:image"
-    content="https://colormatic.org/img/zakarya-icon.svg"
+    content="https://colormatic.org/img/colormatic_logo.svg"
   />
   <meta property="og:url" content="https://colormatic.org/zakarya/" />
   <meta property="og:type" content="website" />
