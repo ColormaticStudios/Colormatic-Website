@@ -1,25 +1,21 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
 
-  let arrow = $state() as HTMLDivElement;
+  let atTop = $state(true);
 
-  function checkArrow(e: Event) {
-    if (window.scrollY != 0) {
-      if (!arrow.classList.contains("scroll-arrow-hide")) {
-        arrow.classList.add("scroll-arrow-hide");
-      }
+  function checkScrollPos() {
+    if (window.scrollY === 0) {
+      atTop = true;
     } else {
-      if (arrow.classList.contains("scroll-arrow-hide")) {
-        arrow.classList.remove("scroll-arrow-hide");
-      }
+      atTop = false;
     }
   }
 
   onMount(() => {
-    window.addEventListener("scroll", checkArrow);
+    window.addEventListener("scroll", checkScrollPos);
 
     return () => {
-      window.removeEventListener("scroll", checkArrow);
+      window.removeEventListener("scroll", checkScrollPos);
     };
   });
 
@@ -53,7 +49,7 @@
     <h1>Colormatic: A non-profit project for creation.</h1>
   </div>
 
-  <div bind:this={arrow} class="scroll-arrow">
+  <div class="scroll-arrow {atTop ? '' : 'hide'}">
     <i class="bi bi-arrow-down-circle-fill"></i>
   </div>
 
@@ -149,7 +145,7 @@
     transition: opacity 0.25s ease-in;
   }
 
-  main div.scroll-arrow.scroll-arrow-hide {
+  main div.scroll-arrow.hide {
     opacity: 0;
     visibility: hidden;
     transition:

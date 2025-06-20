@@ -28,7 +28,7 @@
     footer {
       flex-direction: column;
     }
-    
+
     footer p {
       text-align: center;
       padding: 4px;
