@@ -2,7 +2,7 @@
   <p>© 2025 Colormatic Studios, All Rights Reserved.</p>
   <p>
     <a href="mailto:support@colormatic.org">support@colormatic.org</a>
-    |
+    <span class="responsive-hidden">|</span>
     <a href="mailto:contact@colormatic.org">contact@colormatic.org</a>
   </p>
 </footer>
@@ -28,10 +28,15 @@
     footer {
       flex-direction: column;
     }
+    
     footer p {
       text-align: center;
       padding: 4px;
       margin: 4px;
+    }
+
+    .responsive-hidden {
+      display: none;
     }
   }
 </style>
