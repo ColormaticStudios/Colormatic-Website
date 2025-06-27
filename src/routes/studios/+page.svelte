@@ -104,6 +104,20 @@
   </div>
 
   <div class="hero panel">
+    <h1>About Us</h1>
+    <p class="justify">
+      Colormatic Studios is a creative studio dedicated to giving life to
+      Colormatic's ambitious future.
+    </p>
+    <p class="justify">
+      We are currently just a passionate team of volunteers working to build
+      inspiring, intuitive and innovative creative works. We don't have many
+      projects right now, but we're working hard behind the scenes on ventures
+      we'll be introducing later.
+    </p>
+  </div>
+
+  <div class="hero panel">
     <h1>Links:</h1>
     <div class="double-linktree">
       <ul class="linktree">
