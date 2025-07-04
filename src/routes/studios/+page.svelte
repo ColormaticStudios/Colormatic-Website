@@ -1,4 +1,8 @@
 <script lang="ts">
+  import Panel from "components/panel.svelte";
+  import Hero from "components/hero.svelte";
+  import Spacer from "components/spacer.svelte";
+  import Linktree from "components/linktree.svelte";
   import { getContext } from "svelte";
 
   let darkTheme: CallableFunction = getContext("darkTheme");
@@ -35,244 +39,142 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<main class={darkTheme() ? "dark-theme" : ""}>
-  <div class="cs-title"><h1>Colormatic Studios</h1></div>
-
-  <div class="project-grid-container">
-    <div class="project-grid-box panel">
-      <h1>
-        <a
-          href="https://git.colormatic.org/ColormaticStudios/quality-godot-first-person"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Quality First Person Controller
-        </a>
-      </h1>
-      <div class="project-grid-box-contents">
-        <img
-          src="https://git.colormatic.org/ColormaticStudios/quality-godot-first-person/raw/branch/main/icon.svg"
-          alt="First Person Logo"
-        />
-        <p>An actually good first person controller for the Godot Engine.</p>
-      </div>
-    </div>
-    <div class="project-grid-box panel">
-      <h1>
-        <a
-          href="https://git.colormatic.org/ColormaticStudios/godot-bson"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          BSON for Godot
-        </a>
-      </h1>
-      <div class="project-grid-box-contents">
-        <img
-          src="https://git.colormatic.org/ColormaticStudios/godot-bson/raw/branch/main/icon.svg"
-          alt="Godot BSON Logo"
-        />
-        <p>A BSON serializer/deserializer for the Godot Engine.</p>
-      </div>
-    </div>
-    <div class="project-grid-box panel">
-      <h1>A Silly Game</h1>
-      <div class="project-grid-box-contents">
-        <img src="/img/studios/hatcat.webp" alt="HatCat" />
-        <p>
-          This is a silly little game project to get us started.
-          <br />
-          Currently in closed pre-alpha.
-        </p>
-      </div>
-    </div>
-    <div class="project-grid-box panel">
-      <h1>ColorQuest</h1>
-      <div class="project-grid-box-contents">
-        <img
-          src="/img/studios/colorquest.png"
-          class="pixelart"
-          alt="ColorQuest"
-        />
-        <p>
-          A simple browser MMORPG focused on social features.
-          <br />
-          Currently in closed pre-alpha.
-        </p>
-      </div>
-    </div>
+<main>
+  <div
+    class="cs-title flex h-[200px] items-center justify-center bg-cover lg:h-[300px]"
+  >
+    <span
+      class="rounded-2xl bg-[#00000088] px-[38px] py-[28px] text-[200%] font-bold
+      text-white shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:text-[300%]"
+    >
+      Colormatic Studios
+    </span>
   </div>
 
-  <div class="hero panel">
-    <h1>About Us</h1>
-    <p class="justify">
+  <div class="mx-auto flex w-[90%] flex-col flex-wrap lg:w-[80%] lg:flex-row">
+    <!-- prettier-ignore -->
+    {#each [
+      {
+        title: "Quality First Person Controller",
+        link: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person",
+        description: "An actually good first person controller for the Godot Engine.",
+        image: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person/raw/branch/main/icon.svg",
+        pixelArt: false
+      },
+      {
+        title: "BSON for Godot",
+        link: "https://git.colormatic.org/ColormaticStudios/godot-bson",
+        description: "A BSON serializer/deserializer for the Godot Engine.",
+        image: "https://git.colormatic.org/ColormaticStudios/godot-bson/raw/branch/main/icon.svg",
+        pixelArt: false
+      },
+      {
+        title: "A Silly Game",
+        link: "",
+        description: "This is a silly little game project to get us started. Currently in closed pre-alpha.",
+        image: "/img/studios/hatcat.webp",
+        pixelArt: false
+      },
+      {
+        title: "ColorQuest",
+        link: "",
+        description: "A simple browser MMORPG focused on social features. Currently in closed pre-alpha.",
+        image: "/img/studios/colorquest.png",
+        pixelArt: true
+      }
+    ] as item}
+
+      <Panel className="flex-1 my-2 lg:m-4 lg:min-w-[40%] lg:max-w-[50%] p-4">
+        <div class="p-4">
+          {#if item.link}
+            <a
+              href="{item.link}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-color underline text-center text-[200%] font-bold block"
+            >
+              {item.title}
+            </a>
+          {:else}
+            <span class="text-center text-[200%] font-bold block">{item.title}</span>
+          {/if}
+        </div>
+        <div class="flex">
+          <img
+            src="{item.image}"
+            alt="First Person Logo"
+            class="max-w-[120px] max-h-[150px] m-3 rounded-lg
+            {item.pixelArt ? 'pixelart' : ''}"
+          />
+          <p class="pt-4">{item.description}</p>
+        </div>
+      </Panel>
+    {/each}
+  </div>
+
+  <Hero>
+    <span class="text-[200%] font-bold">About Us</span>
+    <p class="justify pt-3">
       Colormatic Studios is a creative studio dedicated to giving life to
       Colormatic's ambitious future.
     </p>
-    <p class="justify">
+    <p class="justify pt-3">
       We are currently just a passionate team of volunteers working to build
-      inspiring, intuitive and innovative creative works. We don't have many
-      projects right now, but we're working hard behind the scenes on ventures
-      we'll be introducing later.
+      inspiring, intuitive and innovative creative works. We don't have much to
+      show right now, but we're working hard behind the scenes on projects we'll
+      be introducing later.
     </p>
-  </div>
+  </Hero>
 
-  <div class="hero panel">
-    <h1>Links:</h1>
-    <div class="double-linktree">
-      <ul class="linktree">
-        <li>
-          <a
-            href="https://mastodon.social/@colormaticstudios"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Mastodon
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/colormaticstudios/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.youtube.com/@colormaticstudios"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Youtube
-          </a>
-        </li>
-      </ul>
-      <ul class="linktree">
-        <li>
-          <a
-            href="https://git.colormatic.org/ColormaticStudios"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Colormatic Git
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/ColormaticStudios"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://bsky.app/profile/colormaticstudios.bsky.social"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Bluesky
-          </a>
-        </li>
-      </ul>
+  <Hero>
+    <span class="text-[200%] font-bold">Links:</span>
+    <div class="mx-auto flex lg:w-[60%]">
+      <Linktree
+        className="flex-1 mx-2"
+        links={[
+          {
+            label: "Mastodon",
+            url: "https://mastodon.social/@colormaticstudios",
+          },
+          {
+            label: "Instagram",
+            url: "https://www.instagram.com/colormaticstudios",
+          },
+          {
+            label: "Youtube",
+            url: "https://www.youtube.com/@colormaticstudios",
+          },
+        ]}
+      />
+      <Linktree
+        className="flex-1 mx-2"
+        links={[
+          {
+            label: "Colormatic Git",
+            url: "https://git.colormatic.org/ColormaticStudios",
+          },
+          {
+            label: "GitHub",
+            url: "https://github.com/ColormaticStudios",
+          },
+          {
+            label: "Bluesky",
+            url: "https://bsky.app/profile/colormaticstudios.bsky.social",
+          },
+        ]}
+      />
     </div>
-  </div>
+  </Hero>
 </main>
 
-<spacer></spacer>
+<Spacer />
 
 <style lang="scss">
-  @use "../../style/global.scss";
-
   div.cs-title {
     background-image: url("/img/colormatic_banner.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  div.cs-title h1 {
-    color: white;
-    background-color: #00000088;
-    padding: 28px 38px;
-    border-radius: 16px;
-    font-size: 300%;
-    box-shadow: 1px 1px 8px #00000033;
-    backdrop-filter: blur(5px);
-  }
-
-  div.project-grid-container {
-    display: flex;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  @media screen and (max-width: global.$mobile-width) {
-    div.project-grid-container {
-      width: 90%;
-    }
-
-    div.cs-title {
-      height: 200px;
-    }
-
-    div.cs-title h1 {
-      font-size: 200%;
-    }
-  }
-
-  div.project-grid-container div.project-grid-box {
-    flex: 1;
-    margin: 16px;
-    padding: 16px;
-    min-width: 40%;
-    max-width: 50%;
-  }
-
-  div.project-grid-container div.project-grid-box h1 {
-    text-align: center;
-  }
-
-  div.project-grid-container div.project-grid-box h1 a {
-    color: global.$text-color;
-  }
-
-  // Bad code
-  div.project-grid-container div.project-grid-box h1 a:hover {
-    color: #21afff;
-  }
-
-  div.project-grid-container
-    div.project-grid-box
-    div.project-grid-box-contents {
-    /* Yes, this absurdly long element selector is a joke */
-    display: flex;
-  }
-
-  div.project-grid-container div.project-grid-box img {
-    max-width: 120px;
-    max-height: 150px;
-    margin: 12px;
-    border-radius: 8px;
-  }
-
-  @media screen and (max-width: global.$mobile-width) {
-    div.project-grid-container div.project-grid-box {
-      min-width: 90%;
-      max-width: 90%;
-    }
-
-    div.project-grid-container div.project-grid-box img {
-      max-width: 100px;
-    }
+  img.pixelart {
+    image-rendering: pixelated;
   }
 </style>

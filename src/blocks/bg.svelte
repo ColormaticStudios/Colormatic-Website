@@ -13,7 +13,7 @@
     darkTheme;
 
     for (let i = 0; i < gradients.length; i++) {
-      // This re-renders each gradient so their new color will be correct
+      // This recolors each gradient so their new color will be correct
       let gradient = gradients[i];
       gradient.color = getRandomColor();
       gradient.prepareBuffer();

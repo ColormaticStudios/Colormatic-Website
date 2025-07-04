@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Hero from "components/hero.svelte";
+  import Linktree from "components/linktree.svelte";
+  import Spacer from "components/spacer.svelte";
   import { getContext } from "svelte";
 
   let darkTheme: CallableFunction = getContext("darkTheme");
@@ -29,26 +32,30 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<main class={darkTheme() ? "dark-theme" : ""}>
+<main>
   <img
-    class="banner"
+    class="mx-auto mt-8 mb-8 block w-[95%] rounded-2xl border border-[#00000033]
+    shadow-[1px_1px_8px_#00000033] lg:w-[70%]"
     src="/img/zakarya-banner.webp"
     alt="Zakarya Banner"
     srcset="/img/zakarya-banner.webp 960w, /img/zakarya-banner@2x.webp 1920w"
   />
-  <div class="hero panel profile">
-    <div class="nameplate">
+  <Hero className="flex flex-wrap items-center flex-col lg:flex-row">
+    <div class="flex grow lg:flex-col">
       <img
         src="/img/zakarya-icon.webp"
-        class="zakarya-icon"
+        class="mx-4 my-2 block h-[38px] rounded-xl lg:mx-auto lg:h-auto lg:w-[100px] lg:rounded-2xl"
         alt="Zakarya Icon"
         srcset="/img/zakarya-icon.webp 540w, /img/zakarya-icon@2x.webp 1080w"
       />
-      <span class="name-title">Zakarya</span>
+      <span class="text-[200%]">Zakarya</span>
     </div>
 
-    <div class="bio">
-      <p>
+    <div
+      class="m-3 h-fit rounded-2xl border p-4 text-left text-[120%] lg:max-w-1/2
+      {darkTheme() ? 'border-[#ffffff33]' : 'border-[#00000033]'}"
+    >
+      <p class="mb-4">
         I am a software and game developer, I run Colormatic and Colormatic
         Studios, and I primarily study computer science, psychology, and
         linguistics.
@@ -60,213 +67,67 @@
       </p>
     </div>
 
-    <div class="linktree-container">
-      <ul class="linktree">
-        <li>
-          <a
-            href="https://git.colormatic.org/zakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Colormatic Git
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://mstdn.party/@zakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Mastodon
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://ko-fi.com/zakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ko-fi
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.youtube.com/@czakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Youtube
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/CZakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </li>
-        <!--<li><a href="https://www.reddit.com/user/CZakarya/" target="_blank" rel="noopener noreferrer">Reddit</a></li>-->
-      </ul>
+    <div class="w-[60%] grow lg:w-[unset]">
+      <Linktree
+        links={[
+          {
+            url: "https://git.colormatic.org/zakarya",
+            label: "Colormatic Git",
+          },
+          {
+            url: "https://mstdn.party/@zakarya",
+            label: "Mastodon",
+          },
+          {
+            url: "https://ko-fi.com/zakarya",
+            label: "Ko-fi",
+          },
+          {
+            url: "https://www.youtube.com/@czakarya",
+            label: "Youtube",
+          },
+          {
+            url: "https://github.com/CZakarya",
+            label: "GitHub",
+          },
+        ]}
+      />
     </div>
-  </div>
+  </Hero>
 
-  <div class="hero panel">
-    <h1>Featured Videos:</h1>
-    <ul class="videolist">
-      <li>
+  <Hero>
+    <span class="text-[200%] font-bold">Featured Videos:</span>
+    <ul class="flex list-none flex-wrap justify-center pl-0">
+      <li class="p-2">
         <a
           href="https://www.youtube.com/watch?v=FWGCPIEM_-o"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
+            class="h-auto w-[250px] rounded-lg"
             src="https://files.colormatic.org/zakarya/videos/thumbnail/wayforward.png"
             alt="Video Thumbnail"
           />
-          <span class="title">The Way Forward</span>
+          <span class="block p-2 text-[120%]">The Way Forward</span>
         </a>
       </li>
-      <li>
+      <li class="p-2">
         <a
           href="https://www.youtube.com/watch?v=OPD8NqNu0nE"
           target="_blank"
           rel="noopener noreferrer"
         >
           <img
+            class="h-auto w-[250px] rounded-lg"
             src="https://files.colormatic.org/zakarya/videos/thumbnail/helloworld.png"
             alt="Video Thumbnail"
           />
-          <span class="title">Hello World</span>
+          <span class="block p-2 text-[120%]">Hello World</span>
         </a>
       </li>
     </ul>
-  </div>
+  </Hero>
 </main>
 
-<spacer></spacer>
-
-<style lang="scss">
-  @use "../../style/global.scss";
-
-  main img.banner {
-    display: block;
-    width: 70%;
-    margin: 32px auto 32px auto;
-    border: solid 1px #00000033;
-    border-radius: 16px;
-    box-shadow: 1px 1px 8px #00000033;
-  }
-
-  main div.profile {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  main div.profile div.nameplate {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  main div.profile div.nameplate img.zakarya-icon {
-    width: 100px;
-    border-radius: 16px;
-    margin: 8px auto;
-    display: block;
-  }
-
-  main div.profile div.nameplate span.name-title {
-    font-size: 200%;
-  }
-
-  main div.profile div.bio {
-    font-size: 120%;
-    max-width: 50%;
-    padding: 16px;
-    margin: 12px;
-    height: fit-content;
-    text-align: left;
-    /* text-align: justify;
-    text-justify: auto; */
-    border-radius: 16px;
-    border: solid 1px;
-    border-color: #383c3f33; // Same as text color but with alpha
-  }
-
-  main div.profile div.linktree-container {
-    flex-grow: 1;
-  }
-
-  main div.profile div.linktree-container ul.linktree {
-    width: 100%;
-  }
-
-  @media screen and (max-width: global.$mobile-width) {
-    main img.banner {
-      width: 95%;
-      border-radius: 12px;
-      margin: 24px auto;
-    }
-
-    main div.profile div.bio {
-      max-width: unset;
-    }
-
-    main div.profile div.linktree-container ul.linktree {
-      width: 60%;
-    }
-
-    main div.profile div.nameplate {
-      flex-direction: row;
-      align-items: end;
-      justify-content: center;
-    }
-
-    main div.profile div.nameplate img.zakarya-icon {
-      height: 1.25em;
-      width: auto;
-      font-size: 170%;
-      margin: 0px 12px;
-      border-radius: 10px;
-    }
-
-    main div.profile div.nameplate span.name-title {
-      font-size: 170%;
-    }
-  }
-
-  main.dark-theme div.profile div.bio {
-    border-color: #ffffff55;
-  }
-
-  ul.videolist {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-left: 0;
-  }
-
-  ul.videolist li {
-    padding: 8px;
-  }
-
-  ul.videolist li a {
-    text-decoration: none;
-  }
-
-  ul.videolist li a img {
-    width: 250px;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  ul.videolist li a span {
-    display: block;
-    color: global.$text-color;
-    font-size: 120%;
-  }
-</style>
+<Spacer />

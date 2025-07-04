@@ -1,0 +1,7 @@
+/*/
+ * I have no idea why Tailwind wants a file like this; why can't I just
+ * have an import statement in the +layout.svelte? Web devs seriously
+ * confuse me.
+/*/
+
+@import "tailwindcss";

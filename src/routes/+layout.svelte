@@ -1,11 +1,12 @@
 <script lang="ts">
-  import "../style/main.scss";
+  import "style/main.scss";
+  import "style/tailwind.css";
   import "bootstrap-icons/font/bootstrap-icons.css";
-  import Navbar from "../component/navbar.svelte";
-  import Footer from "../component/footer.svelte";
-  import Bg from "../component/bg.svelte";
-  import Settings from "../component/settings.svelte";
-  import { themes } from "../script/theme.ts";
+  import Navbar from "blocks/navbar.svelte";
+  import Footer from "blocks/footer.svelte";
+  import Bg from "blocks/bg.svelte";
+  import Settings from "blocks/settings.svelte";
+  import { themes } from "script/theme.ts";
   import { onMount, setContext } from "svelte";
 
   interface Props {

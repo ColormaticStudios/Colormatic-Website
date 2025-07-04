@@ -1,5 +1,8 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
+  import Spacer from "components/spacer.svelte";
+  import Hero from "components/hero.svelte";
+  import Divider from "components/divider.svelte";
 
   let atTop = $state(true);
 
@@ -44,9 +47,12 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<main class={darkTheme() ? "dark-theme" : ""}>
-  <div class="brand-heading">
-    <h1>Colormatic: A non-profit project for creation.</h1>
+<main>
+  <div
+    class="px-[12px] py-[38%] text-center text-[300%] font-bold
+    lg:w-[70%] lg:p-[12%] lg:text-left lg:text-[350%]"
+  >
+    Colormatic: A non-profit project for creation.
   </div>
 
   <div class="scroll-arrow {atTop ? '' : 'hide'}">
@@ -55,84 +61,80 @@
 
   <div style="margin-top:calc(100vh - 500px);"></div>
 
-  <div class="heading">Featured Colormatic Studios Projects:</div>
-  <div class="hero panel">
-    <h1>
-      <a
-        href="https://git.colormatic.org/ColormaticStudios/quality-godot-first-person"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Quality First Person Controller
-      </a>
-    </h1>
-    <p>An actually good first person controller for the Godot Engine.</p>
-
-    <div class="divider"></div>
-
-    <h1>
-      <a
-        href="https://git.colormatic.org/ColormaticStudios/godot-bson"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        BSON for Godot
-      </a>
-    </h1>
-    <p>A BSON serializer/deserializer for the Godot Engine</p>
+  <div class="p-3 text-center text-[250%]">
+    Featured Colormatic Studios Projects:
   </div>
+  <Hero>
+    <!--
+    Prettier wants to pack all of this data into one line, probably a bug.
+    This must be formatted manually.
 
-  <spacer></spacer>
+    This issue happens in various places around the codebase, whenever we
+    stuff data directly into an #each statement. This is the most prominent
+    place though, so I'll stick this comment here.
 
-  <div class="hero panel">
-    <h1>
-      <i class="bi bi-tools" style="padding-right: 12px;"></i>
+    Notice that Prettier also won't format the code inside the #each statement,
+    which means that the Tailwind classes won't get sorted. I'll miss that
+    feature.
+    -->
+    <!-- prettier-ignore -->
+    {#each [
+      {
+        title: "Quality First Person Controller",
+        link: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person",
+        description: "An actually good first person controller for the Godot Engine."
+      },
+      {
+        title: "BSON for Godot",
+        link: "https://git.colormatic.org/ColormaticStudios/godot-bson",
+        description: "A BSON serializer/deserializer for the Godot Engine"
+      }
+    ] as item, index}
+
+      {#if index !== 0}
+        <Divider />
+      {/if}
+
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-color text-[200%] font-bold underline"
+      >
+        {item.title}
+      </a>
+      <p class="pt-3">{item.description}</p>
+    {/each}
+  </Hero>
+
+  <Spacer />
+
+  <Hero>
+    <span class="text-[200%] font-bold">
+      <i class="bi bi-tools pr-3"></i>
       This website is under construction.
-    </h1>
-    <p>
+    </span>
+    <p class="p-3">
       Check up on progress and changes at <a
         href="https://git.colormatic.org/ColormaticStudios/Colormatic-Website"
         target="_blank"
         rel="noopener noreferrer"
+        class="underline"
       >
         ColormaticStudios/Colormatic-Website
       </a>
     </p>
-  </div>
+  </Hero>
 </main>
 
-<spacer></spacer>
+<Spacer />
 
 <style lang="scss">
-  @use "../style/global.scss";
-
-  main div.brand-heading {
-    padding: 12%;
-    width: 60%;
-  }
-
-  main div.brand-heading h1 {
-    font-size: 300%;
-  }
-
-  main div.heading {
-    font-size: 250%;
-    text-align: center;
-    padding: 12px;
-  }
-
-  @media screen and (max-width: global.$mobile-width) {
-    main div.brand-heading {
-      padding: 38% 12px;
-      text-align: center;
-      width: initial;
-    }
-
-    main div.heading {
-      font-size: 200%;
-    }
-  }
-
+  /*/
+   * Yes, this isn't in Tailwind, but I really don't want to translate this
+   * animation because Tailwind animations are stupidly verbose. With that,
+   * I also didn't translate the CSS around it because I just don't want to.
+  /*/
   main div.scroll-arrow {
     text-align: center;
     font-size: 200%;

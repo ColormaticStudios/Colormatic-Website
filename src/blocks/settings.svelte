@@ -2,6 +2,7 @@
   import { getContext, onMount } from "svelte";
   import { themes } from "../script/theme.ts";
   import { setCookie, getCookie } from "../script/cookie.ts";
+  import Panel from "components/panel.svelte";
 
   let panelRef = $state() as HTMLElement;
 
@@ -64,95 +65,61 @@
   }
 </script>
 
-<div
-  bind:this={panelRef}
-  class="theme-toggle panel {darkTheme() ? 'dark-theme' : ''}"
->
-  <button
-    class="toggle-button"
-    onclick={togglePanel}
-    aria-label="Toggle Theme Selector"
-  >
-    <i class={`bi ${currentIcon}`}></i>
-  </button>
+<div bind:this={panelRef} class="fixed right-5 bottom-5 flex">
+  <Panel className="flex flex-col-reverse p-1">
+    <button
+      class="flex cursor-pointer items-center px-[5px] text-[1.3rem]"
+      onclick={togglePanel}
+      aria-label="Toggle Theme Selector"
+    >
+      <i class={`bi ${currentIcon}`}></i>
+    </button>
 
-  <!-- Unfortunately, we have to hard-code the pixel count because CSS won't animate `auto` or `min-content` -->
-  <div class="button-group" style:height={expanded ? "68px" : "0px"}>
-    <!-- Don't show the button if it is currently selected (it will be shown as the dropdown icon) -->
-    {#if themeOption !== themes.DARK}
-      <button
-        aria-label="Dark Theme"
-        bind:this={darkButton}
-        onclick={() => setThemeOption(themes.DARK)}
-      >
-        <i bind:this={darkButtonIcon} class="bi bi-moon"></i>
-      </button>
-    {/if}
+    <!-- Unfortunately, we have to hard-code the pixel count because CSS won't animate `auto` or `min-content` -->
+    <div
+      class="button-group flex flex-col overflow-hidden"
+      style:height={expanded ? "68px" : "0px"}
+    >
+      <!-- Don't show the button if it is currently selected (it will be shown as the dropdown icon) -->
+      {#if themeOption !== themes.DARK}
+        <button
+          aria-label="Dark Theme"
+          bind:this={darkButton}
+          onclick={() => setThemeOption(themes.DARK)}
+          class="cursor-pointer text-[1.3rem]"
+        >
+          <i bind:this={darkButtonIcon} class="bi bi-moon"></i>
+        </button>
+      {/if}
 
-    {#if themeOption !== themes.LIGHT}
-      <button
-        aria-label="Light Theme"
-        bind:this={lightButton}
-        onclick={() => setThemeOption(themes.LIGHT)}
-      >
-        <i bind:this={lightButtonIcon} class="bi bi-sun"></i>
-      </button>
-    {/if}
+      {#if themeOption !== themes.LIGHT}
+        <button
+          aria-label="Light Theme"
+          bind:this={lightButton}
+          class="cursor-pointer text-[1.3rem]"
+          onclick={() => setThemeOption(themes.LIGHT)}
+        >
+          <i bind:this={lightButtonIcon} class="bi bi-sun"></i>
+        </button>
+      {/if}
 
-    {#if themeOption !== themes.AUTO}
-      <button
-        aria-label="Auto Theme"
-        bind:this={autoButton}
-        onclick={() => setThemeOption(themes.AUTO)}
-      >
-        <i bind:this={autoButtonIcon} class="bi bi-circle-half"></i>
-      </button>
-    {/if}
-  </div>
+      {#if themeOption !== themes.AUTO}
+        <button
+          aria-label="Auto Theme"
+          bind:this={autoButton}
+          class="cursor-pointer text-[1.3rem]"
+          onclick={() => setThemeOption(themes.AUTO)}
+        >
+          <i bind:this={autoButtonIcon} class="bi bi-circle-half"></i>
+        </button>
+      {/if}
+    </div>
+  </Panel>
 </div>
 
 <style lang="scss">
-  @use "../style/global.scss";
-
-  div.theme-toggle {
-    padding: 4px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
-  }
-
-  button.toggle-button {
-    font-size: 1.3rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: global.$text-color;
-    aspect-ratio: 1 / 1;
-  }
-
   div.button-group {
-    overflow: hidden;
     transition: height 0.3s ease;
-    display: flex;
-    flex-direction: column;
-  }
-
-  div.button-group button {
-    margin: 2px 0;
-    font-size: 1.3rem;
-    background: transparent;
-    border: none;
-    color: global.$text-color;
-    cursor: pointer;
-  }
-
-  @media screen and (max-width: global.$mobile-width) {
-    div.button-group button {
-      margin: 4px 0;
-    }
   }
 
   // Click target color animation

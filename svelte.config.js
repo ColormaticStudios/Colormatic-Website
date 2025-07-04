@@ -6,6 +6,12 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter(),
+		alias: {
+			blocks: "src/blocks",
+			components: "src/components",
+			script: "src/script",
+			style: "src/style",
+		},
 	},
 	compilerOptions: {
 		runes: true,

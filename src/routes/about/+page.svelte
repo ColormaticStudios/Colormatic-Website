@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Hero from "components/hero.svelte";
+  import Spacer from "components/spacer.svelte";
   import { getContext } from "svelte";
 
   let darkTheme: CallableFunction = getContext("darkTheme");
@@ -26,27 +28,29 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-<spacer></spacer>
+<Spacer />
 
-<main class={darkTheme() ? "dark-theme" : ""}>
-  <div class="hero panel">
-    <h1>Colormatic: A non-profit project for creation.</h1>
-    <p class="justify">
+<main>
+  <Hero>
+    <span class="text-[200%] font-bold">
+      Colormatic: A non-profit project for creation.
+    </span>
+    <p class="justify pt-3">
       Colormatic is a non-profit project from Zakarya for creating a curated
       collection of sub-projects that match a high-quality, high attention to
       detail standard.
     </p>
-    <p class="justify">
+    <p class="justify pt-3">
       Colormatic is still in the early stages, so expect many things to change
       in the near future.
     </p>
-    <p class="justify">
+    <p class="justify pt-3">
       Colormatic Studios is a creative studio dedicated to giving life to
       Colormatic's projects. We are currently just a small group of passionate
       volunteers working to build inspiring, intuitive and innovative creative
       works.
     </p>
-  </div>
+  </Hero>
 </main>
 
-<spacer></spacer>
+<Spacer />
