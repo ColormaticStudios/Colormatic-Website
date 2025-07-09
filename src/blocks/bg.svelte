@@ -10,8 +10,6 @@
   let animated = false;
 
   $effect(() => {
-    darkTheme;
-
     for (let i = 0; i < gradients.length; i++) {
       // This recolors each gradient so their new color will be correct
       let gradient = gradients[i];

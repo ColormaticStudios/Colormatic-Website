@@ -39,8 +39,6 @@
   }
 
   $effect(() => {
-    themeOption;
-
     switch (themeOption) {
       case themes.LIGHT:
         darkTheme = false;
