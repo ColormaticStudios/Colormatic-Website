@@ -94,40 +94,6 @@
       />
     </div>
   </Hero>
-
-  <Hero>
-    <span class="text-[200%] font-bold">Featured Videos:</span>
-    <ul class="flex list-none flex-wrap justify-center pl-0">
-      <li class="p-2">
-        <a
-          href="https://www.youtube.com/watch?v=FWGCPIEM_-o"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="h-auto w-[250px] rounded-lg"
-            src="https://files.colormatic.org/zakarya/videos/thumbnail/wayforward.png"
-            alt="Video Thumbnail"
-          />
-          <span class="block p-2 text-[120%]">The Way Forward</span>
-        </a>
-      </li>
-      <li class="p-2">
-        <a
-          href="https://www.youtube.com/watch?v=OPD8NqNu0nE"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            class="h-auto w-[250px] rounded-lg"
-            src="https://files.colormatic.org/zakarya/videos/thumbnail/helloworld.png"
-            alt="Video Thumbnail"
-          />
-          <span class="block p-2 text-[120%]">Hello World</span>
-        </a>
-      </li>
-    </ul>
-  </Hero>
 </main>
 
 <Spacer />
