@@ -9,9 +9,7 @@
   let { className, links }: Props = $props();
 </script>
 
-<ul
-  class="{className}"
->
+<ul class={className}>
   {#each links as link}
     <li class="my-3 text-center">
       <a
