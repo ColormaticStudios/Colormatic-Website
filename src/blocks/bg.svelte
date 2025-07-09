@@ -302,13 +302,10 @@
   }
 
   function init() {
-    let isMobile = /Mobile|Android|iPhone/i.test(navigator.userAgent);
-    let particleCount: number;
-    if (isMobile) {
-      particleCount = 25;
-    } else {
-      particleCount = 40;
-    }
+    let particleCount: number =
+      window.innerWidth <= 1024 // 64 * 16 (64rem)
+        ? 25
+        : 40;
 
     particles = [];
     for (let i = 0; i < particleCount; i++) {
