@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { canvasDpiScaler } from "../script/canvas_dpi_scaler.ts";
+  import { canvasDpiScaler } from "script/canvas_dpi_scaler.ts";
   import { onMount } from "svelte";
 
   let canvas = $state() as HTMLCanvasElement;
@@ -10,6 +10,8 @@
   let animated = false;
 
   $effect(() => {
+    darkTheme; // Let Svelte know that this needs to update for darkTheme
+
     for (let i = 0; i < gradients.length; i++) {
       // This recolors each gradient so their new color will be correct
       let gradient = gradients[i];
@@ -59,7 +61,7 @@
         };
       })
       .catch((error) => {
-        console.error("Error loading images:", error);
+        console.error("Error loading particle images:", error);
         return {};
       });
 
@@ -122,7 +124,10 @@
   class Shape {
     // Reference implementation for Shape
     draw(angle: number, size: number) {
-      return;
+      // ctx.rotate((angle * Math.PI) / 180);
+      //
+      // let image = particleImages.foo;
+      // ctx.drawImage(image, -image.width / 2, -image.height / 2);
     }
   }
 
