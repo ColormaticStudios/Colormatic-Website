@@ -347,11 +347,15 @@
 
 <canvas bind:this={canvas} class="bg-canvas"></canvas>
 
-<style>
+<style lang="scss">
   canvas.bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
+
+    @media print {
+      display: none;
+    }
   }
 </style>

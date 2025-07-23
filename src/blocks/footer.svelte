@@ -15,3 +15,11 @@
     </a>
   </p>
 </span>
+
+<style lang="scss">
+  @media print {
+    span {
+      display: none;
+    }
+  }
+</style>

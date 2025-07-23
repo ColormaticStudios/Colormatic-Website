@@ -136,4 +136,10 @@
      * But it works
     /*/
   }
+
+  @media print {
+    div {
+      display: none;
+    }
+  }
 </style>

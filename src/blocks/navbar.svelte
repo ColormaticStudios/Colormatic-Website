@@ -203,4 +203,10 @@ Svelte modal example, https://svelte.dev/playground/modal
       opacity: 1;
     }
   }
+
+  @media print {
+    nav {
+      display: none;
+    }
+  }
 </style>

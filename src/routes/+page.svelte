@@ -144,6 +144,10 @@
     opacity: 1;
     visibility: visible;
     transition: opacity 0.25s ease-in;
+
+    @media print {
+      display: none;
+    }
   }
 
   main div.scroll-arrow.hide {
