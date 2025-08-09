@@ -79,6 +79,10 @@
             label: "Mastodon",
           },
           {
+            url: "https://bsky.app/profile/zakarya.colormatic.org",
+            label: "Bluesky",
+          },
+          {
             url: "https://ko-fi.com/zakarya",
             label: "Ko-fi",
           },
