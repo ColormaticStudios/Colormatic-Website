@@ -86,7 +86,7 @@
           aria-label="Dark Theme"
           bind:this={darkButton}
           onclick={() => setThemeOption(themes.DARK)}
-          class="cursor-pointer text-[1.3rem] pb-1"
+          class="cursor-pointer pb-1 text-[1.3rem]"
         >
           <i bind:this={darkButtonIcon} class="bi bi-moon"></i>
         </button>
@@ -96,7 +96,7 @@
         <button
           aria-label="Light Theme"
           bind:this={lightButton}
-          class="cursor-pointer text-[1.3rem] pb-1"
+          class="cursor-pointer pb-1 text-[1.3rem]"
           onclick={() => setThemeOption(themes.LIGHT)}
         >
           <i bind:this={lightButtonIcon} class="bi bi-sun"></i>
@@ -107,7 +107,7 @@
         <button
           aria-label="Auto Theme"
           bind:this={autoButton}
-          class="cursor-pointer text-[1.3rem] pb-1"
+          class="cursor-pointer pb-1 text-[1.3rem]"
           onclick={() => setThemeOption(themes.AUTO)}
         >
           <i bind:this={autoButtonIcon} class="bi bi-circle-half"></i>
