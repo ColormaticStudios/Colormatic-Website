@@ -115,6 +115,11 @@ Svelte modal example, https://svelte.dev/playground/modal
           newTab: true
         },
         {
+          label: "Colormatic Library",
+          link: "https://library.colormatic.org",
+          newTab: true
+        },
+        {
           label: "Colormatic ID",
           link: "https://auth.colormatic.org",
           newTab: true
