@@ -184,7 +184,7 @@ Svelte modal example, https://svelte.dev/playground/modal
     ontouchmove={handleTouchMove}
     ontouchend={handleTouchEnd}
     ontouchcancel={handleTouchCancel}
-    class="sidebar-animate fixed top-0 overflow-scroll right-0 flex h-full w-[280px] flex-col p-4 shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:w-[340px]
+    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto p-4 shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:w-[340px]
     {darkTheme() ? 'bg-[#383c3faa]' : 'bg-[#ffffffaa]'}
     {sidebarOpen ? 'slide-in' : 'slide-out'}"
   >
