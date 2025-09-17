@@ -9,7 +9,8 @@
 </script>
 
 <Panel
-  className="mx-auto my-4 w-[90%] lg:w-[60%] p-6 text-center
+  className="mx-auto my-4 p-6 text-center
+  w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%]
   {className}"
 >
   {@render children?.()}
