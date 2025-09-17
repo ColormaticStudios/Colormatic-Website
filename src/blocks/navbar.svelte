@@ -1,25 +1,124 @@
 <script lang="ts">
   import { getContext } from "svelte";
 
-  let modal = $state() as HTMLElement;
-  let modalOpenState = $state(false);
+  let sidebar = $state() as HTMLElement;
+  let sidebarOpen = $state(false);
+  let sidebarAnimating = $state(false);
+  let sidebarVisible = $state(false);
 
-  function toggleModalMenu() {
-    modalOpenState = !modalOpenState;
+  let draggingStartX = 0;
+  let draggingCurrentX = 0;
+  let DraggingStartTime = 0;
+  let dragging = false;
+  let sidebarEl: HTMLDivElement;
+
+  function toggleSidebar() {
+    if (sidebarEl) {
+      sidebarEl.style.transition = "";
+      sidebarEl.style.transform = "";
+      void sidebarEl.offsetWidth;
+    }
+
+    if (sidebarOpen) {
+      sidebarAnimating = true;
+      sidebarOpen = false;
+
+      setTimeout(() => {
+        sidebarAnimating = false;
+        sidebarVisible = false;
+        document.body.style.overflow = "";
+      }, 350);
+    } else {
+      sidebarVisible = true;
+      document.body.style.overflow = "hidden";
+
+      requestAnimationFrame(() => {
+        sidebarOpen = true;
+      });
+    }
   }
 
-  function modalHandleClickOutside(e: MouseEvent) {
-    if (e.target == modal) {
-      toggleModalMenu();
+  function sidebarHandleClickOutside(e: MouseEvent) {
+    if (e.target == sidebar) {
+      toggleSidebar();
     }
+  }
+
+  function handleTouchStart(e: TouchEvent) {
+    if (!sidebarOpen) return;
+    dragging = true;
+    draggingStartX = e.touches[0].clientX;
+    draggingCurrentX = draggingStartX;
+    DraggingStartTime = e.timeStamp || Date.now();
+
+    sidebarEl.style.transition = "none";
+    document.body.style.overflow = "hidden"; // Lock scrolling while swiping sidebar
+  }
+
+  function handleTouchMove(e: TouchEvent) {
+    if (!dragging) return;
+    draggingCurrentX = e.touches[0].clientX;
+    const dx = draggingCurrentX - draggingStartX;
+    const sidebarWidth = sidebarEl.offsetWidth;
+
+    if (dx > 0) {
+      const translateX = Math.min(dx, sidebarWidth);
+      sidebarEl.style.transform = `translateX(${translateX}px)`;
+    } else {
+      sidebarEl.style.transform = `translateX(0px)`;
+    }
+  }
+
+  function handleTouchEnd(e: TouchEvent) {
+    if (!dragging) return;
+    dragging = false;
+
+    const dx = draggingCurrentX - draggingStartX;
+    const dt = (e.timeStamp || Date.now()) - DraggingStartTime;
+    const velocity = dx / Math.max(dt, 1);
+
+    const sidebarWidth = sidebarEl.offsetWidth;
+    const distanceThreshold = sidebarWidth * 0.4;
+    const velocityThreshold = 0.5;
+
+    sidebarEl.style.transition = "transform 0.3s ease";
+
+    const shouldClose = dx > distanceThreshold || velocity > velocityThreshold;
+
+    if (shouldClose) {
+      sidebarEl.style.transform = `translateX(${sidebarWidth}px)`;
+      setTimeout(() => {
+        toggleSidebar();
+        sidebarEl.style.transition = "";
+        sidebarEl.style.transform = "";
+      }, 300);
+    } else {
+      sidebarEl.style.transform = `translateX(0px)`;
+      sidebarEl.style.transition = "";
+    }
+
+    document.body.style.overflow = "";
+  }
+
+  function handleTouchCancel() {
+    if (!dragging) return;
+    dragging = false;
+    sidebarEl.style.transition = "transform 0.3s ease";
+    sidebarEl.style.transform = `translateX(0px)`;
+
+    document.body.style.overflow = "";
+
+    setTimeout(() => {
+      sidebarEl.style.transition = "";
+      sidebarEl.style.transform = "";
+    }, 300);
   }
 
   let darkTheme: CallableFunction = getContext("darkTheme");
 </script>
 
 <nav
-  class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr]
-  items-center border-b border-b-[var(--text-color)] p-2 wrap-anywhere lg:p-3"
+  class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr] items-center border-b border-b-[var(--text-color)] p-2 wrap-anywhere lg:p-3"
 >
   <a href="/" class="justify-self-start text-[140%] font-bold">Colormatic</a>
   <img
@@ -59,7 +158,7 @@
     >
       <i class="bi bi-git text-[160%]"></i>
     </a>
-    <button onclick={toggleModalMenu} class="menu-button" aria-label="menu">
+    <button onclick={toggleSidebar} class="menu-button" aria-label="menu">
       <i class="bi bi-list"></i>
     </button>
   </div>
@@ -67,31 +166,36 @@
 
 <!--
 The following Svelte ignore statements aren't ideal, but it seems to be
-the only way to achieve a proper modal. They even do this in the
+the only way to achieve a proper sidebar. They even do this in the
 Svelte modal example, https://svelte.dev/playground/modal
 -->
-
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <span
-  onclick={modalHandleClickOutside}
-  bind:this={modal}
-  class="fixed top-0 left-0 z-1 m-auto h-full w-full bg-[#00000066]
-  {modalOpenState ? '' : 'hidden'}"
+  onclick={sidebarHandleClickOutside}
+  bind:this={sidebar}
+  class="fixed top-0 left-0 z-1 m-auto h-full w-full transition-colors duration-300
+  {sidebarOpen
+    ? 'pointer-events-auto bg-[#00000066]'
+    : 'pointer-events-none bg-transparent'}"
 >
   <div
-    class="modal-animate mx-auto mt-[100px] w-[30ch] rounded-lg p-4
-    shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:w-[50ch]
-    {darkTheme() ? 'bg-[#000000bb]' : 'bg-[#ffffff88]'}"
+    bind:this={sidebarEl}
+    ontouchstart={handleTouchStart}
+    ontouchmove={handleTouchMove}
+    ontouchend={handleTouchEnd}
+    ontouchcancel={handleTouchCancel}
+    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col p-4 shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:w-[340px]
+    {darkTheme() ? 'bg-[#383c3faa]' : 'bg-[#ffffffaa]'}
+    {sidebarOpen ? 'slide-in' : 'slide-out'}"
   >
     <button
-      onclick={toggleModalMenu}
-      class="float-right w-min cursor-pointer text-[200%] text-[var(--text-color)]
-      duration-[0.2s] hover:text-[#21afff]"
+      onclick={toggleSidebar}
+      class="mb-6 w-min cursor-pointer self-end text-[200%] text-[var(--text-color)] duration-[0.2s] hover:text-[#21afff]"
       aria-label="Close"
     >
       <i class="bi bi-x"></i>
     </button>
-    <ul>
+    <ul class="flex flex-col gap-4">
       <!-- prettier-ignore -->
       {#each [
         {
@@ -131,20 +235,20 @@ Svelte modal example, https://svelte.dev/playground/modal
         }
       ] as item}
 
-      <li class="mx-[12px] my-[18px]">
+      <li>
         {#if item.newTab}
           <a
             href="{item.link}"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-color p-2 text-[120%]"
+            class="block rounded-lg p-2 text-[120%]"
           >
             {item.label}
           </a>
         {:else}
           <a
             href="{item.link}"
-            class="text-color p-2 text-[120%]"
+            class="block rounded-lg p-2 text-[120%]"
           >
             {item.label}
           </a>
@@ -190,23 +294,25 @@ Svelte modal example, https://svelte.dev/playground/modal
   }
 
   /*/
-   * Navigation modal section
+   * Navigation sidebar section
   /*/
 
-  div.modal-animate {
-    animation-name: modal-animate-in;
-    animation-duration: 0.4s;
+  .sidebar-animate {
+    transform: translateX(100%);
+    opacity: 0;
+    transition:
+      transform 0.35s ease,
+      opacity 0.35s ease;
   }
 
-  @keyframes modal-animate-in {
-    from {
-      transform: translate(0px, -300px);
-      opacity: 0;
-    }
-    to {
-      transform: translate(0px, 0px);
-      opacity: 1;
-    }
+  .slide-in {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  .slide-out {
+    transform: translateX(100%);
+    opacity: 0;
   }
 
   @media print {
