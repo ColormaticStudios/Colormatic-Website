@@ -4,6 +4,8 @@
     links: {
       label: string;
       url: string;
+      icon?: string;
+      color?: string;
     }[];
   }
   let { className, links }: Props = $props();
@@ -13,13 +15,16 @@
   {#each links as link}
     <li class="my-3 text-center">
       <a
-        class="box-border inline-block w-full rounded-full
-        bg-[#4c5053] px-4 py-2 no-underline
+        class="box-border inline-block w-full rounded-full px-4 py-2 no-underline
         shadow-[2px_2px_4px_#00000066] transition duration-500 hover:bg-[#383c3f]"
+        style:background-color={link.color ?? "#4c5053"}
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"
       >
+        {#if link.icon}
+          <i class="bi bi-{link.icon} float-left"></i>
+        {/if}
         {link.label}
       </a>
     </li>

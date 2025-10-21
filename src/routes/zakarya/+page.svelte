@@ -73,26 +73,38 @@
           {
             url: "https://git.colormatic.org/zakarya",
             label: "Colormatic Git",
+            icon: "git",
+            color: "#316996",
           },
           {
             url: "https://mstdn.party/@zakarya",
             label: "Mastodon",
+            icon: "mastodon",
+            color: "#6364FF",
           },
           {
             url: "https://bsky.app/profile/zakarya.colormatic.org",
             label: "Bluesky",
+            icon: "bluesky",
+            color: "#0085FF",
           },
           {
             url: "https://ko-fi.com/zakarya",
             label: "Ko-fi",
+            icon: "cup-hot-fill",
+            color: "#FF6433",
           },
           {
             url: "https://www.youtube.com/@czakarya",
             label: "Youtube",
+            icon: "youtube",
+            color: "#FF0031",
           },
           {
             url: "https://github.com/CZakarya",
             label: "GitHub",
+            icon: "github",
+            color: "#08872B",
           },
         ]}
       />

@@ -135,14 +135,20 @@
           {
             label: "Mastodon",
             url: "https://mastodon.social/@colormaticstudios",
+            icon: "mastodon",
+            color: "#6364FF",
           },
           {
             label: "Instagram",
             url: "https://www.instagram.com/colormaticstudios",
+            icon: "instagram",
+            color: "#C13584",
           },
           {
             label: "Youtube",
             url: "https://www.youtube.com/@colormaticstudios",
+            icon: "youtube",
+            color: "#FF0031",
           },
         ]}
       />
@@ -152,14 +158,20 @@
           {
             label: "Colormatic Git",
             url: "https://git.colormatic.org/ColormaticStudios",
+            icon: "git",
+            color: "#316996",
           },
           {
             label: "GitHub",
             url: "https://github.com/ColormaticStudios",
+            icon: "github",
+            color: "#08872B",
           },
           {
             label: "Bluesky",
             url: "https://bsky.app/profile/colormaticstudios.bsky.social",
+            icon: "bluesky",
+            color: "#0085FF",
           },
         ]}
       />
