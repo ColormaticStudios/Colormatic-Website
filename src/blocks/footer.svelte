@@ -9,7 +9,6 @@
     <a href="mailto:support@colormatic.org" class="underline">
       support@colormatic.org
     </a>
-    <span class="hidden xl:inline">|</span>
     <a href="mailto:contact@colormatic.org" class="underline">
       contact@colormatic.org
     </a>
