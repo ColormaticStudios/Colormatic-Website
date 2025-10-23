@@ -146,7 +146,7 @@
           link: "/about"
         }
       ] as item}
-        <li><a href={item.link}>{item.label}</a></li>
+        <li class="items-center grid"><a href={item.link}>{item.label}</a></li>
       {/each}
     </ul>
     <a
@@ -159,7 +159,7 @@
       <i class="bi bi-git text-[160%]"></i>
     </a>
     <button onclick={toggleSidebar} class="menu-button" aria-label="menu">
-      <i class="bi bi-list"></i>
+      <i class="bi bi-list text-4xl"></i>
     </button>
   </div>
 </nav>
@@ -286,27 +286,13 @@ Svelte modal example, https://svelte.dev/playground/modal
     align-items: center;
   }
 
-  nav ul li {
-    display: grid;
-    align-items: center;
-  }
-
+  // These are in CSS because they need to override other values
   nav button.menu-button {
     transition-duration: 0.2s;
   }
 
   nav button.menu-button:hover {
     color: #21afff;
-  }
-
-  nav .menu-button i {
-    font-size: 230%;
-
-    /*/
-     * Ugly hack to account for the fact that the menu icon is off-center
-     * (Bootstrap please fix)
-    /*/
-    transform: translateY(-1px);
   }
 
   /*/
