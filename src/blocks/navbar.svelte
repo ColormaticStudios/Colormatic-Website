@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from "svelte";
 
-  let sidebar = $state() as HTMLElement;
+  let sidebarBGFade = $state() as HTMLElement;
   let sidebarOpen = $state(false);
   let sidebarAnimating = $state(false);
   let sidebarVisible = $state(false);
@@ -10,13 +10,13 @@
   let draggingCurrentX = 0;
   let DraggingStartTime = 0;
   let dragging = false;
-  let sidebarEl: HTMLDivElement;
+  let sidebar = $state() as HTMLDivElement;
 
   function toggleSidebar() {
-    if (sidebarEl) {
-      sidebarEl.style.transition = "";
-      sidebarEl.style.transform = "";
-      void sidebarEl.offsetWidth;
+    if (sidebar) {
+      sidebar.style.transition = "";
+      sidebar.style.transform = "";
+      void sidebar.offsetWidth;
     }
 
     if (sidebarOpen) {
@@ -39,7 +39,7 @@
   }
 
   function sidebarHandleClickOutside(e: MouseEvent) {
-    if (e.target == sidebar) {
+    if (e.target == sidebarBGFade) {
       toggleSidebar();
     }
   }
@@ -51,7 +51,7 @@
     draggingCurrentX = draggingStartX;
     DraggingStartTime = e.timeStamp || Date.now();
 
-    sidebarEl.style.transition = "none";
+    sidebar.style.transition = "none";
     document.body.style.overflow = "hidden"; // Lock scrolling while swiping sidebar
   }
 
@@ -59,13 +59,13 @@
     if (!dragging) return;
     draggingCurrentX = e.touches[0].clientX;
     const dx = draggingCurrentX - draggingStartX;
-    const sidebarWidth = sidebarEl.offsetWidth;
+    const sidebarWidth = sidebar.offsetWidth;
 
     if (dx > 0) {
       const translateX = Math.min(dx, sidebarWidth);
-      sidebarEl.style.transform = `translateX(${translateX}px)`;
+      sidebar.style.transform = `translateX(${translateX}px)`;
     } else {
-      sidebarEl.style.transform = `translateX(0px)`;
+      sidebar.style.transform = `translateX(0px)`;
     }
   }
 
@@ -77,24 +77,24 @@
     const dt = (e.timeStamp || Date.now()) - DraggingStartTime;
     const velocity = dx / Math.max(dt, 1);
 
-    const sidebarWidth = sidebarEl.offsetWidth;
+    const sidebarWidth = sidebar.offsetWidth;
     const distanceThreshold = sidebarWidth * 0.4;
     const velocityThreshold = 0.5;
 
-    sidebarEl.style.transition = "transform 0.3s ease";
+    sidebar.style.transition = "transform 0.3s ease";
 
     const shouldClose = dx > distanceThreshold || velocity > velocityThreshold;
 
     if (shouldClose) {
-      sidebarEl.style.transform = `translateX(${sidebarWidth}px)`;
+      sidebar.style.transform = `translateX(${sidebarWidth}px)`;
       setTimeout(() => {
         toggleSidebar();
-        sidebarEl.style.transition = "";
-        sidebarEl.style.transform = "";
+        sidebar.style.transition = "";
+        sidebar.style.transform = "";
       }, 300);
     } else {
-      sidebarEl.style.transform = `translateX(0px)`;
-      sidebarEl.style.transition = "";
+      sidebar.style.transform = `translateX(0px)`;
+      sidebar.style.transition = "";
     }
 
     document.body.style.overflow = "";
@@ -103,14 +103,14 @@
   function handleTouchCancel() {
     if (!dragging) return;
     dragging = false;
-    sidebarEl.style.transition = "transform 0.3s ease";
-    sidebarEl.style.transform = `translateX(0px)`;
+    sidebar.style.transition = "transform 0.3s ease";
+    sidebar.style.transform = `translateX(0px)`;
 
     document.body.style.overflow = "";
 
     setTimeout(() => {
-      sidebarEl.style.transition = "";
-      sidebarEl.style.transform = "";
+      sidebar.style.transition = "";
+      sidebar.style.transform = "";
     }, 300);
   }
 
@@ -172,32 +172,39 @@ Svelte modal example, https://svelte.dev/playground/modal
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <span
   onclick={sidebarHandleClickOutside}
-  bind:this={sidebar}
-  class="fixed top-0 left-0 z-1 m-auto h-full w-full transition-colors duration-300
-  {sidebarOpen
-    ? 'pointer-events-auto bg-[#00000066]'
+  bind:this={sidebarBGFade}
+  class="fixed inset-0 z-40 transition-colors duration-300
+    {sidebarOpen
+    ? 'pointer-events-auto bg-black/50 backdrop-blur-[2px]'
     : 'pointer-events-none bg-transparent'}"
 >
   <div
-    bind:this={sidebarEl}
+    bind:this={sidebar}
     ontouchstart={handleTouchStart}
     ontouchmove={handleTouchMove}
     ontouchend={handleTouchEnd}
     ontouchcancel={handleTouchCancel}
-    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto p-4 shadow-[1px_1px_8px_#00000033] backdrop-blur-[5px] lg:w-[340px]
-    {darkTheme() ? 'bg-[#383c3faa]' : 'bg-[#ffffffaa]'}
-    {sidebarOpen ? 'slide-in' : 'slide-out'}"
+    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto p-6 shadow-2xl
+      {darkTheme()
+      ? 'border-white/10 bg-[#383c3faa]'
+      : 'border-white bg-[#ffffffaa]'}
+      {sidebarOpen ? 'slide-in' : 'slide-out'}
+      border-l lg:w-[340px]"
   >
+    <!-- We are setting the hidden value so that screen readers don't read the elements that are hidden -->
     <button
       onclick={toggleSidebar}
-      class="mb-6 w-min cursor-pointer self-end text-[200%] text-[var(--text-color)] duration-[0.2s] hover:text-[#21afff]"
+      class="mb-8 w-min cursor-pointer self-end text-3xl transition-colors duration-200 hover:text-[#21afff]"
       aria-label="Close"
+      hidden={!sidebarVisible}
     >
       <i class="bi bi-x"></i>
     </button>
-    <ul class="flex flex-col gap-4">
-      <!-- prettier-ignore -->
-      {#each [
+
+    <nav hidden={!sidebarVisible}>
+      <ul class="flex flex-col gap-4">
+        <!-- prettier-ignore -->
+        {#each [
         {
           label: "Home",
           link: "/",
@@ -238,24 +245,33 @@ Svelte modal example, https://svelte.dev/playground/modal
       <li>
         {#if item.newTab}
           <a
-            href="{item.link}"
+            href={item.link}
             target="_blank"
             rel="noopener noreferrer"
-            class="block rounded-lg p-2 text-[120%]"
+            class="group block rounded-lg text-lg font-medium transition-all duration-200
+              hover:bg-white/10 hover:pl-4"
           >
-            {item.label}
+            <span class="relative">
+              {item.label}
+              <span class="absolute left-0 bottom-0 h-[2px] w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
+            </span>
           </a>
         {:else}
           <a
-            href="{item.link}"
-            class="block rounded-lg p-2 text-[120%]"
+            href={item.link}
+            class="group block rounded-lg text-lg font-medium transition-all duration-200
+              hover:bg-white/10 hover:pl-4"
           >
-            {item.label}
+            <span class="relative">
+              {item.label}
+              <span class="absolute left-0 bottom-0 h-[2px] w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
+            </span>
           </a>
         {/if}
       </li>
       {/each}
-    </ul>
+      </ul>
+    </nav>
   </div>
 </span>
 
