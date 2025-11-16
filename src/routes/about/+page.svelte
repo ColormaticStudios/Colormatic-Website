@@ -45,10 +45,10 @@
       in the near future.
     </p>
     <p class="justify pt-3">
-      Colormatic Studios is a creative studio dedicated to giving life to
-      Colormatic's projects. We are currently just a small group of passionate
-      volunteers working to build inspiring, intuitive and innovative creative
-      works.
+      Colormatic Studios is a creative studio intended to give talented people
+      the opportunity to be creative. We are currently just a small group of
+      passionate volunteers working to build inspiring, intuitive and innovative
+      creative works.
     </p>
   </Hero>
 </main>

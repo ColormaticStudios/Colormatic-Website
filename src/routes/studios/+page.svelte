@@ -115,14 +115,14 @@
   <Hero>
     <span class="text-[200%] font-bold">About Us</span>
     <p class="justify pt-3">
-      Colormatic Studios is a creative studio dedicated to giving life to
-      Colormatic's ambitious future.
+      Colormatic Studios is a creative studio intended to give talented people
+      the opportunity to be creative.
     </p>
     <p class="justify pt-3">
-      We are currently just a passionate team of volunteers working to build
-      inspiring, intuitive and innovative creative works. We don't have much to
-      show right now, but we're working hard behind the scenes on projects we'll
-      be introducing later.
+      We are currently just a small passionate team of volunteers working to
+      build inspiring, intuitive and innovative creative works. We don't have
+      much to show right now, but we're working hard behind the scenes on
+      projects we'll be introducing later.
     </p>
   </Hero>
 
