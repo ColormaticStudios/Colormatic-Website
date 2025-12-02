@@ -12,10 +12,10 @@ body {
   body {
     background-color: black; // Don't flashbang dark theme users (CSS loads faster than JS)
   }
-  // Javascript does this
-  // :root {
-  //   --text-color: white;
-  // }
+  // Javascript does this, but if Javascript is disabled we should still do it.
+  :root {
+    --text-color: white;
+  }
 }
 
 a {
