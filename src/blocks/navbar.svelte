@@ -173,7 +173,7 @@ Svelte modal example, https://svelte.dev/playground/modal
 <span
   onclick={sidebarHandleClickOutside}
   bind:this={sidebarBGFade}
-  class="fixed inset-0 z-40 transition-colors duration-300
+  class="fixed inset-0 z-40 transition-[background-color] duration-300 motion-reduce:transition-none
     {sidebarOpen
     ? 'pointer-events-auto bg-black/50 backdrop-blur-[2px]'
     : 'pointer-events-none bg-transparent'}"
@@ -305,6 +305,10 @@ Svelte modal example, https://svelte.dev/playground/modal
     transition:
       transform 0.35s ease,
       opacity 0.35s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   .slide-in {
