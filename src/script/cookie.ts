@@ -1,19 +1,20 @@
+// From https://git.colormatic.org/zakarya/gist/src/branch/main/cookie.ts
+
 // The magic cookie system is so stupid
 
 export function setCookie(
 	cname: string,
 	cvalue: string,
-	sameSite: string = "Lax",
+	sameSite: "Lax" | "Strict" | "None" = "Lax"
 ) {
-	document.cookie =
-		cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
+	document.cookie = cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
 }
 
 // Credit: https://www.w3schools.com/js/js_cookies.asp
 export function getCookie(cname: string): string {
-	let name = cname + "=";
-	let decodedCookie = decodeURIComponent(document.cookie);
-	let ca = decodedCookie.split(";");
+	const name = cname + "=";
+	const decodedCookie = decodeURIComponent(document.cookie);
+	const ca = decodedCookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
 		let c = ca[i];
 		while (c.charAt(0) == " ") {
