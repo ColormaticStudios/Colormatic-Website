@@ -5,10 +5,26 @@
 export function setCookie(
 	cname: string,
 	cvalue: string,
-	sameSite: "Lax" | "Strict" | "None" = "Lax",
+	opts: {
+		sameSite?: "Lax" | "Strict" | "None";
+		path?: string;
+		maxAgeSeconds?: number;
+		secure?: boolean;
+	} = {},
 ) {
-	document.cookie =
-		cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
+	const sameSite = opts.sameSite ?? "Lax";
+	const path = opts.path ?? "/";
+	const parts = [`${cname}=${cvalue}`, `Path=${path}`, `SameSite=${sameSite}`];
+
+	if (typeof opts.maxAgeSeconds === "number") {
+		parts.push(`Max-Age=${opts.maxAgeSeconds}`);
+	}
+
+	if (opts.secure ?? sameSite === "None") {
+		parts.push("Secure");
+	}
+
+	document.cookie = parts.join("; ");
 }
 
 // Credit: https://www.w3schools.com/js/js_cookies.asp

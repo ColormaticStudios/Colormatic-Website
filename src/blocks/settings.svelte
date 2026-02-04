@@ -23,7 +23,7 @@
 
   function setThemeOption(newThemeOption: string) {
     expanded = false;
-    setCookie("theme", newThemeOption);
+    setCookie("theme", newThemeOption, { maxAgeSeconds: 60 * 60 * 24 * 365 });
     themeOption = newThemeOption;
 
     switch (newThemeOption) {
