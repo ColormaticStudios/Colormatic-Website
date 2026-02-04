@@ -54,27 +54,28 @@
 
   <div class="mx-auto flex w-[90%] flex-col flex-wrap lg:w-[80%] lg:flex-row">
     {#each studiosProjects as item}
-
       <Panel className="flex-1 my-2 lg:m-4 lg:min-w-[40%] lg:max-w-[50%] p-4">
         <div class="p-4">
           {#if item.link}
             <a
-              href="{item.link}"
+              href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-color underline text-center text-[200%] font-bold block"
+              class="text-color block text-center text-[200%] font-bold underline"
             >
               {item.title}
             </a>
           {:else}
-            <span class="text-center text-[200%] font-bold block">{item.title}</span>
+            <span class="block text-center text-[200%] font-bold">
+              {item.title}
+            </span>
           {/if}
         </div>
         <div class="flex">
           <img
-            src="{item.image}"
+            src={item.image}
             alt="First Person Logo"
-            class="max-w-[120px] max-h-[150px] m-3 rounded-lg
+            class="m-3 max-h-[150px] max-w-[120px] rounded-lg
             {item.pixelArt ? 'pixelart' : ''}"
           />
           <p class="pt-4">{item.description}</p>

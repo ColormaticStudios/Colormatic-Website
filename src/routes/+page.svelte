@@ -66,8 +66,7 @@
     Featured Colormatic Studios Projects:
   </div>
   <Hero>
-      {#each homeFeaturedProjects as item, index}
-
+    {#each homeFeaturedProjects as item, index}
       {#if index !== 0}
         <Divider />
       {/if}
