@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
-  import { themes } from "../script/theme.ts";
-  import { setCookie, getCookie } from "../script/cookie.ts";
+  import { themes } from "../script/theme";
+  import { setCookie, getCookie } from "../script/cookie";
   import Panel from "components/panel.svelte";
 
   let panelRef = $state() as HTMLElement;
@@ -19,7 +19,7 @@
   let expanded = $state(false);
   let currentIcon = $state("bi-circle-half");
 
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  let darkTheme: () => boolean = getContext("darkTheme");
 
   function setThemeOption(newThemeOption: string) {
     expanded = false;
