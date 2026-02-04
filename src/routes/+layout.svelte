@@ -26,29 +26,22 @@
   setContext("darkTheme", darkThemeCallable);
 
   function setAutoTheme() {
-    // I'm so sorry about this code (good luck reading/debugging this)
     darkTheme =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    document.documentElement.style.setProperty(
-      "--text-color",
-      darkTheme ? "white" : "#383c3f",
-    );
-    document.body.style.backgroundColor = darkTheme ? "black" : "white";
+    document.documentElement.dataset.theme = darkTheme ? "dark" : "light";
   }
 
   $effect(() => {
     switch (themeOption) {
       case themes.LIGHT:
         darkTheme = false;
-        document.documentElement.style.setProperty("--text-color", "#383c3f");
-        document.body.style.backgroundColor = "white";
+        document.documentElement.dataset.theme = "light";
         break;
       case themes.DARK:
         darkTheme = true;
-        document.documentElement.style.setProperty("--text-color", "white");
-        document.body.style.backgroundColor = "black";
+        document.documentElement.dataset.theme = "dark";
         break;
       case themes.AUTO:
         setAutoTheme();
@@ -56,13 +49,18 @@
   });
 
   onMount(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", () => {
-        if (themeOption === themes.AUTO) {
-          setAutoTheme();
-        }
-      });
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      if (themeOption === themes.AUTO) {
+        setAutoTheme();
+      }
+    };
+
+    mql.addEventListener("change", onChange);
+
+    return () => {
+      mql.removeEventListener("change", onChange);
+    };
   });
 </script>
 
