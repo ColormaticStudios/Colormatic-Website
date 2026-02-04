@@ -1,20 +1,33 @@
 :root {
   --text-color: #383c3f;
+  --bg-color: white;
+}
+
+html[data-theme="dark"] {
+  --text-color: white;
+  --bg-color: black;
+}
+
+html[data-theme="light"] {
+  --text-color: #383c3f;
+  --bg-color: white;
 }
 
 body {
   font-family: "Noto Sans", sans-serif;
   margin: 0;
   color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 @media (prefers-color-scheme: dark) {
   body {
     background-color: black; // Don't flashbang dark theme users (CSS loads faster than JS)
   }
-  // Javascript does this, but if Javascript is disabled we should still do it.
+
   :root {
     --text-color: white;
+    --bg-color: black;
   }
 }
 
