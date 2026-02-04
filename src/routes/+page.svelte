@@ -3,6 +3,7 @@
   import Spacer from "components/spacer.svelte";
   import Hero from "components/hero.svelte";
   import Divider from "components/divider.svelte";
+  import { homeFeaturedProjects } from "script/projects";
 
   let atTop = $state(true);
 
@@ -65,32 +66,7 @@
     Featured Colormatic Studios Projects:
   </div>
   <Hero>
-    <!--
-    Prettier wants to pack all of this data into one line, probably a bug.
-    This must be formatted manually.
-
-    This issue happens in various places around the codebase, whenever we
-    stuff data directly into an #each statement. This is the most prominent
-    place though, so I'll stick this comment here.
-
-    Notice that Prettier also won't format the code inside the #each statement,
-    which means that the Tailwind classes won't get sorted. I'll miss that
-    feature.
-    -->
-    <!-- prettier-ignore -->
-    {#each [
-      {
-        title: "Quality First Person Controller",
-        link: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person",
-        description: "An actually good first person controller for the Godot Engine."
-      },
-      {
-        title: "BSON for Godot",
-        link: "https://git.colormatic.org/ColormaticStudios/godot-bson",
-        description: "A BSON serializer/deserializer for the Godot Engine"
-      }
-    ] as item, index}
-
+    {#each homeFeaturedProjects as item, index}
       {#if index !== 0}
         <Divider />
       {/if}
