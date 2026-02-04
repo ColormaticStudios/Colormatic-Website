@@ -6,7 +6,7 @@
   import Footer from "blocks/footer.svelte";
   import Bg from "blocks/bg.svelte";
   import Settings from "blocks/settings.svelte";
-  import { themes } from "script/theme.ts";
+  import { themes } from "script/theme";
   import { onMount, setContext } from "svelte";
 
   interface Props {
@@ -22,7 +22,7 @@
    * sucks that we have to use an anonymous function
    * just to grab a variable
   /*/
-  let darkThemeCallable = () => darkTheme;
+  let darkThemeCallable: () => boolean = () => darkTheme;
   setContext("darkTheme", darkThemeCallable);
 
   function setAutoTheme() {
