@@ -5,9 +5,10 @@
 export function setCookie(
 	cname: string,
 	cvalue: string,
-	sameSite: "Lax" | "Strict" | "None" = "Lax"
+	sameSite: "Lax" | "Strict" | "None" = "Lax",
 ) {
-	document.cookie = cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
+	document.cookie =
+		cname + "=" + cvalue + ";" + "SameSite" + "=" + sameSite + ";";
 }
 
 // Credit: https://www.w3schools.com/js/js_cookies.asp
