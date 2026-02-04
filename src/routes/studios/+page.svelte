@@ -6,7 +6,7 @@
   import { getContext } from "svelte";
   import { studiosProjects } from "script/projects";
 
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  let darkTheme: () => boolean = getContext("darkTheme");
 </script>
 
 <svelte:head>

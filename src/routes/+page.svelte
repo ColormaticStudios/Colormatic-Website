@@ -23,7 +23,7 @@
     };
   });
 
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  let darkTheme: () => boolean = getContext("darkTheme");
 </script>
 
 <svelte:head>
