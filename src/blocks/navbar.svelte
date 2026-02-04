@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
 
   let sidebarBGFade = $state() as HTMLElement;
   let sidebarOpen = $state(false);
@@ -114,7 +114,21 @@
     }, 300);
   }
 
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  let darkTheme: () => boolean = getContext("darkTheme");
+
+  onMount(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && sidebarOpen) {
+        toggleSidebar();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  });
 </script>
 
 <nav

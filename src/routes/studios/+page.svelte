@@ -4,6 +4,7 @@
   import Spacer from "components/spacer.svelte";
   import Linktree from "components/linktree.svelte";
   import { getContext } from "svelte";
+  import { studiosProjects } from "script/projects";
 
   let darkTheme: CallableFunction = getContext("darkTheme");
 </script>
@@ -52,58 +53,29 @@
   </div>
 
   <div class="mx-auto flex w-[90%] flex-col flex-wrap lg:w-[80%] lg:flex-row">
-    <!-- prettier-ignore -->
-    {#each [
-      {
-        title: "Quality First Person Controller",
-        link: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person",
-        description: "An actually good first person controller for the Godot Engine.",
-        image: "https://git.colormatic.org/ColormaticStudios/quality-godot-first-person/raw/branch/main/icon.svg",
-        pixelArt: false
-      },
-      {
-        title: "BSON for Godot",
-        link: "https://git.colormatic.org/ColormaticStudios/godot-bson",
-        description: "A BSON serializer/deserializer for the Godot Engine.",
-        image: "https://git.colormatic.org/ColormaticStudios/godot-bson/raw/branch/main/icon.svg",
-        pixelArt: false
-      },
-      {
-        title: "A Silly Game",
-        link: "",
-        description: "This is a silly little game project to get us started. Currently in closed pre-alpha.",
-        image: "/img/studios/hatcat.webp",
-        pixelArt: false
-      },
-      {
-        title: "ColorQuest",
-        link: "",
-        description: "A simple browser MMORPG focused on social features. Currently in closed pre-alpha.",
-        image: "/img/studios/colorquest.png",
-        pixelArt: true
-      }
-    ] as item}
-
+    {#each studiosProjects as item}
       <Panel className="flex-1 my-2 lg:m-4 lg:min-w-[40%] lg:max-w-[50%] p-4">
         <div class="p-4">
           {#if item.link}
             <a
-              href="{item.link}"
+              href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-color underline text-center text-[200%] font-bold block"
+              class="text-color block text-center text-[200%] font-bold underline"
             >
               {item.title}
             </a>
           {:else}
-            <span class="text-center text-[200%] font-bold block">{item.title}</span>
+            <span class="block text-center text-[200%] font-bold">
+              {item.title}
+            </span>
           {/if}
         </div>
         <div class="flex">
           <img
-            src="{item.image}"
+            src={item.image}
             alt="First Person Logo"
-            class="max-w-[120px] max-h-[150px] m-3 rounded-lg
+            class="m-3 max-h-[150px] max-w-[120px] rounded-lg
             {item.pixelArt ? 'pixelart' : ''}"
           />
           <p class="pt-4">{item.description}</p>
