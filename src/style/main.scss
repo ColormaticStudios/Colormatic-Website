@@ -21,13 +21,18 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: black; // Don't flashbang dark theme users (CSS loads faster than JS)
-  }
-
+  /* When the user hasn't explicitly set a theme yet, default to dark
+   * to avoid a white flash before JS sets html[data-theme].
+   */
   :root {
     --text-color: white;
     --bg-color: black;
+  }
+
+  /* Explicit theme choice should always win over OS preference. */
+  html[data-theme="light"] {
+    --text-color: #383c3f;
+    --bg-color: white;
   }
 }
 
