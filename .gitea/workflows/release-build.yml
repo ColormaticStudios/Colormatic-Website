@@ -6,11 +6,44 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: colormatic-ci-runner
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        env:
+          REPO: ${{ gitea.repository.full_name || github.repository }}
+          SHA: ${{ gitea.sha || github.sha }}
+          SERVER_URL: ${{ gitea.server_url || github.server_url }}
+          TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          REPO="${REPO:-${GITHUB_REPOSITORY:-}}"
+          SHA="${SHA:-${GITHUB_SHA:-}}"
+          SERVER_URL="${SERVER_URL:-${GITHUB_SERVER_URL:-}}"
+
+          if [ -z "${REPO}" ] || [ -z "${SHA}" ] || [ -z "${SERVER_URL}" ]; then
+            echo "Missing checkout context: REPO='${REPO:-}', SHA='${SHA:-}', SERVER_URL='${SERVER_URL:-}'"
+            exit 1
+          fi
+
+          REPO_URL="${SERVER_URL%/}/${REPO}.git"
+
+          if [ ! -d .git ]; then
+            git init --initial-branch=main .
+          fi
+
+          if git remote get-url origin >/dev/null 2>&1; then
+            git remote remove origin
+          fi
+
+          git remote add origin "${REPO_URL}"
+
+          if [ -n "${TOKEN:-}" ]; then
+            git config --local http.extraheader "Authorization: token ${TOKEN}"
+          fi
+
+          git fetch --depth=1 origin "${SHA}"
+          git checkout --detach FETCH_HEAD
 
       - name: Install Bun
         run: |
@@ -27,14 +60,37 @@ jobs:
         run: bun run build
 
       - name: Create release archive
-        run: cd build/; tar -cf release.tar.gz *
+        run: |
+          cd build/
+          tar -cf release.tar.gz *
 
       - name: Upload artifact to release
-        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        with:
-          upload_url: ${{ gitea.event.release.upload_url }}
-          asset_path: build/release.tar.gz
-          asset_name: release.tar.gz
-          asset_content_type: application/gzip
+          TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITEA_UPLOAD_URL: ${{ gitea.event.release.upload_url }}
+        run: |
+          set -euo pipefail
+
+          ASSET_PATH="build/release.tar.gz"
+          ASSET_NAME="release.tar.gz"
+          MIME="application/gzip"
+
+          if [ ! -f "$ASSET_PATH" ]; then
+            echo "Artifact not found: $ASSET_PATH"
+            exit 1
+          fi
+
+          UPLOAD_URL="${GITEA_UPLOAD_URL%%\{*}"
+          FINAL_URL="${UPLOAD_URL}?name=${ASSET_NAME}"
+
+          echo "Uploading $ASSET_PATH to $FINAL_URL"
+
+          curl -sS --fail -X POST \
+            -H "Authorization: token ${TOKEN}" \
+            -H "Content-Type: ${MIME}" \
+            --data-binary @"$ASSET_PATH" \
+            "${FINAL_URL}" \
+            | jq -r '.html_url // .url // .download_url // .' || {
+              echo "Upload failed"
+              exit 1
+            }
