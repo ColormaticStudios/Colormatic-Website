@@ -2,42 +2,41 @@
 
 [colormatic.org](https://colormatic.org)
 
-This project uses SvelteKit along with TypeScript, Tailwind and Sass. It's configured for static site generation (SSG) and prerendering at compile time to create a simple static website for Nginx to serve, with very little client-side rendering (CSR).
+This is a SvelteKit + TypeScript static site (SSG/prerendered).
 
-The Colormatic website is developed with accordance to modern web standards, however a legacy website will be available in the future for older/less capable browsers.
+## Tooling Standard
 
-To download the project, run:
+- Package manager: `bun`
+- Runtime target: Node `>=20`, Bun `>=1.1`
+- Formatter: `prettier`
+- Type/lint gate: `svelte-check`
 
-```
+## Quick Start
+
+```bash
 git clone git@git.colormatic.org:ColormaticStudios/Colormatic-Website.git
 cd Colormatic-Website
 bun install
-```
-
-You can run the project locally with:
-
-```
 bun run dev
 ```
 
-Or you can build the project for release with:
+## Scripts
 
-```
-bun run build
-```
+- `bun run dev`: start local dev server
+- `bun run build`: create production build
+- `bun run preview`: preview production build
+- `bun run format`: apply formatting
+- `bun run format:check`: verify formatting
+- `bun run check`: run Svelte/TypeScript checks
+- `bun run validate`: run formatting check + type checks (CI/local gate)
 
-After the project has been built, you can preview the release build with:
+## Source Layout
 
-```
-bun run preview
-```
-
-Before submitting a push or pull request, run:
-
-```
-bun run format
-```
-
-To format your code according to the project code format. Remember to never fight the formatter.
+- `src/routes`: pages and route-level layouts
+- `src/lib/blocks`: app-level layout blocks (navbar, footer, background, settings)
+- `src/lib/components`: reusable UI components
+- `src/lib/data`: static data sources used by routes/components
+- `src/lib/utils`: utility functions
+- `src/lib/styles`: global styles imported in the root layout
 
 [Bootstrap Icons](https://icons.getbootstrap.com/) are licensed under the [MIT](https://opensource.org/license/MIT) license.

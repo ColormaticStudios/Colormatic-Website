@@ -1,13 +1,13 @@
 <script lang="ts">
-  import "style/main.scss";
-  import "style/tailwind.css";
+  import "$lib/styles/main.scss";
+  import "$lib/styles/tailwind.css";
   import "bootstrap-icons/font/bootstrap-icons.css";
-  import Navbar from "blocks/navbar.svelte";
-  import Footer from "blocks/footer.svelte";
-  import Bg from "blocks/bg.svelte";
-  import Settings from "blocks/settings.svelte";
-  import { themes } from "script/theme";
-  import { onMount, setContext } from "svelte";
+  import Navbar from "$lib/blocks/navbar.svelte";
+  import Footer from "$lib/blocks/footer.svelte";
+  import Bg from "$lib/blocks/bg.svelte";
+  import Settings from "$lib/blocks/settings.svelte";
+  import { themes } from "$lib/theme";
+  import { onMount } from "svelte";
 
   interface Props {
     children?: import("svelte").Snippet;
@@ -16,14 +16,6 @@
 
   let themeOption = $state(themes.AUTO);
   let darkTheme = $state(false);
-
-  /*/
-   * This is necessary for pages to read the theme,
-   * sucks that we have to use an anonymous function
-   * just to grab a variable
-  /*/
-  let darkThemeCallable: () => boolean = () => darkTheme;
-  setContext("darkTheme", darkThemeCallable);
 
   function setAutoTheme() {
     darkTheme =

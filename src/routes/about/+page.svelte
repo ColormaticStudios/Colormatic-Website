@@ -1,9 +1,6 @@
 <script lang="ts">
-  import Hero from "components/hero.svelte";
-  import Spacer from "components/spacer.svelte";
-  import { getContext } from "svelte";
-
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  import Hero from "$lib/components/hero.svelte";
+  import Spacer from "$lib/components/spacer.svelte";
 </script>
 
 <svelte:head>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { canvasDpiScaler } from "script/canvas_dpi_scaler.ts";
+  import { canvasDpiScaler } from "$lib/utils/canvas-dpi-scaler";
   import { onMount } from "svelte";
 
   let canvas = $state() as HTMLCanvasElement;

@@ -8,8 +8,14 @@
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
     "format": "prettier -w .",
+    "format:check": "prettier -c .",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "validate": "bun run format:check && bun run check"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "bun": ">=1.1.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.8",

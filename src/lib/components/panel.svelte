@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Panel from "components/panel.svelte";
-
   interface Props {
     className?: string;
     children?: import("svelte").Snippet;
@@ -8,10 +6,10 @@
   let { className, children }: Props = $props();
 </script>
 
-<Panel
-  className="mx-auto my-4 p-6 text-center
-  w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%]
+<div
+  class="rounded-[8px] border border-[#00000033] bg-[#ffffff22] shadow-[1px_1px_8px_#00000033]
+  backdrop-blur-[5px] dark:border-[#ffffff33]
   {className}"
 >
   {@render children?.()}
-</Panel>
+</div>

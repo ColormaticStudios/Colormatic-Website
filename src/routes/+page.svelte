@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { getContext, onMount } from "svelte";
-  import Spacer from "components/spacer.svelte";
-  import Hero from "components/hero.svelte";
-  import Divider from "components/divider.svelte";
-  import { homeFeaturedProjects } from "script/projects";
+  import { onMount } from "svelte";
+  import Spacer from "$lib/components/spacer.svelte";
+  import Hero from "$lib/components/hero.svelte";
+  import Divider from "$lib/components/divider.svelte";
+  import { homeFeaturedProjects } from "$lib/data/projects";
 
   let atTop = $state(true);
 
@@ -22,8 +22,6 @@
       window.removeEventListener("scroll", checkScrollPos);
     };
   });
-
-  let darkTheme: () => boolean = getContext("darkTheme");
 </script>
 
 <svelte:head>

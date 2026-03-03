@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext, onMount } from "svelte";
+  import { onMount } from "svelte";
 
   let sidebarBGFade = $state() as HTMLElement;
   let sidebarOpen = $state(false);
@@ -114,8 +114,6 @@
     }, 300);
   }
 
-  let darkTheme: () => boolean = getContext("darkTheme");
-
   onMount(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape" && sidebarOpen) {
@@ -198,12 +196,8 @@ Svelte modal example, https://svelte.dev/playground/modal
     ontouchmove={handleTouchMove}
     ontouchend={handleTouchEnd}
     ontouchcancel={handleTouchCancel}
-    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto p-6 shadow-2xl
-      {darkTheme()
-      ? 'border-white/10 bg-[#383c3faa]'
-      : 'border-white bg-[#ffffffaa]'}
-      {sidebarOpen ? 'slide-in' : 'slide-out'}
-      border-l lg:w-[340px]"
+    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto border-l border-white bg-[#ffffffaa] p-6 shadow-2xl lg:w-[340px] dark:border-white/10 dark:bg-[#383c3faa]
+      {sidebarOpen ? 'slide-in' : 'slide-out'}"
   >
     <!-- We are setting the hidden value so that screen readers don't read the elements that are hidden -->
     <button

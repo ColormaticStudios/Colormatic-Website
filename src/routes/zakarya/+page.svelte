@@ -1,10 +1,7 @@
 <script lang="ts">
-  import Hero from "components/hero.svelte";
-  import Linktree from "components/linktree.svelte";
-  import Spacer from "components/spacer.svelte";
-  import { getContext } from "svelte";
-
-  let darkTheme: CallableFunction = getContext("darkTheme");
+  import Hero from "$lib/components/hero.svelte";
+  import Linktree from "$lib/components/linktree.svelte";
+  import Spacer from "$lib/components/spacer.svelte";
 </script>
 
 <svelte:head>
@@ -52,8 +49,8 @@
     </div>
 
     <div
-      class="m-3 h-fit rounded-2xl border p-4 text-left text-[120%] lg:max-w-1/2
-      {darkTheme() ? 'border-[#ffffff33]' : 'border-[#00000033]'}"
+      class="m-3 h-fit rounded-2xl border border-[#00000033] p-4 text-left text-[120%] lg:max-w-1/2
+      dark:border-[#ffffff33]"
     >
       <p class="mb-4">
         I am a software and game developer, I run Colormatic and Colormatic

@@ -1,12 +1,9 @@
 <script lang="ts">
-  import Panel from "components/panel.svelte";
-  import Hero from "components/hero.svelte";
-  import Spacer from "components/spacer.svelte";
-  import Linktree from "components/linktree.svelte";
-  import { getContext } from "svelte";
-  import { studiosProjects } from "script/projects";
-
-  let darkTheme: () => boolean = getContext("darkTheme");
+  import Panel from "$lib/components/panel.svelte";
+  import Hero from "$lib/components/hero.svelte";
+  import Spacer from "$lib/components/spacer.svelte";
+  import Linktree from "$lib/components/linktree.svelte";
+  import { studiosProjects } from "$lib/data/projects";
 </script>
 
 <svelte:head>
