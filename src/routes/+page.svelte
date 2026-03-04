@@ -148,14 +148,14 @@
         {/if}
       </div>
     </Panel>
-    <div
-      class="my-6 text-center text-[140%] font-semibold lg:my-auto lg:text-left"
+    <Panel
+      class="my-6 text-center text-[140%] font-semibold lg:my-auto lg:text-left p-8"
     >
       An actually good first person controller for the Godot Engine.
-    </div>
+    </Panel>
   </div>
 
-  <Divider></Divider>
+  <Divider />
 
   <Spacer />
 
