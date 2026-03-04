@@ -8,9 +8,34 @@
   let { darkTheme = $bindable() } = $props();
   let timeScale = 1;
   let animated = false;
+  let reducedMotion = false;
+  let shouldAnimate = false;
+  let frameInterval = 1000 / 30;
+  let lastFrameTime = 0;
+  let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  let animationFrameId: number | null = null;
+  let shapePaths: {
+    circle: Path2D | null;
+    square: Path2D | null;
+    triangle: Path2D | null;
+    star: Path2D | null;
+    waveyCircle: Path2D | null;
+  } = {
+    circle: null,
+    square: null,
+    triangle: null,
+    star: null,
+    waveyCircle: null,
+  };
 
   $effect(() => {
     darkTheme; // Let Svelte know that this needs to update for darkTheme
+
+    for (let i = 0; i < particles.length; i++) {
+      // This recolors each particle so their new color will be correct
+      let particle = particles[i];
+      particle.color = getRandomColor();
+    }
 
     for (let i = 0; i < gradients.length; i++) {
       // This recolors each gradient so their new color will be correct
@@ -19,62 +44,109 @@
       gradient.prepareBuffer();
     }
 
+    // Don't try to render if ctx hasn't initialized yet
     if (!animated && ctx) {
-      // Don't try to render if ctx hasn't initialized yet
       render(false);
     }
   });
 
-  let particleImages: { [key: string]: HTMLImageElement } = {};
-
-  async function loadImg(src: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-      let img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
-  }
-
   let particles: Particle[] = [];
   let gradients: Gradient[] = [];
 
-  onMount(async () => {
+  onMount(() => {
     ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    let imagePromises = {
-      circle: loadImg("/img/bg-shapes/circle.svg"),
-      square: loadImg("/img/bg-shapes/square.svg"),
-      triangle: loadImg("/img/bg-shapes/triangle.svg"),
-      star: loadImg("/img/bg-shapes/star.svg"),
-      wavyCircle: loadImg("/img/bg-shapes/wavy-circle.svg"),
+    const startAnimationLoop = () => {
+      if (animationFrameId === null) {
+        lastFrameTime = performance.now();
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
-    particleImages = await Promise.all(Object.values(imagePromises))
-      .then((imgs) => {
-        return {
-          circle: imgs[0],
-          square: imgs[1],
-          triangle: imgs[2],
-          star: imgs[3],
-          wavyCircle: imgs[4],
-        };
-      })
-      .catch((error) => {
-        console.error("Error loading particle images:", error);
-        return {};
-      });
+    const stopAnimationLoop = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
 
-    Promise.all(Object.values(imagePromises)).then(() => {
-      render(false);
-    });
+    const updateAnimationState = () => {
+      shouldAnimate = animated && !document.hidden && !reducedMotion;
+      if (shouldAnimate) {
+        startAnimationLoop();
+      } else {
+        stopAnimationLoop();
+      }
+    };
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      reducedMotion = event.matches;
+      updateAnimationState();
+    };
+
+    // Compatibility: older Safari/iOS only supports addListener/removeListener on MediaQueryList.
+    const compatMediaQuery = mediaQuery as MediaQueryList & {
+      addListener?: (listener: (event: MediaQueryListEvent) => void) => void;
+      removeListener?: (listener: (event: MediaQueryListEvent) => void) => void;
+    };
+
+    const addReducedMotionListener = () => {
+      if (typeof compatMediaQuery.addEventListener === "function") {
+        compatMediaQuery.addEventListener("change", handleReducedMotionChange);
+        return;
+      }
+      compatMediaQuery.addListener?.(handleReducedMotionChange);
+    };
+
+    const removeReducedMotionListener = () => {
+      if (typeof compatMediaQuery.removeEventListener === "function") {
+        compatMediaQuery.removeEventListener(
+          "change",
+          handleReducedMotionChange,
+        );
+        return;
+      }
+      compatMediaQuery.removeListener?.(handleReducedMotionChange);
+    };
+
+    const handleVisibilityChange = () => {
+      updateAnimationState();
+    };
+
+    const handleResize = () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+
+      resizeTimeout = setTimeout(() => {
+        resize();
+        resizeTimeout = null;
+      }, 100);
+    };
+
+    reducedMotion = mediaQuery.matches;
+    updateAnimationState();
+    initShapePaths();
 
     resize();
     init();
     render(false);
-    animate();
+    updateAnimationState();
 
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    addReducedMotionListener();
+
+    return () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      removeReducedMotionListener();
+      stopAnimationLoop();
+    };
   });
 
   function resize() {
@@ -97,12 +169,14 @@
     speedX: number;
     speedY: number;
     growthSpeed: number;
+    color: string;
     constructor() {
       this.x = Math.random() * window.innerWidth;
       this.y = Math.random() * window.innerHeight;
-      this.speedX = Math.random() - 0.5; // -0.5 to 0.5
-      this.speedY = Math.random() - 0.5;
+      this.speedX = Math.random() / 5 - 0.1; // -0.25 to 0.25
+      this.speedY = Math.random() / 5 - 0.1;
       this.growthSpeed = Math.random() * 0.02 + 0.01; // 0.01 to 0.03
+      this.color = getRandomColor();
     }
 
     update() {
@@ -122,56 +196,148 @@
   }
 
   class Shape {
-    // Reference implementation for Shape
-    draw(angle: number, size: number) {
-      // ctx.rotate((angle * Math.PI) / 180);
-      //
-      // let image = particleImages.foo;
-      // ctx.drawImage(image, -image.width / 2, -image.height / 2);
-    }
+    draw(angle: number, color: string) {}
   }
 
   class Circle extends Shape {
-    draw(angle: number, size: number) {
-      let image = particleImages.circle;
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    draw(angle: number, color: string) {
+      ctx.fillStyle = color;
+      if (shapePaths.circle) {
+        ctx.fill(shapePaths.circle);
+        return;
+      }
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 5, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
     }
   }
 
   class Square extends Shape {
-    draw(angle: number, size: number) {
+    draw(angle: number, color: string) {
       ctx.rotate((angle * Math.PI) / 180);
+      ctx.fillStyle = color;
+      if (shapePaths.square) {
+        ctx.fill(shapePaths.square);
+        return;
+      }
 
-      let image = particleImages.square;
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.fillRect(-5, -5, 10, 10);
     }
   }
 
   class Triangle extends Shape {
-    draw(angle: number, size: number) {
+    draw(angle: number, color: string) {
       ctx.rotate((angle * Math.PI) / 180);
+      ctx.fillStyle = color;
+      if (shapePaths.triangle) {
+        ctx.fill(shapePaths.triangle);
+        return;
+      }
 
-      let image = particleImages.triangle;
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.beginPath();
+      ctx.moveTo(0, -5);
+      ctx.lineTo(4.3301270189, 2.5);
+      ctx.lineTo(-4.3301270189, 2.5);
+      ctx.closePath();
+      ctx.fill();
     }
   }
 
   class Star extends Shape {
-    draw(angle: number, size: number) {
+    draw(angle: number, color: string) {
       ctx.rotate((angle * Math.PI) / 180);
+      ctx.fillStyle = color;
+      if (shapePaths.star) {
+        ctx.fill(shapePaths.star);
+        return;
+      }
 
-      let image = particleImages.star;
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.beginPath();
+      drawStarPath(ctx);
+      ctx.fill();
     }
   }
 
   class WaveyCircle extends Shape {
-    draw(angle: number, size: number) {
+    draw(angle: number, color: string) {
       ctx.rotate((angle * Math.PI) / 180);
+      ctx.fillStyle = color;
+      if (shapePaths.waveyCircle) {
+        ctx.fill(shapePaths.waveyCircle);
+        return;
+      }
 
-      let image = particleImages.wavyCircle;
-      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      ctx.beginPath();
+      drawWaveyCirclePath(ctx);
+      ctx.fill();
     }
+  }
+
+  function drawStarPath(pathTarget: CanvasRenderingContext2D | Path2D) {
+    const outerRadius = 5;
+    const innerRadius = 2.2;
+    const points = 4;
+
+    for (let i = 0; i < points * 2; i++) {
+      const currentRadius = i % 2 === 0 ? outerRadius : innerRadius;
+      const theta = -Math.PI / 2 + (Math.PI * i) / points;
+      const x = Math.cos(theta) * currentRadius;
+      const y = Math.sin(theta) * currentRadius;
+
+      if (i === 0) pathTarget.moveTo(x, y);
+      else pathTarget.lineTo(x, y);
+    }
+
+    pathTarget.closePath();
+  }
+
+  function drawWaveyCirclePath(pathTarget: CanvasRenderingContext2D | Path2D) {
+    const segments = 32;
+    const baseRadius = 4.6;
+    const waveAmplitude = 0.8;
+    const waves = 8;
+
+    for (let i = 0; i <= segments; i++) {
+      const theta = (Math.PI * 2 * i) / segments;
+      const radius = baseRadius + Math.sin(theta * waves) * waveAmplitude;
+      const x = Math.cos(theta) * radius;
+      const y = Math.sin(theta) * radius;
+
+      if (i === 0) pathTarget.moveTo(x, y);
+      else pathTarget.lineTo(x, y);
+    }
+
+    pathTarget.closePath();
+  }
+
+  function initShapePaths() {
+    if (typeof Path2D === "undefined") {
+      return;
+    }
+
+    const circle = new Path2D();
+    circle.arc(0, 0, 5, 0, Math.PI * 2);
+    circle.closePath();
+
+    const square = new Path2D();
+    square.rect(-5, -5, 10, 10);
+    square.closePath();
+
+    const triangle = new Path2D();
+    triangle.moveTo(0, -5);
+    triangle.lineTo(4.3301270189, 2.5);
+    triangle.lineTo(-4.3301270189, 2.5);
+    triangle.closePath();
+
+    const star = new Path2D();
+    drawStarPath(star);
+
+    const waveyCircle = new Path2D();
+    drawWaveyCirclePath(waveyCircle);
+
+    shapePaths = { circle, square, triangle, star, waveyCircle };
   }
 
   class Particle extends Entity {
@@ -186,7 +352,7 @@
         Math.floor(Math.random() * 5)
       ](); // A very strange but effective way to pick a random shape
       this.angle = Math.random() * 360;
-      this.rotationSpeed = (Math.random() - 0.5) * 4; // -2 to 2
+      this.rotationSpeed = (Math.random() - 0.5) * 2; // -1 to 1
       this.originalSize = Math.random() * 8 + 8; // 8 to 16
       this.size = this.originalSize;
     }
@@ -207,18 +373,10 @@
 
     draw() {
       ctx.save();
-      // The source images are black, so we are inverting them
-      // different amounts to get different shades of gray
-      ctx.filter = darkTheme ? "invert(0.1)" : "invert(0.9)";
-
-      // Draw center of rotation
-      // ctx.beginPath();
-      // ctx.arc(this.x, this.y, 2, 0, 2 * Math.PI);
-      // ctx.fill();
-
       ctx.translate(this.x, this.y);
       ctx.scale(this.size / 10, this.size / 10);
-      this.shape.draw(this.angle, this.size);
+      ctx.globalAlpha = 0.5;
+      this.shape.draw(this.angle, this.color);
       ctx.restore();
     }
   }
@@ -239,13 +397,11 @@
 
   class Gradient extends Entity {
     radius: number;
-    color: string;
     alpha: number;
     renderingBuffer: OffscreenCanvas;
     constructor() {
       super();
       this.radius = Math.random() * 500 + 300;
-      this.color = getRandomColor();
       this.alpha = Math.random() * 0.5 + 0.5; // Initial alpha between 0.5 and 1
       this.renderingBuffer = new OffscreenCanvas(
         this.radius * 2,
@@ -336,12 +492,19 @@
     }
   }
 
-  function animate() {
-    if (animated) {
-      render(true);
-    }
+  function animate(now: number) {
+    if (shouldAnimate) {
+      const deltaMs = now - lastFrameTime;
+      if (deltaMs >= frameInterval) {
+        timeScale = Math.min(deltaMs / (1000 / 60), 3);
+        render(true);
+        lastFrameTime = now;
+      }
 
-    requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
+    } else {
+      animationFrameId = null;
+    }
   }
 </script>
 

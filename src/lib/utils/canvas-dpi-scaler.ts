@@ -22,7 +22,7 @@ export function canvasDpiScaler(
 		canvas.width || // attr, eg: <canvas width='400'>
 		canvas.clientWidth; // keep existing width
 	var height = canvas.height || canvas.clientHeight;
-	var deviceRatio = window.devicePixelRatio || 1;
+	var deviceRatio = Math.min(window.devicePixelRatio || 1, 2);
 	var bsRatio =
 		context.webkitBackingStorePixelRatio ||
 		context.mozBackingStorePixelRatio ||
