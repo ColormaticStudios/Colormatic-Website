@@ -150,10 +150,6 @@
           link: "/zakarya"
         },
         {
-          label: "Colormatic Studios",
-          link: "/studios"
-        },
-        {
           label: "About",
           link: "/about"
         }
@@ -185,9 +181,9 @@ Svelte modal example, https://svelte.dev/playground/modal
 <span
   onclick={sidebarHandleClickOutside}
   bind:this={sidebarBGFade}
-  class="fixed inset-0 z-40 transition-[background-color] duration-300 motion-reduce:transition-none
+  class="fixed inset-0 z-40 transition-[background-color,backdrop-filter] duration-300 motion-reduce:transition-none
     {sidebarOpen
-    ? 'pointer-events-auto bg-black/50 backdrop-blur-[2px]'
+    ? 'pointer-events-auto bg-black/50 backdrop-blur-xs'
     : 'pointer-events-none bg-transparent'}"
 >
   <div
@@ -221,11 +217,6 @@ Svelte modal example, https://svelte.dev/playground/modal
         {
           label: "Zakarya",
           link: "/zakarya",
-          newTab: false
-        },
-        {
-          label: "Colormatic Studios",
-          link: "/studios",
           newTab: false
         },
         {

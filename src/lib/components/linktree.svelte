@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Props {
-    className?: string;
+    class?: string;
     links: {
       label: string;
       url: string;
@@ -8,10 +8,10 @@
       color?: string;
     }[];
   }
-  let { className, links }: Props = $props();
+  let { class: classProp, links }: Props = $props();
 </script>
 
-<ul class={className}>
+<ul class={classProp}>
   {#each links as link}
     <li class="my-3 text-center">
       <a

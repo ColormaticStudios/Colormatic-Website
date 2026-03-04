@@ -37,7 +37,7 @@
     alt="Zakarya Banner"
     srcset="/img/zakarya-banner.webp 960w, /img/zakarya-banner@2x.webp 1920w"
   />
-  <Hero className="flex flex-wrap items-center flex-col lg:flex-row">
+  <Hero class="flex flex-col flex-wrap items-center lg:flex-row">
     <div class="flex grow lg:flex-col">
       <img
         src="/img/zakarya-icon.webp"

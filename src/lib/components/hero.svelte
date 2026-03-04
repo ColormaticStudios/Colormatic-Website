@@ -2,16 +2,16 @@
   import Panel from "$lib/components/panel.svelte";
 
   interface Props {
-    className?: string;
+    class?: string;
     children?: import("svelte").Snippet;
   }
-  let { className, children }: Props = $props();
+  let { class: classProp, children }: Props = $props();
 </script>
 
 <Panel
-  className="mx-auto my-4 p-6 text-center
-  w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%]
-  {className}"
+  class="mx-auto my-4 w-[95%] p-6
+  text-center sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%]
+  {classProp}"
 >
   {@render children?.()}
 </Panel>

@@ -64,7 +64,7 @@
 </script>
 
 <div bind:this={panelRef} class="fixed right-5 bottom-5 flex">
-  <Panel className="flex flex-col-reverse p-1">
+  <Panel class="flex flex-col-reverse p-1">
     <button
       class="flex cursor-pointer items-center px-[5px] text-[1.3rem]"
       onclick={togglePanel}
