@@ -44,6 +44,12 @@
     }
   }
 
+  function handleSidebarLinkClick() {
+    if (sidebarOpen) {
+      toggleSidebar();
+    }
+  }
+
   function handleTouchStart(e: TouchEvent) {
     if (!sidebarOpen) return;
     dragging = true;
@@ -247,6 +253,7 @@ Svelte modal example, https://svelte.dev/playground/modal
             href={item.link}
             target="_blank"
             rel="noopener noreferrer"
+            onclick={handleSidebarLinkClick}
             class="group block rounded-lg text-lg font-medium transition-all duration-200
               hover:bg-white/10 hover:pl-4"
           >
@@ -258,6 +265,7 @@ Svelte modal example, https://svelte.dev/playground/modal
         {:else}
           <a
             href={item.link}
+            onclick={handleSidebarLinkClick}
             class="group block rounded-lg text-lg font-medium transition-all duration-200
               hover:bg-white/10 hover:pl-4"
           >
