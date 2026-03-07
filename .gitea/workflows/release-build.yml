@@ -2,95 +2,18 @@ name: Build and attach release artifact
 
 on:
   release:
-    types: [published]
+    types:
+      - published
 
 jobs:
   build:
-    runs-on: colormatic-ci-runner
-
-    steps:
-      - name: Checkout repository
-        env:
-          REPO: ${{ gitea.repository.full_name || github.repository }}
-          SHA: ${{ gitea.sha || github.sha }}
-          SERVER_URL: ${{ gitea.server_url || github.server_url }}
-          TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-          set -euo pipefail
-          REPO="${REPO:-${GITHUB_REPOSITORY:-}}"
-          SHA="${SHA:-${GITHUB_SHA:-}}"
-          SERVER_URL="${SERVER_URL:-${GITHUB_SERVER_URL:-}}"
-
-          if [ -z "${REPO}" ] || [ -z "${SHA}" ] || [ -z "${SERVER_URL}" ]; then
-            echo "Missing checkout context: REPO='${REPO:-}', SHA='${SHA:-}', SERVER_URL='${SERVER_URL:-}'"
-            exit 1
-          fi
-
-          REPO_URL="${SERVER_URL%/}/${REPO}.git"
-
-          if [ ! -d .git ]; then
-            git init --initial-branch=main .
-          fi
-
-          if git remote get-url origin >/dev/null 2>&1; then
-            git remote remove origin
-          fi
-
-          git remote add origin "${REPO_URL}"
-
-          if [ -n "${TOKEN:-}" ]; then
-            git config --local http.extraheader "Authorization: token ${TOKEN}"
-          fi
-
-          git fetch --depth=1 origin "${SHA}"
-          git checkout --detach FETCH_HEAD
-
-      - name: Install Bun
-        run: |
-          curl -fsSL https://bun.sh/install | bash
-          echo "$HOME/.bun/bin" >> $GITEA_PATH
-
-      - name: Verify Bun
-        run: bun --version
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Build with Vite
-        run: bun run build
-
-      - name: Create release archive
-        run: |
-          cd build/
-          tar -cf release.tar.gz *
-
-      - name: Upload artifact to release
-        env:
-          TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          GITEA_UPLOAD_URL: ${{ gitea.event.release.upload_url }}
-        run: |
-          set -euo pipefail
-
-          ASSET_PATH="build/release.tar.gz"
-          ASSET_NAME="release.tar.gz"
-          MIME="application/gzip"
-
-          if [ ! -f "$ASSET_PATH" ]; then
-            echo "Artifact not found: $ASSET_PATH"
-            exit 1
-          fi
-
-          UPLOAD_URL="${GITEA_UPLOAD_URL%%\{*}"
-          FINAL_URL="${UPLOAD_URL}?name=${ASSET_NAME}"
-
-          echo "Uploading $ASSET_PATH to $FINAL_URL"
-
-          curl -sS --fail -X POST \
-            -H "Authorization: token ${TOKEN}" \
-            -H "Content-Type: ${MIME}" \
-            --data-binary @"$ASSET_PATH" \
-            "${FINAL_URL}" \
-            | jq -r '.html_url // .url // .download_url // .' || {
-              echo "Upload failed"
-              exit 1
-            }
+    uses: git.colormatic.org/colormaticstudios/actions/.gitea/workflows/sveltekit-bun-release.yml@main
+    with:
+      runner-label: colormatic-bun-ci-runner
+      working-directory: .
+      install-command: bun install --frozen-lockfile
+      build-command: bun run build
+      build-directory: build
+      archive-name: release.tar.gz
+    secrets:
+      access_token: ${{ secrets.ACCESS_TOKEN }}
