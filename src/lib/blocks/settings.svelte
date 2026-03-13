@@ -66,7 +66,7 @@
 <div bind:this={panelRef} class="fixed right-5 bottom-5 flex">
   <Panel class="flex flex-col-reverse p-1">
     <button
-      class="flex cursor-pointer items-center px-[5px] text-[1.3rem]"
+      class="flex cursor-pointer items-center px-1.25 text-[1.3rem]"
       onclick={togglePanel}
       aria-label="Toggle Theme Selector"
     >

@@ -28,7 +28,7 @@
 
 <main>
   <div
-    class="header flex h-[200px] items-center justify-center bg-cover lg:h-[300px]"
+    class="header flex h-50 items-center justify-center bg-cover lg:h-75"
   ></div>
 
   <Hero>

@@ -1,6 +1,6 @@
 <span
   class="mx-auto flex w-[95%] flex-col border-t
-  border-t-[var(--text-color)] p-1 text-center lg:flex-row lg:justify-between"
+  border-t-(--text-color) p-1 text-center lg:flex-row lg:justify-between"
 >
   <p class="py-4 lg:px-[10%]">
     © 2026 Colormatic Studios, All Rights Reserved.

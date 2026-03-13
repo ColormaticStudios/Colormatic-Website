@@ -15,8 +15,7 @@
   {#each links as link}
     <li class="my-3 text-center">
       <a
-        class="box-border inline-block w-full rounded-full px-4 py-2 no-underline
-        shadow-[2px_2px_4px_#00000066] transition duration-500 hover:bg-[#383c3f]"
+        class="box-border inline-block w-full rounded-full px-4 py-2 no-underline shadow-[2px_2px_4px_#00000066] transition duration-500 hover:bg-[#383c3f]"
         style:background-color={link.color ?? "#4c5053"}
         href={link.url}
         target="_blank"

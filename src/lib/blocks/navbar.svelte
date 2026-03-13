@@ -136,13 +136,13 @@
 </script>
 
 <nav
-  class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr] items-center border-b border-b-[var(--text-color)] p-2 wrap-anywhere lg:p-3"
+  class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr] items-center border-b border-b-(--text-color) p-2 wrap-anywhere lg:p-3"
 >
   <a href="/" class="justify-self-start text-[140%] font-bold">Colormatic</a>
   <img
     src="/img/colormatic_logo.svg"
     alt="Colormatic Logo"
-    class="h-[40px] max-w-[unset]"
+    class="h-10 max-w-[unset]"
   />
   <div class="flex justify-self-end">
     <ul
@@ -198,7 +198,7 @@ Svelte modal example, https://svelte.dev/playground/modal
     ontouchmove={handleTouchMove}
     ontouchend={handleTouchEnd}
     ontouchcancel={handleTouchCancel}
-    class="sidebar-animate fixed top-0 right-0 flex h-full w-[280px] flex-col overflow-y-auto border-l border-white bg-[#ffffffaa] p-6 shadow-2xl lg:w-[340px] dark:border-white/10 dark:bg-[#383c3faa]
+    class="sidebar-animate fixed top-0 right-0 flex h-full w-70 flex-col overflow-y-auto border-l border-white bg-[#ffffffaa] p-6 shadow-2xl lg:w-85 dark:border-white/10 dark:bg-[#383c3faa]
       {sidebarOpen ? 'slide-in' : 'slide-out'}"
   >
     <!-- We are setting the hidden value so that screen readers don't read the elements that are hidden -->
@@ -254,24 +254,22 @@ Svelte modal example, https://svelte.dev/playground/modal
             target="_blank"
             rel="noopener noreferrer"
             onclick={handleSidebarLinkClick}
-            class="group block rounded-lg text-lg font-medium transition-all duration-200
-              hover:bg-white/10 hover:pl-4"
+            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
           >
             <span class="relative">
               {item.label}
-              <span class="absolute left-0 bottom-0 h-[2px] w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
+              <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
             </span>
           </a>
         {:else}
           <a
             href={item.link}
             onclick={handleSidebarLinkClick}
-            class="group block rounded-lg text-lg font-medium transition-all duration-200
-              hover:bg-white/10 hover:pl-4"
+            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
           >
             <span class="relative">
               {item.label}
-              <span class="absolute left-0 bottom-0 h-[2px] w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
+              <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
             </span>
           </a>
         {/if}

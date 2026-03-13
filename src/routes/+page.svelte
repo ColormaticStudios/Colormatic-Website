@@ -96,7 +96,7 @@
 
 <main>
   <div
-    class="px-[12px] py-[38%] text-center text-[300%] font-bold
+    class="px-3 py-[38%] text-center text-[300%] font-bold
     lg:w-[80%] lg:p-[12%] lg:text-left lg:text-[350%]"
   >
     Colormatic: A non-profit project for creation.
@@ -138,7 +138,7 @@
           <div class="absolute inset-0 m-auto h-fit w-fit">
             <button
               type="button"
-              class="h-[42px] w-[42px] rounded-full bg-black/70 text-white"
+              class="h-10.5 w-10.5 rounded-full bg-black/70 text-white"
               onclick={playVideo}
               aria-label="Play video"
             >
@@ -149,7 +149,7 @@
       </div>
     </Panel>
     <Panel
-      class="my-6 text-center text-[140%] font-semibold lg:my-auto lg:text-left p-8"
+      class="my-6 p-8 text-center text-[140%] font-semibold lg:my-auto lg:text-left"
     >
       An actually good first person controller for the Godot Engine.
     </Panel>

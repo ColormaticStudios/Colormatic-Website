@@ -41,7 +41,7 @@
     <div class="flex grow lg:flex-col">
       <img
         src="/img/zakarya-icon.webp"
-        class="mx-4 my-2 block h-[38px] rounded-xl lg:mx-auto lg:h-auto lg:w-[100px] lg:rounded-2xl"
+        class="mx-4 my-2 block h-9.5 rounded-xl lg:mx-auto lg:h-auto lg:w-25 lg:rounded-2xl"
         alt="Zakarya Icon"
         srcset="/img/zakarya-icon.webp 540w, /img/zakarya-icon@2x.webp 1080w"
       />
