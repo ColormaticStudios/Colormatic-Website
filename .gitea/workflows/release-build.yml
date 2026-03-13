@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    uses: git.colormatic.org/colormaticstudios/actions/.gitea/workflows/sveltekit-bun-release.yml@main
+    uses: https://git.colormatic.org/colormaticstudios/actions/.gitea/workflows/sveltekit-bun-release.yml@main
     with:
       runner-label: colormatic-bun-ci-runner
       working-directory: .
