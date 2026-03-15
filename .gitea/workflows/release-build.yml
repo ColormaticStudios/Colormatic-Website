@@ -28,7 +28,7 @@ jobs:
         run: bun --version
 
       - name: Restore Bun dependency cache
-        uses: https://github.com/actions/cache@v4
+        uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-restore@main
         with:
           path: |
             ~/.bun/install/cache
@@ -38,7 +38,7 @@ jobs:
             bun-deps-
 
       - name: Restore SvelteKit build cache
-        uses: https://github.com/actions/cache@v4
+        uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-restore@main
         with:
           path: |
             ${{ inputs.working-directory }}/.svelte-kit
@@ -54,6 +54,26 @@ jobs:
 
       - name: Build
         run: ${{ inputs.build-command }}
+
+      - name: Save Bun dependency cache
+        if: ${{ success() && steps.bun-deps-cache.outputs.cache-hit != 'true' }}
+        uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-save@main
+        with:
+          path: |
+            ~/.bun/install/cache
+            ${{ inputs.working-directory }}/node_modules
+          key: ${{ steps.bun-deps-cache.outputs.cache-primary-key }}
+          matched-key: ${{ steps.bun-deps-cache.outputs.cache-matched-key }}
+
+      - name: Save SvelteKit build cache
+        if: ${{ success() && steps.sveltekit-build-cache.outputs.cache-hit != 'true' }}
+        uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-save@main
+        with:
+          path: |
+            ${{ inputs.working-directory }}/.svelte-kit
+            ${{ inputs.working-directory }}/.vite
+          key: ${{ steps.sveltekit-build-cache.outputs.cache-primary-key }}
+          matched-key: ${{ steps.sveltekit-build-cache.outputs.cache-matched-key }}
 
       - name: Create release archive
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/create-tar-gz@main
