@@ -13,47 +13,49 @@ jobs:
       EVENT_SHA: ${{ gitea.sha || github.sha }}
       SERVER_URL: ${{ gitea.server_url || github.server_url }}
       RELEASE_UPLOAD_URL: ${{ gitea.event.release.upload_url }}
+      RELEASE_TAG: ${{ gitea.event.release.tag_name || github.event.release.tag_name }}
     steps:
       - name: Checkout repository
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/manual-checkout@main
         with:
           repository: ${{ env.REPO }}
-          sha: ${{ inputs.checkout-ref }}
+          sha: ""
           fallback-sha: ${{ env.EVENT_SHA }}
           server-url: ${{ env.SERVER_URL }}
           token: ${{ secrets.access_token }}
-          working-directory: ${{ inputs.working-directory }}
+          working-directory: .
 
       - name: Verify Bun
         run: bun --version
 
       - name: Restore Bun dependency cache
+        id: bun-deps-cache
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-restore@main
         with:
           path: |
             ~/.bun/install/cache
-            ${{ inputs.working-directory }}/node_modules
-          key: bun-deps-${{ hashFiles(format('{0}/bun.lock', inputs.working-directory), format('{0}/bun.lockb', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
+            node_modules
+          key: bun-deps-${{ hashFiles('bun.lock', 'bun.lockb', 'package.json') }}
           restore-keys: |
             bun-deps-
 
       - name: Restore SvelteKit build cache
+        id: sveltekit-build-cache
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-restore@main
         with:
           path: |
-            ${{ inputs.working-directory }}/.svelte-kit
-            ${{ inputs.working-directory }}/.vite
-          key: sveltekit-build-${{ hashFiles(format('{0}/bun.lock', inputs.working-directory), format('{0}/bun.lockb', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}-${{ hashFiles(format('{0}/src/**', inputs.working-directory), format('{0}/static/**', inputs.working-directory), format('{0}/svelte.config.*', inputs.working-directory), format('{0}/vite.config.*', inputs.working-directory), format('{0}/tsconfig*.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
+            .svelte-kit
+            .vite
+          key: sveltekit-build-${{ hashFiles('bun.lock', 'bun.lockb', 'package.json') }}-${{ hashFiles('src/**', 'static/**', 'svelte.config.*', 'vite.config.*', 'tsconfig*.json', 'package.json') }}
           restore-keys: |
-            sveltekit-build-${{ hashFiles(format('{0}/bun.lock', inputs.working-directory), format('{0}/bun.lockb', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}-
+            sveltekit-build-${{ hashFiles('bun.lock', 'bun.lockb', 'package.json') }}-
             sveltekit-build-
 
       - name: Install dependencies
-        if: ${{ inputs.install-command != '' }}
-        run: ${{ inputs.install-command }}
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: ${{ inputs.build-command }}
+        run: bun run build
 
       - name: Save Bun dependency cache
         if: ${{ success() && steps.bun-deps-cache.outputs.cache-hit != 'true' }}
@@ -61,7 +63,7 @@ jobs:
         with:
           path: |
             ~/.bun/install/cache
-            ${{ inputs.working-directory }}/node_modules
+            node_modules
           key: ${{ steps.bun-deps-cache.outputs.cache-primary-key }}
           matched-key: ${{ steps.bun-deps-cache.outputs.cache-matched-key }}
 
@@ -70,24 +72,24 @@ jobs:
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/cache-save@main
         with:
           path: |
-            ${{ inputs.working-directory }}/.svelte-kit
-            ${{ inputs.working-directory }}/.vite
+            .svelte-kit
+            .vite
           key: ${{ steps.sveltekit-build-cache.outputs.cache-primary-key }}
           matched-key: ${{ steps.sveltekit-build-cache.outputs.cache-matched-key }}
 
       - name: Create release archive
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/create-tar-gz@main
         with:
-          source-directory: ${{ inputs.build-directory }}
-          archive-path: ${{ inputs.archive-name }}
-          working-directory: ${{ inputs.working-directory }}
+          source-directory: build
+          archive-path: release.tar.gz
+          working-directory: .
 
       - name: Upload artifact to release
         uses: https://git.colormatic.org/ColormaticStudios/actions/actions/upload-release-asset@main
         with:
           token: ${{ secrets.access_token }}
           upload-url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset-path: ${{ inputs.archive-name }}
-          asset-name: ${{ inputs.archive-name }}
-          mime-type: ${{ inputs.mime-type }}
-          working-directory: ${{ inputs.working-directory }}
+          asset-path: release.tar.gz
+          asset-name: release.tar.gz
+          mime-type: application/gzip
+          working-directory: .

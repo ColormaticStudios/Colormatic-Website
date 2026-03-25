@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Spacer from "$lib/components/spacer.svelte";
-  import Hero from "$lib/components/hero.svelte";
   import Panel from "$lib/components/panel.svelte";
   import Divider from "$lib/components/divider.svelte";
 
