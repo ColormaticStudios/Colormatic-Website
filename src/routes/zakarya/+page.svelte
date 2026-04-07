@@ -193,7 +193,7 @@
             >
               {post.title}
             </a>
-            <span class="flex-1 lg:text-right text-sm italic opacity-70">
+            <span class="flex-1 text-sm italic opacity-70 lg:text-right">
               {post.published}
             </span>
           </div>
