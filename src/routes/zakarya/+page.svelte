@@ -1,7 +1,65 @@
 <script lang="ts">
+  import { dev } from "$app/environment";
+  import { onMount } from "svelte";
   import Hero from "$lib/components/hero.svelte";
+  import Divider from "$lib/components/divider.svelte";
   import Linktree from "$lib/components/linktree.svelte";
   import Spacer from "$lib/components/spacer.svelte";
+  import { parseRssPosts, type RssPost } from "$lib/utils/rss";
+
+  // TODO: Localization
+  const BLOG_URL = "https://library.colormatic.org/en/zakarya/";
+  const BLOG_RSS_URL = "https://library.colormatic.org/en/zakarya/index.xml";
+
+  let blogPosts = $state<RssPost[]>([]);
+  let blogLoading = $state(true);
+  let blogLoadFailed = $state(false);
+
+  onMount(() => {
+    const abortController = new AbortController();
+
+    async function loadBlogPosts() {
+      if (dev) {
+        const { devBlogPosts } = await import("$lib/data/placeholder-blog");
+
+        blogPosts = devBlogPosts;
+        blogLoadFailed = false;
+        blogLoading = false;
+        return;
+      }
+
+      try {
+        const response = await fetch(BLOG_RSS_URL, {
+          signal: abortController.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch Zakarya RSS feed: ${response.status} ${response.statusText}`,
+          );
+        }
+
+        blogPosts = parseRssPosts(await response.text());
+        blogLoadFailed = false;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        console.error(error);
+        blogPosts = [];
+        blogLoadFailed = true;
+      } finally {
+        blogLoading = false;
+      }
+    }
+
+    void loadBlogPosts();
+
+    return () => {
+      abortController.abort();
+    };
+  });
 </script>
 
 <svelte:head>
@@ -106,6 +164,45 @@
         ]}
       />
     </div>
+  </Hero>
+
+  <Hero>
+    <span class="text-2xl font-bold">Blog</span>
+
+    <Divider weight="light" />
+
+    {#if blogLoading}
+      <p class="justify pt-1">Fetching blog posts...</p>
+    {:else if blogLoadFailed}
+      <p class="justify pt-1">Blog posts are currently unavailable.</p>
+    {:else if blogPosts.length > 0}
+      {#each blogPosts as post, index}
+        {#if index > 0}
+          <Divider weight="light" />
+        {/if}
+
+        <article class="text-left">
+          <div
+            class="flex flex-col gap-1 lg:mx-auto lg:w-[60%] lg:flex-row lg:items-baseline lg:justify-between lg:gap-4"
+          >
+            <a
+              class="flex-3 text-left text-xl font-semibold"
+              href={post.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {post.title}
+            </a>
+            <span class="flex-1 lg:text-right text-sm italic opacity-70">
+              {post.published}
+            </span>
+          </div>
+          <p class="justify pt-3">{post.description}</p>
+        </article>
+      {/each}
+    {:else}
+      <p class="justify pt-1">No blog posts yet.</p>
+    {/if}
   </Hero>
 </main>
 
