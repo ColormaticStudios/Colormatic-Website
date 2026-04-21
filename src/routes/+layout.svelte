@@ -56,10 +56,6 @@
   });
 </script>
 
-<svelte:head>
-  <link rel="icon" href="/img/colormatic_logo.svg" />
-</svelte:head>
-
 <Bg bind:darkTheme />
 
 <Navbar />
