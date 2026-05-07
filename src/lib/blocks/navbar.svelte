@@ -138,7 +138,12 @@
 <nav
   class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr] items-center border-b border-b-(--text-color) p-2 wrap-anywhere lg:p-3"
 >
-  <a href="/" class="justify-self-start text-[140%] font-bold">Colormatic</a>
+  <a
+    href="/"
+    class="title-hover-effect justify-self-start text-[140%] font-bold"
+  >
+    Colormatic
+  </a>
   <img
     src="/img/colormatic_logo.svg"
     alt="Colormatic Logo"
@@ -281,6 +286,11 @@ Svelte modal example, https://svelte.dev/playground/modal
 </span>
 
 <style lang="scss">
+  /* Cool hover effect */
+  nav a.title-hover-effect:hover {
+ 		text-shadow: 1px 1px 0 #2194ff, 2px 2px 0 #2178ff, 3px 3px 0 #215cff;
+  }
+
   nav a,
   nav button {
     padding: 0 8px;
