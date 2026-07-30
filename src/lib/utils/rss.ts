@@ -41,7 +41,7 @@
  * For this language
  * It could have used any one of those
  * But it decided
- * TO WRITE IT'S OWN THAT USES REGEX
+ * TO WRITE ITS OWN THAT USES REGEX
  *
  * IT DECIDED TO WRITE ONE THAT USES REGEX!!!
  *
