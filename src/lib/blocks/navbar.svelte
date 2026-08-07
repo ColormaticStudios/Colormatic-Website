@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
+  const sidebarTransition = "transform 0.3s ease";
+
   let sidebarBGFade = $state() as HTMLElement;
   let sidebarOpen = $state(false);
   let sidebarAnimating = $state(false);
@@ -87,7 +89,7 @@
     const distanceThreshold = sidebarWidth * 0.4;
     const velocityThreshold = 0.5;
 
-    sidebar.style.transition = "transform 0.3s ease";
+    sidebar.style.transition = sidebarTransition;
 
     const shouldClose = dx > distanceThreshold || velocity > velocityThreshold;
 
@@ -109,7 +111,7 @@
   function handleTouchCancel() {
     if (!dragging) return;
     dragging = false;
-    sidebar.style.transition = "transform 0.3s ease";
+    sidebar.style.transition = sidebarTransition;
     sidebar.style.transform = `translateX(0px)`;
 
     document.body.style.overflow = "";
@@ -135,6 +137,53 @@
   });
 </script>
 
+{#snippet navLinks(items: { link: string; label: string }[])}
+  {#each items as item}
+    <li class="grid items-center"><a href={item.link}>{item.label}</a></li>
+  {/each}
+{/snippet}
+
+{#snippet sidebarLinks(
+  items: { label: string; link: string; newTab: boolean }[],
+)}
+  <ul class="flex flex-col gap-4">
+    {#each items as item}
+      <li>
+        {#if item.newTab}
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onclick={handleSidebarLinkClick}
+            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
+          >
+            <span class="relative">
+              <i class="bi bi-box-arrow-up-right mr-1"></i>
+              {item.label}
+              <span
+                class="absolute bottom-0 left-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"
+              ></span>
+            </span>
+          </a>
+        {:else}
+          <a
+            href={item.link}
+            onclick={handleSidebarLinkClick}
+            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
+          >
+            <span class="relative">
+              {item.label}
+              <span
+                class="absolute bottom-0 left-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"
+              ></span>
+            </span>
+          </a>
+        {/if}
+      </li>
+    {/each}
+  </ul>
+{/snippet}
+
 <nav
   class="mx-auto box-border grid w-[95%] grid-cols-[1fr_min-content_1fr] items-center border-b border-b-(--text-color) p-2 wrap-anywhere lg:p-3"
 >
@@ -154,19 +203,16 @@
       class="responsive-hidden hidden
       flex-row lg:flex"
     >
-      <!-- prettier-ignore -->
-      {#each [
+      {@render navLinks([
         {
-          label: "Zakarya",
-          link: "/zakarya"
+          label: "Meet the Team",
+          link: "/team",
         },
         {
-          label: "About",
-          link: "/about"
-        }
-      ] as item}
-        <li class="items-center grid"><a href={item.link}>{item.label}</a></li>
-      {/each}
+          label: "About Us",
+          link: "/about",
+        },
+      ])}
     </ul>
     <a
       href="https://git.colormatic.org"
@@ -217,70 +263,38 @@ Svelte modal example, https://svelte.dev/playground/modal
     </button>
 
     <nav hidden={!sidebarVisible}>
-      <ul class="flex flex-col gap-4">
-        <!-- prettier-ignore -->
-        {#each [
+      {@render sidebarLinks([
         {
           label: "Home",
           link: "/",
-          newTab: false
+          newTab: false,
         },
         {
-          label: "Zakarya",
-          link: "/zakarya",
-          newTab: false
+          label: "Meet the Team",
+          link: "/team",
+          newTab: false,
+        },
+        {
+          label: "About Us",
+          link: "/about",
+          newTab: false,
         },
         {
           label: "Colormatic Git",
           link: "https://git.colormatic.org",
-          newTab: true
+          newTab: true,
         },
         {
           label: "Colormatic Library",
           link: "https://library.colormatic.org",
-          newTab: true
+          newTab: true,
         },
         {
           label: "Colormatic ID",
           link: "https://auth.colormatic.org",
-          newTab: true
+          newTab: true,
         },
-        {
-          label: "About",
-          link: "/about",
-          newTab: false
-        }
-      ] as item}
-
-      <li>
-        {#if item.newTab}
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            onclick={handleSidebarLinkClick}
-            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
-          >
-            <span class="relative">
-              {item.label}
-              <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
-            </span>
-          </a>
-        {:else}
-          <a
-            href={item.link}
-            onclick={handleSidebarLinkClick}
-            class="group block rounded-lg text-lg font-medium transition-all duration-200 hover:bg-white/10 hover:pl-4"
-          >
-            <span class="relative">
-              {item.label}
-              <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-[#21afff] transition-all duration-300 group-hover:w-full"></span>
-            </span>
-          </a>
-        {/if}
-      </li>
-      {/each}
-      </ul>
+      ])}
     </nav>
   </div>
 </span>
@@ -288,7 +302,10 @@ Svelte modal example, https://svelte.dev/playground/modal
 <style lang="scss">
   /* Cool hover effect */
   nav a.title-hover-effect:hover {
- 		text-shadow: 1px 1px 0 #2194ff, 2px 2px 0 #2178ff, 3px 3px 0 #215cff;
+    text-shadow:
+      1px 1px 0 #2194ff,
+      2px 2px 0 #2178ff,
+      3px 3px 0 #215cff;
   }
 
   nav a,

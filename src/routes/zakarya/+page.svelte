@@ -139,7 +139,7 @@
           },
           {
             url: "https://bsky.app/profile/zakarya.colormatic.org",
-            label: "Bluesky",
+            label: "BlueSky",
             icon: "bluesky",
             color: "#0085FF",
           },
